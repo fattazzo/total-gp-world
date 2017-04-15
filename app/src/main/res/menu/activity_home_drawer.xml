@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/currrent_season">
+        <menu>
+            <item
+                android:id="@+id/nav_current_season_driver"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/drivers" />
+        </menu>
+    </item>
+
+</menu>

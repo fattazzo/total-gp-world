@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#242323</color>
+    <color name="colorAccent">#2e7d32</color>
+    <color name="background_color">#333333</color>
+
+    <color name="mercedes">#00cfba</color>
+    <color name="ferrari">#c30000</color>
+    <color name="red_bull">#00007d</color>
+    <color name="toro_rosso">#0000ff</color>
+    <color name="force_india">#ff80c7</color>
+    <color name="williams">#ffffff</color>c
+    <color name="haas">#6c0000</color>
+    <color name="renault">#ffd800</color>
+    <color name="sauber">#006eff</color>
+    <color name="mclaren">#00cfba</color>
+</resources>

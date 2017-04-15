@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="service_error">Servizio attualmente non disponibile. Riprovare più tardi</string>
+
+    <string name="currrent_season">Stagione corrente</string>
+    <string name="drivers">Piloti</string>
+</resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/standings_view_flipper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:inAnimation="@anim/flip_in"
+    android:outAnimation="@anim/flip_out">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/standing_card_view_front"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="6dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardUseCompatPadding="true">
+
+        <TextView
+            android:id="@+id/standing_title_front"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/standing_listview_front"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:padding="5dp" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/standing_card_view_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="6dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardUseCompatPadding="true">
+
+        <TextView
+            android:id="@+id/standing_title_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/standing_listview_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_marginTop="15dp"
+            android:padding="5dp" />
+    </android.support.v7.widget.CardView>
+
+</ViewFlipper>

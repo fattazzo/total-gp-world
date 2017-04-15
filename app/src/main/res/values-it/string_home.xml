@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="driver_standings">Classifica piloti</string>
+    <string name="constructor_standings">Classifica costruttori</string>
+
+    <string name="no_race_scheduled">Nessuna gara in programma</string>
+    <string name="circuit_info">Visualizza informazioni circuito</string>
+    <string name="round">Round</string>
+</resources>

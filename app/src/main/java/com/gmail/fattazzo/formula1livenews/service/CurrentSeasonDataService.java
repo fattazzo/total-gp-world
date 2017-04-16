@@ -1,6 +1,5 @@
 package com.gmail.fattazzo.formula1livenews.service;
 
-import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -10,13 +9,13 @@ import com.gmail.fattazzo.formula1livenews.ergast.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Driver;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.DriverStandings;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Schedule;
+import com.gmail.fattazzo.formula1livenews.utils.Utils;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -31,6 +30,9 @@ public class CurrentSeasonDataService {
 
     @Bean
     ErgastManager ergastManager;
+
+    @Bean
+    Utils utils;
 
     @AfterInject
     void afterInjenction() {
@@ -67,10 +69,16 @@ public class CurrentSeasonDataService {
             schedules = new ArrayList<>();
         }
 
-        String currentDate = DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd");
+        Calendar currentDateEnd = Calendar.getInstance();
+        currentDateEnd.add(Calendar.HOUR_OF_DAY, 2);
+        String currentDate = DateFormatUtils.format(currentDateEnd, "yyyy-MM-dd'T'HH:mm:ss");
 
         for (Schedule schedule : schedules) {
-            if (schedule.getDate().compareTo(currentDate) > 0) {
+
+            String scheudleDateUTC = schedule.getDate() + "T" + schedule.getTime();
+            String scheduleDateLocal = utils.convertUTCDateToLocal(scheudleDateUTC, "yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd'T'HH:mm:ss");
+
+            if (scheduleDateLocal.compareTo(currentDate) >= 0) {
                 return schedule;
             }
         }

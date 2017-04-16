@@ -41,7 +41,6 @@ public class HomeFragment extends Fragment {
     @AfterViews
     void init() {
 
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

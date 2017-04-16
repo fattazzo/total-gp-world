@@ -1,4 +1,4 @@
-package com.gmail.fattazzo.formula1livenews.fragments.current;
+package com.gmail.fattazzo.formula1livenews.fragments.current.drivers;
 
 import android.content.Context;
 import android.view.View;
@@ -6,27 +6,38 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Driver;
-import com.gmail.fattazzo.formula1livenews.ergast.objects.DriverStandings;
-import com.gmail.fattazzo.formula1livenews.fragments.home.driverstandings.DriverStandingsItemView;
-import com.gmail.fattazzo.formula1livenews.fragments.home.driverstandings.DriverStandingsItemView_;
+import com.gmail.fattazzo.formula1livenews.fragments.current.drivers.comparator.DriverNameComparator;
+import com.gmail.fattazzo.formula1livenews.fragments.current.drivers.comparator.DriverNumberComparator;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @EBean
 public class DriversListAdapter extends BaseAdapter {
 
-    List<Driver> drivers;
-
     @RootContext
     Context context;
 
+    private List<Driver> drivers;
+
+    private SortType sortType = SortType.NAME;
+
+    private final DriverNameComparator driverNameComparator = new DriverNameComparator();
+    private final DriverNumberComparator driverNumberComparator = new DriverNumberComparator();
+
+    void setSortType(SortType sortType) {
+        this.sortType = sortType;
+    }
+
     public void setDrivers(List<Driver> drivers) {
         this.drivers = drivers;
+        sortDrivers();
     }
 
     @AfterInject
@@ -64,7 +75,25 @@ public class DriversListAdapter extends BaseAdapter {
         return position;
     }
 
-    public void clearItems() {
+    void clearItems() {
         drivers.clear();
     }
+
+    void sortDrivers() {
+        Comparator<Driver> comparator;
+
+        switch (sortType) {
+            case NAME:
+                comparator = driverNameComparator;
+                break;
+            case NUMBER:
+                comparator = driverNumberComparator;
+                break;
+            default:
+                comparator = driverNameComparator;
+        }
+        Collections.sort(drivers,comparator);
+    }
+
+    enum SortType {NUMBER, NAME}
 }

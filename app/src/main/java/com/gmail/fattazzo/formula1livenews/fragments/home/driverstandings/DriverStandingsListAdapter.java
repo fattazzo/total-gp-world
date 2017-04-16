@@ -15,9 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EBean
-public class DriverStandingsListAdapter extends BaseAdapter {
+class DriverStandingsListAdapter extends BaseAdapter {
 
-    List<DriverStandings> drivers;
+    private List<DriverStandings> drivers;
+
     @RootContext
     Context context;
 
@@ -33,16 +34,16 @@ public class DriverStandingsListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        DriverStandingsItemView personItemView;
+        DriverStandingsItemView driverStandingsItemView;
         if (convertView == null) {
-            personItemView = DriverStandingsItemView_.build(context);
+            driverStandingsItemView = DriverStandingsItemView_.build(context);
         } else {
-            personItemView = (DriverStandingsItemView) convertView;
+            driverStandingsItemView = (DriverStandingsItemView) convertView;
         }
 
-        personItemView.bind(getItem(position));
+        driverStandingsItemView.bind(getItem(position));
 
-        return personItemView;
+        return driverStandingsItemView;
     }
 
     @Override
@@ -60,7 +61,7 @@ public class DriverStandingsListAdapter extends BaseAdapter {
         return position;
     }
 
-    public void clearItems() {
+    void clearItems() {
         drivers.clear();
     }
 }

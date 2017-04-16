@@ -1,4 +1,4 @@
-package com.gmail.fattazzo.formula1livenews.fragments.current;
+package com.gmail.fattazzo.formula1livenews.fragments.current.drivers;
 
 import android.content.Context;
 import android.widget.LinearLayout;

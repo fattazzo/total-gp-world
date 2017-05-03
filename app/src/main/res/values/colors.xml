@@ -15,4 +15,9 @@
     <color name="renault">#ffd800</color>
     <color name="sauber">#006eff</color>
     <color name="mclaren">#00cfba</color>
+
+    <color name="card_bg_color">#b1292929</color>
+
+    <color name="even_row">#00ffffff</color>
+    <color name="odd_row">#BE404040</color>
 </resources>

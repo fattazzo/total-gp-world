@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gmail.fattazzo.formula1livenews.R;
 import com.gmail.fattazzo.formula1livenews.config.Config;
 
 import org.androidannotations.annotations.EBean;
@@ -59,5 +60,23 @@ public class ImageUtils {
             image = null;
         }
         return image;
+    }
+
+    /**
+     * Retrieve color for constructor.
+     *
+     * @param constructorId id constructor
+     * @return color
+     */
+    public int getColorForConstructorId(@Nullable String constructorId) {
+        int color;
+
+        try {
+            color = context.getResources().getIdentifier(constructorId, "color", context.getPackageName());
+        } catch (Exception e) {
+            color = R.color.background_color;
+        }
+
+        return color;
     }
 }

@@ -1,0 +1,56 @@
+package com.gmail.fattazzo.formula1livenews.fragments;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+
+import com.gmail.fattazzo.formula1livenews.R;
+import com.gmail.fattazzo.formula1livenews.utils.Utils;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ViewById;
+
+@EFragment(R.layout.webview_fragment_layout)
+public class UrlViewerFragment extends Fragment {
+
+    @Bean
+    Utils utils;
+
+    @FragmentArg
+    String url;
+
+    @ViewById(R.id.webview)
+    WebView infoWebView;
+
+    @ViewById
+    ProgressBar progressBar;
+
+    public static UrlViewerFragment newInstance(String url) {
+        UrlViewerFragment urlViewerFragment = new UrlViewerFragment_();
+        Bundle args = new Bundle();
+        args.putString("url", url);
+        urlViewerFragment.setArguments(args);
+        return urlViewerFragment;
+    }
+
+    @AfterViews
+    void init() {
+        progressBar.setVisibility(View.VISIBLE);
+        infoWebView.getSettings().setJavaScriptEnabled(true);
+        infoWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if(progressBar != null) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        infoWebView.loadUrl(utils.getLocalizedLink(url));
+    }
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="detail_driver_position">Posizione</string>
+    <string name="detail_driver_laps">Giri</string>
+    <string name="detail_driver_grid">Griglia</string>
+    <string name="detail_driver_time">Tempo</string>
+    <string name="detail_driver_status">Status</string>
+    <string name="detail_driver_points">Punti</string>
+</resources>

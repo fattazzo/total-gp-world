@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sort_drivers_by">Ordina per&#8230;</string>
+    <string name="sort_drivers_by_number">Numero</string>
+    <string name="sort_drivers_by_name">Nome</string>
+
+    <string name="detail_driver_info_tab_title">Info</string>
+    <string name="detail_driver_season_progress_tab_title">Progress</string>
+    <string name="detail_driver_ranking_tab_title">Classifica</string>
+</resources>

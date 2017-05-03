@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="detail_driver_position">Position</string>
+    <string name="detail_driver_laps">Laps</string>
+    <string name="detail_driver_grid">Grid</string>
+    <string name="detail_driver_time">Time</string>
+    <string name="detail_driver_status">Status</string>
+    <string name="detail_driver_points">Points</string>
+</resources>

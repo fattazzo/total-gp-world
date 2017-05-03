@@ -69,15 +69,21 @@ public class CurrentCircuitTask {
     @ViewById(R.id.current_circuit_time)
     TextView roundTimeView;
 
-    @ViewById(R.id.home_current_circuit_layout)
-    void setOneView(RelativeLayout layout) {
-        Button infoButton = (Button) layout.findViewById(R.id.current_circuit_info_button);
-        infoButton.setOnClickListener(new View.OnClickListener() {
+    Schedule scheduleLoaded = null;
+
+    @ViewById(R.id.current_circuit_info_button)
+    void setupInfoButton(Button button) {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCircuitInfo();
+                String linkInfo = (String) circuitLocationView.getTag();
+                utils.openLink(linkInfo);
             }
         });
+    }
+
+    @ViewById(R.id.home_current_circuit_layout)
+    void setOneView(RelativeLayout layout) {
         circuitImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,28 +92,33 @@ public class CurrentCircuitTask {
         });
     }
 
+
     @UiThread
     void start() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Background
+    public void loadCurrentSchedule(boolean reloadData) {
+        scheduleLoaded = null;
+        loadCurrentSchedule();
+    }
+
+    @Background
     public void loadCurrentSchedule() {
-
-        Schedule result = null;
         try {
-            start();
-
-            result = dataService.loadCurrentSchedule();
+            if(scheduleLoaded == null) {
+                start();
+                scheduleLoaded = dataService.loadCurrentSchedule();
+            }
         } finally {
-            updateUI(result);
+            updateUI();
         }
     }
 
     @UiThread
-    void updateUI(Schedule result) {
+    void updateUI() {
         try {
-
             String circuitName = activity.getString(R.string.no_race_scheduled);
             String circuitLocation = "";
             String circuitInfoLink = "";
@@ -117,19 +128,19 @@ public class CurrentCircuitTask {
             String roundDate = "";
             String roundTime = "";
             String circuitId = null;
-            if (result != null) {
-                circuitName = result.getRaceName();
+            if (scheduleLoaded != null) {
+                circuitName = scheduleLoaded.getRaceName();
 
-                String countryEn = result.getCircuit().getLocation().getCountry();
+                String countryEn = scheduleLoaded.getCircuit().getLocation().getCountry();
                 String countryLocale = localeUtils.getLocaleCountryName(countryEn);
-                circuitLocation = countryLocale + ", " + result.getCircuit().getLocation().getLocality();
-                circuitInfoLink = result.getCircuit().getUrl();
+                circuitLocation = countryLocale + ", " + scheduleLoaded.getCircuit().getLocation().getLocality();
+                circuitInfoLink = scheduleLoaded.getCircuit().getUrl();
                 flagImage = imageUtils.getFlagForCountryCode(localeUtils.getCountryCode(countryEn));
-                circuitId = result.getCircuit().getCircuitId();
+                circuitId = scheduleLoaded.getCircuit().getCircuitId();
                 circuitImage = imageUtils.getCircuitForCode(circuitId);
-                roundNumber = String.valueOf(result.getRound());
+                roundNumber = String.valueOf(scheduleLoaded.getRound());
 
-                String dateUTCString = result.getDate() + "T" + result.getTime();
+                String dateUTCString = scheduleLoaded.getDate() + "T" + scheduleLoaded.getTime();
                 roundDate = utils.convertUTCDateToLocal(dateUTCString, "yyyy-MM-dd'T'HH:mm:ss'Z'", "EEEE dd MMMM yyyy");
                 roundTime = utils.convertUTCDateToLocal(dateUTCString, "yyyy-MM-dd'T'HH:mm:ss'Z'", "HH:mm");
             }
@@ -146,11 +157,6 @@ public class CurrentCircuitTask {
         } finally {
             progressBar.setVisibility(View.INVISIBLE);
         }
-    }
-
-    private void openCircuitInfo() {
-        String linkInfo = (String) circuitLocationView.getTag();
-        utils.openLink(linkInfo);
     }
 
     private void openCirtuitFullScreeenImage() {

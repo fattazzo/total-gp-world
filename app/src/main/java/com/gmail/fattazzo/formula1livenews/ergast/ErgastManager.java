@@ -13,14 +13,15 @@ import com.gmail.fattazzo.formula1livenews.ergast.objects.LapTimes;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Qualification;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.RacePitStops;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.RaceResult;
+import com.gmail.fattazzo.formula1livenews.ergast.objects.RaceResults;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Schedule;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Season;
 import com.gmail.fattazzo.formula1livenews.ergast.parser.Parser;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
+import org.apache.commons.collections4.CollectionUtils;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.gmail.fattazzo.formula1livenews.ergast.Ergast.CURRENT_SEASON;
@@ -68,6 +69,15 @@ public class ErgastManager {
     public List<Driver> getDrivers() {
         String json = ergastConnection.getJson(ergast, DRIVERS, NO_ROUND);
         return new Parser<>(json, new String[]{"DriverTable", "Drivers"}, Driver.class).parse();
+    }
+
+    /**
+     * @return list of drivers that satisfy your query.
+     */
+    @NonNull
+    public List<RaceResults> getDriverRacersResult(@NonNull String driverId) {
+        String json = ergastConnection.getJson(ergast, DRIVERS + "/" + driverId + "/" + RESULTS, NO_ROUND);
+        return new Parser<>(json, new String[]{"RaceTable", "Races"}, RaceResults.class).parse();
     }
 
     /**
@@ -141,6 +151,13 @@ public class ErgastManager {
 
         String json = ergastConnection.getJson(ergast, DRIVER_STANDINGS, round);
         return new Parser<>(json, new String[]{"StandingsTable", "StandingsLists", "DriverStandings"}, DriverStandings.class).parse();
+    }
+
+    public DriverStandings getDriverLeader() {
+        String json = ergastConnection.getJson(ergast, DRIVER_STANDINGS + "/1", NO_ROUND);
+        Parser parser = new Parser<>(json, new String[]{"StandingsTable", "StandingsLists", "DriverStandings"}, DriverStandings.class);
+        List<DriverStandings> standingsList = parser.parse();
+        return CollectionUtils.isEmpty(standingsList) ? null : standingsList.get(0);
     }
 
     /**

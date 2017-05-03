@@ -1,20 +1,21 @@
 package com.gmail.fattazzo.formula1livenews.fragments.current.drivers;
 
 import android.support.v4.app.Fragment;
-import android.view.View;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
-import com.dspot.declex.Action;
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1livenews.R;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Driver;
+import com.gmail.fattazzo.formula1livenews.fragments.current.drivers.detail.DetailDriverFragment;
+import com.gmail.fattazzo.formula1livenews.fragments.current.drivers.detail.DetailDriverFragment_;
 import com.gmail.fattazzo.formula1livenews.service.CurrentSeasonDataService;
+import com.gmail.fattazzo.formula1livenews.utils.Utils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -28,25 +29,32 @@ import java.util.List;
  */
 @OptionsMenu(R.menu.drivers)
 @EFragment(R.layout.fragment_current_drivers)
-public class CurrentDriversFragment extends Fragment {
+public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    public static final String TAG = CurrentDriversFragment.class.getSimpleName();
+
+    @Bean
+    Utils utils;
 
     @Bean
     CurrentSeasonDataService dataService;
-
-    @ViewById(R.id.drivers_progressBar)
-    ProgressBar progressBar;
 
     @Bean
     DriversListAdapter driversListAdapter;
 
     @ViewById(R.id.current_drivers_list_view)
-    void setOneView(ListView listView){
-        listView.setAdapter(driversListAdapter);
-    }
+    ListView listView;
+
+    @ViewById(R.id.current_drivers_swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @AfterViews
     void init() {
-        loadDrivers();
+        listView.setAdapter(driversListAdapter);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        if(driversListAdapter.isEmpty()) {
+            onRefresh();
+        }
     }
 
     @Background
@@ -62,7 +70,7 @@ public class CurrentDriversFragment extends Fragment {
 
     @UiThread
     void startLoad() {
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @UiThread
@@ -72,8 +80,16 @@ public class CurrentDriversFragment extends Fragment {
             driversListAdapter.setDrivers(result);
             driversListAdapter.notifyDataSetChanged();
         } finally {
-            progressBar.setVisibility(View.INVISIBLE);
+            swipeRefreshLayout.setRefreshing(false);
         }
+    }
+
+    @ItemClick(R.id.current_drivers_list_view)
+    public void itemClicked(int position) {
+        Driver driver = driversListAdapter.getItem(position);
+        //$DetailDriverFragment().driver(driver);
+        DetailDriverFragment detailDriverFragment = DetailDriverFragment_.builder().driver(driver).build();
+        utils.showFragment(getActivity(),detailDriverFragment, DetailDriverFragment.TAG,false);
     }
 
     // ----------------------------FILTERS ------------------------------------
@@ -96,8 +112,8 @@ public class CurrentDriversFragment extends Fragment {
 
     // ------------------------------------------------------------------------
 
-    @Event
-    void onBackPressedEvent() {
-        Action.$HomeFragment();
+    @Override
+    public void onRefresh() {
+        loadDrivers();
     }
 }

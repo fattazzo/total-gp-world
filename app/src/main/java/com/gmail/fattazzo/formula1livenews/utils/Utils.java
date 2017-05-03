@@ -5,15 +5,31 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
+import com.gmail.fattazzo.formula1livenews.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -27,6 +43,8 @@ public class Utils {
     @RootContext
     Context context;
 
+    private Map<String, CountryNationality> countriesNationalitiesMap;
+
     /**
      * Open link in external activity.
      *
@@ -34,12 +52,16 @@ public class Utils {
      */
     public void openLink(@Nullable String link) {
         if (StringUtils.isNotBlank(link)) {
-            link = StringUtils.replaceOnce(link, "en.wikipedia.org", Locale.getDefault().getLanguage() + ".wikipedia.org");
+            link = getLocalizedLink(link);
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setData(Uri.parse(link));
             context.startActivity(i);
         }
+    }
+
+    public String getLocalizedLink(@Nullable String link) {
+        return StringUtils.replaceOnce(link, "en.wikipedia.org", Locale.getDefault().getLanguage() + ".wikipedia.org");
     }
 
     /**
@@ -60,7 +82,7 @@ public class Utils {
 
             Date date = utcFormat.parse(dateUTCString);
 
-            DateFormat pstFormat = new SimpleDateFormat(dateLocalPattern,Locale.getDefault());
+            DateFormat pstFormat = new SimpleDateFormat(dateLocalPattern, Locale.getDefault());
             pstFormat.setTimeZone(TimeZone.getDefault());
 
             dateLocal = pstFormat.format(date);
@@ -69,5 +91,58 @@ public class Utils {
         }
 
         return dateLocal;
+    }
+
+    /**
+     * {@link CountryNationality} by given nationality
+     *
+     * @param nationality nationality
+     * @return CountryNationality, {@code null} if doesnt exist
+     */
+    @Nullable
+    public CountryNationality getCountryNationality(@Nullable String nationality) {
+        return getCountriesNationalitiesMap().get(nationality);
+    }
+
+    private Map<String, CountryNationality> getCountriesNationalitiesMap() {
+        if (countriesNationalitiesMap == null) {
+            countriesNationalitiesMap = new HashMap<>();
+            try (InputStream is = context.getAssets().open("countries-nationalities.json"); InputStreamReader isr = new InputStreamReader(is)) {
+                Type type = new TypeToken<Collection<CountryNationality>>() {
+                }.getType();
+                Gson gson = new Gson();
+                JsonReader reader = new JsonReader(isr);
+                Collection<CountryNationality> cn = gson.fromJson(reader, type);
+                for (CountryNationality countryNationality : cn) {
+                    String[] nationalities = StringUtils.split(countryNationality.getNationality(), ",");
+                    for (String nat : nationalities) {
+                        countriesNationalitiesMap.put(StringUtils.trim(nat), countryNationality);
+                    }
+                }
+            } catch (IOException e) {
+                countriesNationalitiesMap = new HashMap<>();
+            }
+        }
+        return countriesNationalitiesMap;
+    }
+
+    public void showFragment(@NonNull FragmentActivity activity, @NonNull Fragment fragment, @NonNull String tag, boolean animate) {
+
+        FragmentManager fragmantManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmantManager.beginTransaction();
+        if(animate) {
+            transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+
+        //if (fragmantManager.findFragmentByTag(tag) != null) {
+        //    transaction.show(fragmantManager.findFragmentByTag(tag));
+        //} else {
+        //    transaction.add(R.id.container, fragment, tag);
+        //    transaction.addToBackStack(null);
+        //}
+        transaction.replace(R.id.container,fragment,tag);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 }

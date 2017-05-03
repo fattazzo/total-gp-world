@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/order_by_number"
-        android:icon="@drawable/ic_menu_slideshow"
-        android:title="Numero" />
 
-    <item
-        android:id="@+id/order_by_name"
-        android:icon="@drawable/ic_menu_slideshow"
-        android:title="Nome" />
+    <group>
+        <item android:title="@string/sort_drivers_by">
+            <menu>
+                <item
+                    android:id="@+id/order_by_number"
+                    android:icon="@drawable/number_order"
+                    android:title="@string/sort_drivers_by_number" />
+
+                <item
+                    android:id="@+id/order_by_name"
+                    android:icon="@drawable/alpha_order"
+                    android:title="@string/sort_drivers_by_name" />
+            </menu>
+        </item>
+    </group>
 </menu>

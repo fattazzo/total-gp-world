@@ -8,6 +8,7 @@ import com.gmail.fattazzo.formula1livenews.ergast.ErgastManager;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Driver;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.DriverStandings;
+import com.gmail.fattazzo.formula1livenews.ergast.objects.RaceResults;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Schedule;
 import com.gmail.fattazzo.formula1livenews.utils.Utils;
 
@@ -56,6 +57,21 @@ public class CurrentSeasonDataService {
     }
 
     /**
+     * @param driverId driver id
+     * @return race results
+     */
+    @NonNull
+    public List<RaceResults> loadDriverRacesResult(String driverId) {
+        List<RaceResults> results;
+        try {
+            results = ergastManager.getDriverRacersResult(driverId);
+        } catch (Exception e) {
+            results = new ArrayList<>();
+        }
+        return results;
+    }
+
+    /**
      * Load current season race scheduled.
      *
      * @return current race
@@ -101,6 +117,16 @@ public class CurrentSeasonDataService {
         }
 
         return driverStandingsList;
+    }
+
+    /**
+     * Load the current leader.
+     *
+     * @return driver leader information
+     */
+    @Nullable
+    public DriverStandings loadDriverLeader() {
+        return ergastManager.getDriverLeader();
     }
 
     /**

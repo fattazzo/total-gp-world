@@ -2,36 +2,53 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="wrap_content"
+    android:padding="4dp"
     android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/driver_item_flag"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="4dp"
+        android:scaleType="fitXY"
+        android:layout_centerInParent="true"
+        app:srcCompat="@color/background_color" />
 
     <TextView
         android:id="@+id/driver_item_number"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_marginEnd="4dp"
-        android:gravity="fill_vertical|end"
-        android:textSize="12sp" />
-
-    <ImageView
-        android:id="@+id/driver_item_color"
-        android:layout_width="20dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="4dp"
-        android:layout_toEndOf="@+id/driver_item_number"
-        app:srcCompat="@drawable/team_icon" />
-
-    <TextView
-        android:id="@+id/driver_item_name"
-        android:layout_width="40sp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="4dp"
+        android:layout_centerInParent="true"
+        android:layout_toEndOf="@+id/driver_item_flag"
+        android:layout_alignBottom="@+id/driver_item_info_layout"
+        android:gravity="fill_vertical|center_horizontal"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/driver_item_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/driver_item_color"
-        android:gravity="center_vertical|start"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textSize="12sp" />
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/driver_item_number">
+
+        <TextView
+            android:id="@+id/driver_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/driver_item_dateOfBirth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textSize="16sp" />
+    </LinearLayout>
 </RelativeLayout>

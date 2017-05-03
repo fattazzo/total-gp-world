@@ -74,6 +74,7 @@ public class Parser<T> {
                 replace("\"Constructors\"", "\"constructors\"").
                 replace("\"Laps\"", "\"laps\"").
                 replace("\"Timings\"", "\"timings\"").
-                replace("\"PitStops\"", "\"pitStops\"");
+                replace("\"PitStops\"", "\"pitStops\"").
+                replace("\"Results\"", "\"results\"");
     }
 }

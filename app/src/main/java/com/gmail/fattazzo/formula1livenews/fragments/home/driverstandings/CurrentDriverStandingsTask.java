@@ -8,8 +8,8 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.gmail.fattazzo.formula1livenews.R;
-import com.gmail.fattazzo.formula1livenews.ergast.objects.DriverStandings;
 import com.gmail.fattazzo.formula1livenews.activity.home.HomeActivity;
+import com.gmail.fattazzo.formula1livenews.ergast.objects.DriverStandings;
 import com.gmail.fattazzo.formula1livenews.service.CurrentSeasonDataService;
 
 import org.androidannotations.annotations.Background;
@@ -45,8 +45,10 @@ public class CurrentDriverStandingsTask implements View.OnTouchListener {
     private float initialX = 0;
     private float initialY = 0;
 
+    private List<DriverStandings> driverStandings = null;
+
     @ViewById(R.id.home_driver_standings_layout)
-    void setOneView(ViewFlipper layout){
+    void setOneView(ViewFlipper layout) {
         this.viewFlipper = layout;
         ListView listViewBack = (ListView) viewFlipper.findViewById(R.id.standing_listview_back);
         ListView listViewFront = (ListView) viewFlipper.findViewById(R.id.standing_listview_front);
@@ -68,25 +70,31 @@ public class CurrentDriverStandingsTask implements View.OnTouchListener {
     }
 
     @Background
+    public void loadCurrentStandings(boolean reloadData) {
+        driverStandings = null;
+        loadCurrentStandings();
+    }
+
+    @Background
     public void loadCurrentStandings() {
 
-        List<DriverStandings> result = null;
         try {
-            start();
-
-            result = dataService.loadDriverStandings();
+            if (driverStandings == null) {
+                start();
+                driverStandings = dataService.loadDriverStandings();
+            }
         } finally {
-            updateUI(result);
+            updateUI();
         }
     }
 
     @UiThread
-    void updateUI(List<DriverStandings> result) {
+    void updateUI() {
         try {
             List<DriverStandings> listFront = new ArrayList<>();
             List<DriverStandings> listBack = new ArrayList<>();
             int nr = 0;
-            for (DriverStandings standings: ListUtils.emptyIfNull(result)) {
+            for (DriverStandings standings : ListUtils.emptyIfNull(driverStandings)) {
                 if (nr < 5) {
                     listFront.add(standings);
                 } else {
@@ -110,16 +118,16 @@ public class CurrentDriverStandingsTask implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         float deltaY;
         float deltaX;
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             initialX = event.getRawX();
             initialY = event.getRawY();
         }
 
-        if(event.getAction() == MotionEvent.ACTION_UP) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
             deltaX = event.getRawX() - initialX;
             deltaY = event.getRawY() - initialY;
 
-            if(deltaY == 0 && deltaX == 0) {
+            if (deltaY == 0 && deltaX == 0) {
 
                 viewFlipper.setFlipInterval(1000);
                 if (v.getId() == R.id.standing_listview_front) {

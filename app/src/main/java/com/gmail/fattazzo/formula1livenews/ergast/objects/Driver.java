@@ -1,12 +1,14 @@
 package com.gmail.fattazzo.formula1livenews.ergast.objects;
 
+import java.io.Serializable;
+
 /**
  * Date: 08.03.17
  * Driver object
  *
  * @author olerom
  */
-public class Driver {
+public class Driver implements Serializable {
 
     private String driverId;
     private int permanentNumber;

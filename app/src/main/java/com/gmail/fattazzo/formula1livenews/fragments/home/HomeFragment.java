@@ -26,6 +26,8 @@ import org.androidannotations.annotations.ViewById;
 @EFragment(R.layout.content_home)
 public class HomeFragment extends Fragment {
 
+    public static final String TAG = HomeFragment.class.getSimpleName();
+
     @Bean
     CurrentCircuitTask currentCircuitTask;
 
@@ -44,9 +46,9 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentCircuitTask.loadCurrentSchedule();
-                currentDriverStandingsTask.loadCurrentStandings();
-                currentConstructorStandingsTask.loadCurrentStandings();
+                currentCircuitTask.loadCurrentSchedule(true);
+                currentDriverStandingsTask.loadCurrentStandings(true);
+                currentConstructorStandingsTask.loadCurrentStandings(true);
             }
         });
 

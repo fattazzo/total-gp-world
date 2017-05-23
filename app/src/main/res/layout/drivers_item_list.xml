@@ -25,7 +25,7 @@
         android:layout_toEndOf="@+id/driver_item_flag"
         android:layout_alignBottom="@+id/driver_item_info_layout"
         android:gravity="fill_vertical|center_horizontal"
-        android:textSize="34sp"
+        android:textAppearance="@style/TextAppearance.Large"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -41,14 +41,12 @@
             android:id="@+id/driver_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textSize="16sp" />
+            android:textAppearance="@style/TextAppearance.Medium" />
 
         <TextView
             android:id="@+id/driver_item_dateOfBirth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textSize="16sp" />
+            android:textAppearance="@style/TextAppearance.Medium" />
     </LinearLayout>
 </RelativeLayout>

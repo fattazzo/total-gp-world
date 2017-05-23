@@ -13,37 +13,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/detail_driver_position"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/detail_driver_laps"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/detail_driver_grid"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/detail_driver_time"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/detail_driver_status"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/detail_driver_points"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
     </TableRow>
 
 </TableLayout>

@@ -17,10 +17,10 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Posizione di arrivo"
+                android:text="@string/detail_driver_positions_chart"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textAppearance="@style/TextAppearance.Large"
                 android:textStyle="italic" />
 
             <com.github.mikephil.charting.charts.LineChart
@@ -33,9 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Punti"
+                android:text="@string/detail_driver_points_chart"
                 android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textAppearance="@style/TextAppearance.Large"
                 android:textStyle="bold" />
 
             <com.github.mikephil.charting.charts.LineChart

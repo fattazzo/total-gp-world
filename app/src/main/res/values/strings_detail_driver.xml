@@ -6,4 +6,7 @@
     <string name="detail_driver_time">Time</string>
     <string name="detail_driver_status">Status</string>
     <string name="detail_driver_points">Points</string>
+
+    <string name="detail_driver_points_chart">Points</string>
+    <string name="detail_driver_positions_chart">Race results</string>
 </resources>

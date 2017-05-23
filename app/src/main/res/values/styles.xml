@@ -2,7 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -10,6 +9,11 @@
         <item name="android:windowBackground">@drawable/app_background</item>
         <item name="android:listViewStyle">@style/TransparentListView</item>
         <item name="android:expandableListViewStyle">@style/TransparentExpandableListView</item>
+
+        <item name="android:textAppearance">@style/TextAppearance</item>
+        <item name="android:textAppearanceLarge">@style/TextAppearance.Large</item>
+        <item name="android:textAppearanceMedium">@style/TextAppearance.Medium</item>
+        <item name="android:textAppearanceSmall">@style/TextAppearance.Small</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -27,6 +31,24 @@
 
     <style name="TransparentExpandableListView" parent="@android:style/Widget.ExpandableListView">
         <item name="android:cacheColorHint">@android:color/transparent</item>
+    </style>
+
+    <style name="TextAppearance" parent="@android:style/TextAppearance">
+    </style>
+
+    <style name="TextAppearance.Large" parent="@android:style/TextAppearance.Large">
+        <item name="android:textSize">@dimen/font_size_large</item>
+    </style>
+
+    <style name="TextAppearance.Medium" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/font_size_medium</item>
+    </style>
+
+    <style name="TextAppearance.Small" parent="@android:style/TextAppearance.Small">
+        <item name="android:textSize">@dimen/font_size_small</item>
+    </style>
+
+    <style name="NavigationDrawerStyle" parent="@style/TextAppearance.Medium">
     </style>
 
 </resources>

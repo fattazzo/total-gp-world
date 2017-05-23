@@ -1,9 +1,11 @@
 package com.gmail.fattazzo.formula1livenews.fragments.home;
 
+import android.content.res.Configuration;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1livenews.R;

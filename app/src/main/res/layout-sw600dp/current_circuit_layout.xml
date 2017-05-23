@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -13,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textSize="18sp"
+        android:textAppearance="@style/TextAppearance.Medium"
         android:textStyle="bold" />
 
     <RelativeLayout
@@ -24,8 +23,8 @@
 
         <ImageView
             android:id="@+id/current_circuit_country_flag"
-            android:layout_width="85dp"
-            android:layout_height="55dp"
+            android:layout_width="100dp"
+            android:layout_height="70dp"
             android:layout_marginEnd="10dp"
             android:scaleType="fitCenter" />
 
@@ -33,22 +32,23 @@
             android:id="@+id/current_circuit_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/current_circuit_country_flag"/>
+            android:layout_toEndOf="@+id/current_circuit_country_flag"
+            android:textAppearance="@style/TextAppearance.Medium"
+            />
 
         <Button
             android:id="@+id/current_circuit_info_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/current_circuit_country_flag"
             android:layout_below="@+id/current_circuit_location"
             android:layout_toEndOf="@+id/current_circuit_country_flag"
             android:text="@string/circuit_info"
-            android:textSize="12sp" />
+            android:textAppearance="@style/TextAppearance.Medium" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/current_circuit_left_layout"
-        android:layout_width="85dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/current_circuit_top_panel"
@@ -108,6 +108,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="2dp"
         android:layout_toStartOf="@+id/current_circuit_image"
+        android:textAppearance="@style/TextAppearance.Medium"
         android:textAlignment="center" />
 
     <TextView
@@ -117,6 +118,7 @@
         android:layout_alignBottom="@+id/current_circuit_image"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/current_circuit_image"
+        android:textAppearance="@style/TextAppearance.Medium"
         android:textAlignment="center" />
 
 </RelativeLayout>

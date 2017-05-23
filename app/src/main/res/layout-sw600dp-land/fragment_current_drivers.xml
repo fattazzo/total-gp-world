@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_background"
+    tools:context="com.gmail.fattazzo.formula1livenews.fragments.current.drivers.CurrentDriversFragment">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/current_drivers_swipe_refresh_layout"
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <ListView
+            android:id="@+id/current_drivers_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/details_driver_fragment_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/current_drivers_swipe_refresh_layout"></RelativeLayout>
+</RelativeLayout>

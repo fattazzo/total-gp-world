@@ -134,14 +134,12 @@ public class Utils {
             transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
         }
 
-        //if (fragmantManager.findFragmentByTag(tag) != null) {
-        //    transaction.show(fragmantManager.findFragmentByTag(tag));
-        //} else {
-        //    transaction.add(R.id.container, fragment, tag);
-        //    transaction.addToBackStack(null);
-        //}
-        transaction.replace(R.id.container,fragment,tag);
-        transaction.addToBackStack(null);
+        if (fragmantManager.findFragmentByTag(tag) != null) {
+            transaction.show(fragmantManager.findFragmentByTag(tag));
+        } else {
+            transaction.replace(R.id.container, fragment, tag);
+            transaction.addToBackStack(null);
+        }
 
         transaction.commit();
     }

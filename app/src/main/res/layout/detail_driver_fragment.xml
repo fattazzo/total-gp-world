@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:text="TextView"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textAppearance="@style/TextAppearance.Large"
         android:textStyle="bold" />
 
     <android.support.design.widget.CoordinatorLayout
@@ -33,7 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:paddingBottom="4dp"
-                android:paddingTop="4dp" />
+                android:paddingTop="4dp"
+                android:textAppearance="@style/TextAppearance.Medium"/>
 
         </android.support.v4.view.ViewPager>
 

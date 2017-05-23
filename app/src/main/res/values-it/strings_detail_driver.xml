@@ -6,4 +6,7 @@
     <string name="detail_driver_time">Tempo</string>
     <string name="detail_driver_status">Status</string>
     <string name="detail_driver_points">Punti</string>
+
+    <string name="detail_driver_points_chart">Punti</string>
+    <string name="detail_driver_positions_chart">Posizioni d\'arrivo</string>
 </resources>

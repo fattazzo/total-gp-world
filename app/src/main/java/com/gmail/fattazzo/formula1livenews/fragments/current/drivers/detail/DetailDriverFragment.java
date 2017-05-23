@@ -47,7 +47,7 @@ public class DetailDriverFragment extends Fragment {
         // set padding manually, the more you set the padding the more you see of prev & next page
         vpPager.setPadding(0, 0, 0, 0);
         // sets a margin b/w individual pages to ensure that there is a gap b/w them
-        vpPager.setPageMargin(30);
+        vpPager.setPageMargin(90);
 
     }
 

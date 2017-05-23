@@ -1,8 +1,17 @@
 package com.gmail.fattazzo.formula1livenews.fragments.current.drivers;
 
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.gmail.fattazzo.formula1livenews.R;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Driver;
@@ -19,6 +28,8 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.api.view.HasViews;
+import org.androidannotations.api.view.OnViewChangedListener;
 
 import java.util.List;
 
@@ -48,8 +59,22 @@ public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayo
     @ViewById(R.id.current_drivers_swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @ViewById(R.id.details_driver_fragment_container)
+    RelativeLayout detailsDriverFragmentContainer;
+
     @AfterViews
     void init() {
+
+            FragmentManager fragmantManager = getActivity().getSupportFragmentManager();
+
+            Fragment fragmentById = fragmantManager.findFragmentByTag(TAG);
+            //CurrentDriversFragment currentDriversFragment = CurrentDriversFragment_.builder().build();
+
+        if(fragmentById != null) {
+            utils.showFragment(getActivity(), fragmentById, CurrentDriversFragment.TAG,true);
+        }
+
+
         listView.setAdapter(driversListAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);
         if(driversListAdapter.isEmpty()) {
@@ -70,7 +95,9 @@ public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayo
 
     @UiThread
     void startLoad() {
-        swipeRefreshLayout.setRefreshing(true);
+        if(swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
     }
 
     @UiThread
@@ -80,16 +107,24 @@ public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayo
             driversListAdapter.setDrivers(result);
             driversListAdapter.notifyDataSetChanged();
         } finally {
-            swipeRefreshLayout.setRefreshing(false);
+            if(swipeRefreshLayout != null) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
         }
     }
 
     @ItemClick(R.id.current_drivers_list_view)
     public void itemClicked(int position) {
         Driver driver = driversListAdapter.getItem(position);
-        //$DetailDriverFragment().driver(driver);
         DetailDriverFragment detailDriverFragment = DetailDriverFragment_.builder().driver(driver).build();
-        utils.showFragment(getActivity(),detailDriverFragment, DetailDriverFragment.TAG,false);
+
+        if(detailsDriverFragmentContainer == null) {
+            utils.showFragment(getActivity(), detailDriverFragment, DetailDriverFragment.TAG, false);
+        } else {
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.details_driver_fragment_container, detailDriverFragment, "MyActivity");
+            fragmentTransaction.commit();
+        }
     }
 
     // ----------------------------FILTERS ------------------------------------

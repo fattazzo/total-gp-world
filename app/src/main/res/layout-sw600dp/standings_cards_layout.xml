@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.Small"/>
+            android:textAppearance="@style/TextAppearance.Small"
+            android:textStyle="bold" />
 
         <ListView
             android:id="@+id/standing_listview_front"

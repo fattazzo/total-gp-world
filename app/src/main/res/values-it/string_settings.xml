@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="general_pref">Generali</string>
+
+    <string name="fragment_transition_animation">Animazione transizione pagine</string>
+    <string name="pager_transition_animation">Animazione transizione sezioni</string>
+</resources>

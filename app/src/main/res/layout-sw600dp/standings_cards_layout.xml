@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textSize="12sp"
+            android:textAppearance="@style/TextAppearance.Small"
             android:textStyle="bold" />
 
         <ListView

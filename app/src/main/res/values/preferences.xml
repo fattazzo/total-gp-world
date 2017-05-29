@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- keys -->
+    <string name="key_fragmentTransitionAnimation">fragmentTransitionAnimation</string>
+    <string name="key_pagerTransitionAnimation">pagerTransitionAnimation</string>
+
+    <!-- default values -->
+    <string name="default_fragmentTransitionAnimation">fade</string>
+    <string name="default_pagerTransitionAnimation">zoomOutSlide</string>
+</resources>

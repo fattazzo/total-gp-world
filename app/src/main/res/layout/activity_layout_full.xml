@@ -20,6 +20,6 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:textColor="#ffffff"
-        android:text="Close" />
+        android:text="@string/close" />
 
 </RelativeLayout>

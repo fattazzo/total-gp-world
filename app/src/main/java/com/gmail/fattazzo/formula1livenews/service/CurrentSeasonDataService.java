@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.gmail.fattazzo.formula1livenews.ergast.Ergast;
 import com.gmail.fattazzo.formula1livenews.ergast.ErgastManager;
+import com.gmail.fattazzo.formula1livenews.ergast.objects.Constructor;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Driver;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.DriverStandings;
@@ -54,6 +55,22 @@ public class CurrentSeasonDataService {
             drivers = new ArrayList<>();
         }
         return drivers;
+    }
+
+    /**
+     * Load all constructors of the current season.
+     *
+     * @return constructors
+     */
+    @NonNull
+    public List<Constructor> loadConstructors() {
+        List<Constructor> constructors;
+        try {
+            constructors = ergastManager.getConstructors();
+        } catch (Exception e) {
+            constructors = new ArrayList<>();
+        }
+        return constructors;
     }
 
     /**

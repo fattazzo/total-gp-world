@@ -1,17 +1,17 @@
 package com.gmail.fattazzo.formula1livenews.fragments.home;
 
-import android.content.res.Configuration;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1livenews.R;
+import com.gmail.fattazzo.formula1livenews.activity.settings.SettingsActivity_;
 import com.gmail.fattazzo.formula1livenews.fragments.home.circuit.CurrentCircuitTask;
 import com.gmail.fattazzo.formula1livenews.fragments.home.constructorstandings.CurrentConstructorStandingsTask;
 import com.gmail.fattazzo.formula1livenews.fragments.home.driverstandings.CurrentDriverStandingsTask;
+import com.gmail.fattazzo.formula1livenews.utils.Utils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -31,6 +31,9 @@ public class HomeFragment extends Fragment {
     public static final String TAG = HomeFragment.class.getSimpleName();
 
     @Bean
+    Utils utils;
+
+    @Bean
     CurrentCircuitTask currentCircuitTask;
 
     @Bean
@@ -44,7 +47,7 @@ public class HomeFragment extends Fragment {
 
     @AfterViews
     void init() {
-
+        setRetainInstance(true);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,13 +69,10 @@ public class HomeFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            SettingsActivity_.intent(getContext()).start();
             return true;
         }
 

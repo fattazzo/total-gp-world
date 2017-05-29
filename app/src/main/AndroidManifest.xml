@@ -31,6 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.fullscreen.FullScreenImageActivity_"></activity>
+        <activity android:name=".activity.settings.SettingsActivity_"></activity>
     </application>
 
 </manifest>

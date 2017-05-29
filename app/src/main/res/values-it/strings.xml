@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Formula 1 live news</string>
+
+    <string name="close">Chiudi</string>
+
+    <string name="action_settings">Impostazioni</string>
 
     <string name="service_error">Servizio attualmente non disponibile. Riprovare più tardi</string>
 
     <string name="currrent_season">Stagione corrente</string>
     <string name="drivers">Piloti</string>
+    <string name="constructors">Costruttori</string>
 </resources>

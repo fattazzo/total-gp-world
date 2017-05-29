@@ -5,16 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
-import com.gmail.fattazzo.formula1livenews.R;
+import com.gmail.fattazzo.formula1livenews.settings.ApplicationPreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +39,9 @@ public class Utils {
 
     @RootContext
     Context context;
+
+    @Bean
+    ApplicationPreferenceManager preferenceManager;
 
     private Map<String, CountryNationality> countriesNationalitiesMap;
 
@@ -126,21 +126,5 @@ public class Utils {
         return countriesNationalitiesMap;
     }
 
-    public void showFragment(@NonNull FragmentActivity activity, @NonNull Fragment fragment, @NonNull String tag, boolean animate) {
 
-        FragmentManager fragmantManager = activity.getSupportFragmentManager();
-        FragmentTransaction transaction = fragmantManager.beginTransaction();
-        if(animate) {
-            transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
-        }
-
-        if (fragmantManager.findFragmentByTag(tag) != null) {
-            transaction.show(fragmantManager.findFragmentByTag(tag));
-        } else {
-            transaction.replace(R.id.container, fragment, tag);
-            transaction.addToBackStack(null);
-        }
-
-        transaction.commit();
-    }
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="fragment_transtion_animation">
+        <item>Nothing</item>
+        <item>Fade</item>
+        <item>Slide</item>
+    </string-array>
+
+    <string-array name="fragment_transtion_animation_code">
+        <item>none</item>
+        <item>fade</item>
+        <item>slide</item>
+    </string-array>
+
+    <string-array name="pager_transtion_animation">
+        <item>Zoom out slide</item>
+        <item>Cube out</item>
+        <item>Cube in</item>
+        <item>Accordion</item>
+        <item>Flip horizontal</item>
+        <item>Flip vertical</item>
+    </string-array>
+
+    <string-array name="pager_transtion_animation_code">
+        <item>zoomOutSlide</item>
+        <item>cubeOut</item>
+        <item>cubeIn</item>
+        <item>accordion</item>
+        <item>flipHorizontal</item>
+        <item>flipVertical</item>
+    </string-array>
+
+</resources>

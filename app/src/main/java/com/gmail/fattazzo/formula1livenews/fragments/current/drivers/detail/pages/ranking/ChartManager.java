@@ -1,12 +1,9 @@
 package com.gmail.fattazzo.formula1livenews.fragments.current.drivers.detail.pages.ranking;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
-import android.util.TypedValue;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -27,7 +24,6 @@ import org.androidannotations.annotations.RootContext;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

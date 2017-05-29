@@ -1,8 +1,6 @@
 package com.gmail.fattazzo.formula1livenews.fragments.home.circuit;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,7 +9,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1livenews.R;
-import com.gmail.fattazzo.formula1livenews.activity.fullscreen.FullScreenImageActivity;
 import com.gmail.fattazzo.formula1livenews.activity.fullscreen.FullScreenImageActivity_;
 import com.gmail.fattazzo.formula1livenews.activity.home.HomeActivity;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Schedule;
@@ -163,12 +160,7 @@ public class CurrentCircuitTask {
         String circuitId = (String) circuitImageView.getTag();
 
         if (circuitId != null) {
-            Intent intent = new Intent(activity, FullScreenImageActivity_.class);
-
-            Bundle extras = new Bundle();
-            extras.putString(FullScreenImageActivity.EXTRA_CIRCUIT_ID, circuitId);
-            intent.putExtras(extras);
-            activity.startActivity(intent);
+            FullScreenImageActivity_.intent(activity).circuit_id(circuitId).start();
         }
     }
 }

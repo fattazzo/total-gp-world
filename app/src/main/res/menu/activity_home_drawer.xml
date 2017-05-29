@@ -7,6 +7,11 @@
                 android:id="@+id/nav_current_season_driver"
                 android:icon="@drawable/menu_helmet"
                 android:title="@string/drivers"/>
+
+            <item
+                android:id="@+id/nav_current_season_constructor"
+                android:icon="@drawable/menu_car"
+                android:title="@string/constructors"/>
         </menu>
     </item>
 

@@ -1,6 +1,8 @@
 package com.gmail.fattazzo.formula1livenews.activity.home;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,24 +11,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.dspot.declex.api.action.Action;
 import com.gmail.fattazzo.formula1livenews.R;
+import com.gmail.fattazzo.formula1livenews.fragments.current.constructors.CurrentConstructorsFragment;
 import com.gmail.fattazzo.formula1livenews.fragments.current.drivers.CurrentDriversFragment;
-import com.gmail.fattazzo.formula1livenews.fragments.current.drivers.CurrentDriversFragment_;
 import com.gmail.fattazzo.formula1livenews.fragments.home.HomeFragment;
-import com.gmail.fattazzo.formula1livenews.fragments.home.HomeFragment_;
-import com.gmail.fattazzo.formula1livenews.utils.Utils;
+import com.gmail.fattazzo.formula1livenews.fragments.home.HomeFragmentActionHolder_;
+import com.gmail.fattazzo.formula1livenews.settings.ApplicationPreferenceManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import static com.dspot.declex.Action.$BackPressedEvent;
+import static com.dspot.declex.Action.$CurrentConstructorsFragment;
+import static com.dspot.declex.Action.$CurrentDriversFragment;
+
 @EActivity(R.layout.activity_home)
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Bean
-    Utils utils;
+    ApplicationPreferenceManager preferenceManager;
 
     @ViewById
     NavigationView nav_view;
@@ -34,14 +39,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @ViewById
     DrawerLayout drawer_layout;
 
-    //@Action
-    //$CurrentDriversFragment currentDriversFragment;
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    CurrentDriversFragment currentDriversFragment;
-    HomeFragment homeFragment;
+        if(savedInstanceState == null) {
+            // Instanzio il fragment se savedInstanceState == null altrimenti (ad es. girando il dispositivo)
+            // viene rimesso anche se quello attivo è un altro
+            final HomeFragmentActionHolder_ $HomeFragment0 = HomeFragmentActionHolder_.getInstance_(this);
+            $HomeFragment0 .init((HomeFragment.TAG));
+            $HomeFragment0 .build(null);
+            $HomeFragment0 .execute();
+        }
+    }
 
-    //@Action
-    //$HomeFragment onCreate;
 
     @AfterViews
     protected void init(Toolbar toolbar) {
@@ -55,34 +66,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         nav_view.setNavigationItemSelectedListener(this);
     }
 
-    @Action
-    void onCreate() {
-        if (homeFragment == null) {
-            homeFragment = HomeFragment_.builder().build();
-        }
-        utils.showFragment(this, homeFragment, HomeFragment.TAG,false);
-    }
-
-    @Action
     @Override
     public void onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-        } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            this.finish();
-        }
+        $BackPressedEvent();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_current_season_driver:
-                if (currentDriversFragment == null) {
-                    currentDriversFragment = CurrentDriversFragment_.builder().build();
-                }
-                utils.showFragment(this, currentDriversFragment, CurrentDriversFragment.TAG,true);
+                $CurrentDriversFragment(CurrentDriversFragment.TAG);
+                break;
+            case R.id.nav_current_season_constructor:
+                $CurrentConstructorsFragment(CurrentConstructorsFragment.TAG);
                 break;
         }
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="fragment_transtion_animation">
+        <item>Nessuna</item>
+        <item>Dissolvenza</item>
+        <item>Scorri</item>
+    </string-array>
+
+    <string-array name="pager_transtion_animation">
+        <item>Zoom out slide</item>
+        <item>Cubo esterno</item>
+        <item>Cubo interno</item>
+        <item>Fisarmonica</item>
+        <item>Flip orizzontale</item>
+        <item>Flip verticale</item>
+    </string-array>
+
+</resources>

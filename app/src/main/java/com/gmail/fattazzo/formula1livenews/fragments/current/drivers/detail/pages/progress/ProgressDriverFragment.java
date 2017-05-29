@@ -66,7 +66,9 @@ public class ProgressDriverFragment extends Fragment {
 
     @UiThread
     void startLoad() {
-        progressBar.setVisibility(View.VISIBLE);
+        if(progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Background

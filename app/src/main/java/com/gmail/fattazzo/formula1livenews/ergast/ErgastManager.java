@@ -81,6 +81,15 @@ public class ErgastManager {
     }
 
     /**
+     * @return list of constructor that satisfy your query.
+     */
+    @NonNull
+    public List<RaceResults> getConstructorRacersResult(@NonNull String constructorId) {
+        String json = ergastConnection.getJson(ergast, CONSTRUCTORS + "/" + constructorId + "/" + RESULTS, NO_ROUND);
+        return new Parser<>(json, new String[]{"RaceTable", "Races"}, RaceResults.class).parse();
+    }
+
+    /**
      * @return list of circuits that satisfy your query.
      */
     public List<Circuit> getCircuits() {

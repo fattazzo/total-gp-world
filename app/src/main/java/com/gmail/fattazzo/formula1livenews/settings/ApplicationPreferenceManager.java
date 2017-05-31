@@ -9,6 +9,7 @@ import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
 import com.ToxicBakery.viewpager.transforms.FlipHorizontalTransformer;
 import com.ToxicBakery.viewpager.transforms.FlipVerticalTransformer;
 import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
+import com.gmail.fattazzo.formula1livenews.R;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;
@@ -29,6 +30,7 @@ public class ApplicationPreferenceManager {
      *
      * @return -1 for none animation
      */
+    @Deprecated
     public int getFragmentTransactionEnterAnimation() {
         int anim;
         switch (prefs.fragmentTransitionAnimation().get()) {
@@ -51,6 +53,7 @@ public class ApplicationPreferenceManager {
      *
      * @return -1 for none animation
      */
+    @Deprecated
     public int getFragmentTransactionExitAnimation() {
         int anim;
         switch (prefs.fragmentTransitionAnimation().get()) {
@@ -69,11 +72,53 @@ public class ApplicationPreferenceManager {
     }
 
     /**
+     * @return application theme
+     */
+    public int getAppTheme() {
+        return getAppTheme(prefs.appTheme().get());
+    }
+
+    /**
+     * Application theme.
+     *
+     * @param code theme code
+     * @return theme
+     */
+    public int getAppTheme(String code) {
+        int theme;
+        switch (code) {
+            case "dark":
+                theme = R.style.AppTheme_Dark;
+                break;
+            case "light":
+                theme = R.style.AppTheme;
+                break;
+            default:
+                theme = R.style.AppTheme_Dark;
+                break;
+        }
+        return theme;
+    }
+
+    public boolean isBitmapInvertedForCurrentTheme() {
+        int theme = getAppTheme();
+
+        switch (theme) {
+            case R.style.AppTheme:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Pager transaction animation
      *
      * @return configured transformer for animation
      */
-    public @NonNull ABaseTransformer getPagerTansactionAnimation() {
+    public
+    @NonNull
+    ABaseTransformer getPagerTansactionAnimation() {
         ABaseTransformer transformer;
 
         switch (prefs.pagerTransitionAnimation().get()) {

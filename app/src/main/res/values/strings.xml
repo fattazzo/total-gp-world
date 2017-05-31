@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Formula 1 live news</string>
 
+    <string name="app_exit_comfirmation">Quit the application?</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
     <string name="close">Close</string>
 
     <string name="action_settings">Settings</string>

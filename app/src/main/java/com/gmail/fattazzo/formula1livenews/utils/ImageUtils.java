@@ -3,6 +3,11 @@ package com.gmail.fattazzo.formula1livenews.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -78,5 +83,34 @@ public class ImageUtils {
         }
 
         return color;
+    }
+
+    /**
+     * Invert bitmap color.
+     *
+     * @param src bitmap src
+     * @return bitmap inverted
+     */
+    public Bitmap invertColor(Bitmap src) {
+        ColorMatrix colorMatrix_Inverted =
+                new ColorMatrix(new float[]{
+                        -1, 0, 0, 0, 255,
+                        0, -1, 0, 0, 255,
+                        0, 0, -1, 0, 255,
+                        0, 0, 0, 1, 0});
+
+        ColorFilter ColorFilter_Sepia = new ColorMatrixColorFilter(
+                colorMatrix_Inverted);
+
+        Bitmap bitmap = Bitmap.createBitmap(src.getWidth(), src.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        Paint paint = new Paint();
+
+        paint.setColorFilter(ColorFilter_Sepia);
+        canvas.drawBitmap(src, 0, 0, paint);
+
+        return bitmap;
     }
 }

@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#242323</color>
+    <color name="colorPrimary">#43ce53</color>
+    <color name="colorPrimaryDark">#2ab63a</color>
     <color name="colorAccent">#2e7d32</color>
-    <color name="background_color">#333333</color>
+    <color name="textColor">#000000</color>
+    <color name="background_color">#ffffff</color>
+
+    <color name="colorPrimary_dark">#3F51B5</color>
+    <color name="colorPrimaryDark_dark">#242323</color>
+    <color name="colorAccent_dark">#2e7d32</color>
+    <color name="textColor_dark">#ffffff</color>
+    <color name="background_color_dark">#333333</color>
 
     <color name="mercedes">#00cfba</color>
     <color name="ferrari">#c30000</color>
@@ -16,8 +23,12 @@
     <color name="sauber">#006eff</color>
     <color name="mclaren">#00cfba</color>
 
-    <color name="card_bg_color">#b1292929</color>
+    <color name="card_bg_color">#b1c2c0c0</color>
+    <color name="card_bg_color_dark">#b1292929</color>
 
     <color name="even_row">#00ffffff</color>
-    <color name="odd_row">#BE404040</color>
+    <color name="odd_row">#be7e7d7d</color>
+
+    <color name="even_row_dark">#00ffffff</color>
+    <color name="odd_row_dark">#BE404040</color>
 </resources>

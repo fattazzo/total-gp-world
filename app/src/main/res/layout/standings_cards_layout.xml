@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="6dp"
         card_view:cardCornerRadius="2dp"
-        card_view:cardBackgroundColor="@color/card_bg_color"
+        card_view:cardBackgroundColor="?attr/cardBackground"
         card_view:cardUseCompatPadding="true">
 
         <TextView
@@ -41,7 +41,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="6dp"
         card_view:cardCornerRadius="2dp"
-        card_view:cardBackgroundColor="@color/card_bg_color"
+        card_view:cardBackgroundColor="?attr/cardBackground"
         card_view:cardUseCompatPadding="true">
 
         <TextView
@@ -50,8 +50,8 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.Small" />
 
         <ListView
             android:id="@+id/standing_listview_back"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
+import android.util.TypedValue;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -18,6 +19,7 @@ import com.gmail.fattazzo.formula1livenews.ergast.objects.RaceResult;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.RaceResults;
 import com.gmail.fattazzo.formula1livenews.utils.ImageUtils;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -32,13 +34,20 @@ import java.util.List;
  *         date: 23/04/17
  */
 @EBean
-public class ChartManager {
+class ChartManager {
 
     @RootContext
     Context context;
 
     @Bean
     ImageUtils imageUtils;
+
+    private int textColor;
+
+    @AfterInject
+    void doSomethingAfterInjection() {
+        textColor = getThemeTextColor(context);
+    }
 
     @NonNull
     private LineDataSet buildDataSet(@NonNull List<RaceResults> raceResults, @NonNull DataSetType type) {
@@ -97,7 +106,7 @@ public class ChartManager {
         configureDataSet(positionDataSet, positionChart.getAxisLeft().getAxisMaximum());
     }
 
-    public void configureChart(LineChart chart) {
+    void configureChart(LineChart chart) {
         chart.getDescription().setEnabled(false);
         chart.setDrawGridBackground(false);
 
@@ -108,20 +117,20 @@ public class ChartManager {
 
         chart.setTouchEnabled(false);
 
-        chart.getXAxis().setTextColor(Color.WHITE);
-        chart.getXAxis().setAxisLineColor(Color.WHITE);
+        chart.getXAxis().setTextColor(textColor);
+        chart.getXAxis().setAxisLineColor(textColor);
         chart.getXAxis().setGranularity(1.0f);
         chart.getXAxis().setGranularityEnabled(true);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.getXAxis().setDrawGridLines(false);
 
-        chart.getAxisLeft().setTextColor(Color.WHITE);
-        chart.getAxisLeft().setAxisLineColor(Color.WHITE);
+        chart.getAxisLeft().setTextColor(textColor);
+        chart.getAxisLeft().setAxisLineColor(textColor);
         chart.getAxisLeft().setGranularity(1.0f);
         chart.getAxisLeft().setGranularityEnabled(true);
         chart.getAxisLeft().setDrawGridLines(false);
 
-        chart.getLegend().setTextColor(Color.WHITE);
+        chart.getLegend().setTextColor(textColor);
         int valueInPixels = (int) context.getResources().getDimension(R.dimen.font_size_small);
         int dp = (int) (valueInPixels / context.getResources().getDisplayMetrics().density);
         chart.getLegend().setTextSize(dp);
@@ -130,10 +139,10 @@ public class ChartManager {
     }
 
     private void configureDataSet(LineDataSet dataSet, final float fillPosition) {
-        dataSet.setColor(Color.WHITE);
+        dataSet.setColor(textColor);
         dataSet.setDrawCircles(true);
         dataSet.setLineWidth(4f);
-        dataSet.setValueTextColor(Color.WHITE);
+        dataSet.setValueTextColor(textColor);
         dataSet.setDrawFilled(true);
 
         @SuppressWarnings("ResourceType") int[] colors = {Color.parseColor(context.getResources().getString(dataSet.getCircleColor(0))), Color.parseColor("#00ffffff")};
@@ -150,4 +159,10 @@ public class ChartManager {
     }
 
     private enum DataSetType {POSITIONS, POINTS}
+
+    private int getThemeTextColor (final Context context) {
+        final TypedValue value = new TypedValue ();
+        context.getTheme ().resolveAttribute (android.R.attr.textColor, value, true);
+        return value.data;
+    }
 }

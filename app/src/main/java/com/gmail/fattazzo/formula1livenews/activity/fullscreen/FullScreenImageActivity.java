@@ -1,8 +1,14 @@
 package com.gmail.fattazzo.formula1livenews.activity.fullscreen;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 
+import com.dspot.declex.api.runwith.RunWith;
 import com.gmail.fattazzo.formula1livenews.R;
+import com.gmail.fattazzo.formula1livenews.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1livenews.utils.ImageUtils;
 import com.gmail.fattazzo.formula1livenews.view.ZoomableImageView;
 
@@ -22,14 +28,28 @@ public class FullScreenImageActivity extends Activity {
     String circuit_id;
 
     @Bean
+    ApplicationPreferenceManager preferenceManager;
+
+    @Bean
     ImageUtils imageUtils;
 
     @ViewById
     ZoomableImageView imgDisplay;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(preferenceManager.getAppTheme());
+        super.onCreate(savedInstanceState);
+    }
+
     @AfterViews
     void init() {
-        imgDisplay.setImageBitmap(imageUtils.getCircuitForCode(circuit_id));
+        Bitmap circuitImage = imageUtils.getCircuitForCode(circuit_id);
+        if(preferenceManager.isBitmapInvertedForCurrentTheme()) {
+            circuitImage = imageUtils.invertColor(circuitImage);
+        }
+
+        imgDisplay.setImageBitmap(circuitImage);
     }
 
     @Click

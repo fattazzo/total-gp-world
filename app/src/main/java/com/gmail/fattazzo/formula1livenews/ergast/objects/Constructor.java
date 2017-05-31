@@ -1,12 +1,14 @@
 package com.gmail.fattazzo.formula1livenews.ergast.objects;
 
+import java.io.Serializable;
+
 /**
  * Date: 09.03.17
  * Constructor object
  *
  * @author olerom
  */
-public class Constructor {
+public class Constructor implements Serializable {
     private String constructorId;
     private String url;
     private String name;

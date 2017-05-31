@@ -1,17 +1,16 @@
 package com.gmail.fattazzo.formula1livenews.fragments.current.drivers.detail.pages.progress;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1livenews.R;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.RaceResult;
-import com.gmail.fattazzo.formula1livenews.ergast.objects.RaceResults;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.ColorRes;
 
 /**
  * @author fattazzo
@@ -20,12 +19,6 @@ import org.androidannotations.annotations.res.ColorRes;
  */
 @EViewGroup(R.layout.race_results_progress_row)
 public class RaceResultsItemView extends TableRow {
-
-    @ColorRes
-    int odd_row;
-
-    @ColorRes
-    int even_row;
 
     @ViewById(R.id.race_results_position)
     TextView positionView;
@@ -45,30 +38,41 @@ public class RaceResultsItemView extends TableRow {
     @ViewById(R.id.race_results_points)
     TextView pointsView;
 
-    private RaceResults raceResults;
+    private RaceResult raceResult;
 
     private int rowNumber;
 
-    public RaceResultsItemView(Context context, RaceResults raceResults, int rowNumber) {
+    public RaceResultsItemView(Context context, RaceResult raceResult, int rowNumber) {
         super(context);
-        this.raceResults = raceResults;
+        this.raceResult = raceResult;
         this.rowNumber = rowNumber;
     }
 
     @AfterViews
     void bind() {
-        RaceResult result = raceResults.getResults().get(0);
-        positionView.setText(result.getPositionText());
-        lapsView.setText(String.valueOf(result.getLaps()));
-        gridView.setText(String.valueOf(result.getGrid()));
+        positionView.setText(raceResult.getPositionText());
+        lapsView.setText(String.valueOf(raceResult.getLaps()));
+        gridView.setText(String.valueOf(raceResult.getGrid()));
         String time = "-";
-        if(result.getTime() != null ){
-            time = result.getTime().getTime();
+        if (raceResult.getTime() != null) {
+            time = raceResult.getTime().getTime();
         }
         timeView.setText(time);
-        statusView.setText(result.getStatus());
-        pointsView.setText(String.valueOf(result.getPoints()));
+        statusView.setText(raceResult.getStatus());
+        pointsView.setText(String.valueOf(raceResult.getPoints()));
 
-        setBackgroundColor(rowNumber % 2 == 0 ? even_row : odd_row);
+        setBackgroundColor(rowNumber % 2 == 0 ? getThemeEvenRowColor() : getThemeOddRowColor());
+    }
+
+    private int getThemeEvenRowColor() {
+        final TypedValue value = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.evenRowColor, value, true);
+        return value.data;
+    }
+
+    private int getThemeOddRowColor() {
+        final TypedValue value = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.oddRowColor, value, true);
+        return value.data;
     }
 }

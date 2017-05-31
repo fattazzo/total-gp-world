@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- keys -->
-    <string name="key_fragmentTransitionAnimation">fragmentTransitionAnimation</string>
-    <string name="key_pagerTransitionAnimation">pagerTransitionAnimation</string>
+    <string name="key_appTheme" tools:ignore="MissingTranslation">appTheme</string>
+    <string name="key_fragmentTransitionAnimation" tools:ignore="MissingTranslation">fragmentTransitionAnimation</string>
+    <string name="key_pagerTransitionAnimation" tools:ignore="MissingTranslation">pagerTransitionAnimation</string>
 
     <!-- default values -->
-    <string name="default_fragmentTransitionAnimation">fade</string>
-    <string name="default_pagerTransitionAnimation">zoomOutSlide</string>
+    <string name="default_appTheme" tools:ignore="MissingTranslation">dark</string>
+    <string name="default_fragmentTransitionAnimation" tools:ignore="MissingTranslation">fade</string>
+    <string name="default_pagerTransitionAnimation" tools:ignore="MissingTranslation">zoomOutSlide</string>
 </resources>

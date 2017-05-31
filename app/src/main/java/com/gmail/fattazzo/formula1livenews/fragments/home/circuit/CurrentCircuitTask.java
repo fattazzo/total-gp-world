@@ -13,6 +13,7 @@ import com.gmail.fattazzo.formula1livenews.activity.fullscreen.FullScreenImageAc
 import com.gmail.fattazzo.formula1livenews.activity.home.HomeActivity;
 import com.gmail.fattazzo.formula1livenews.ergast.objects.Schedule;
 import com.gmail.fattazzo.formula1livenews.service.CurrentSeasonDataService;
+import com.gmail.fattazzo.formula1livenews.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1livenews.utils.ImageUtils;
 import com.gmail.fattazzo.formula1livenews.utils.LocaleUtils;
 import com.gmail.fattazzo.formula1livenews.utils.Utils;
@@ -24,8 +25,13 @@ import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import static com.dspot.declex.Action.$FullScreenImageActivity;
+
 @EBean
 public class CurrentCircuitTask {
+
+    @Bean
+    ApplicationPreferenceManager preferenceManager;
 
     @Bean
     Utils utils;
@@ -135,6 +141,9 @@ public class CurrentCircuitTask {
                 flagImage = imageUtils.getFlagForCountryCode(localeUtils.getCountryCode(countryEn));
                 circuitId = scheduleLoaded.getCircuit().getCircuitId();
                 circuitImage = imageUtils.getCircuitForCode(circuitId);
+                if(preferenceManager.isBitmapInvertedForCurrentTheme()) {
+                    circuitImage = imageUtils.invertColor(circuitImage);
+                }
                 roundNumber = String.valueOf(scheduleLoaded.getRound());
 
                 String dateUTCString = scheduleLoaded.getDate() + "T" + scheduleLoaded.getTime();
@@ -156,11 +165,14 @@ public class CurrentCircuitTask {
         }
     }
 
-    private void openCirtuitFullScreeenImage() {
+    void openCirtuitFullScreeenImage() {
+        /**
         String circuitId = (String) circuitImageView.getTag();
 
         if (circuitId != null) {
-            FullScreenImageActivity_.intent(activity).circuit_id(circuitId).start();
+            $FullScreenImageActivity().circuit_id(circuitId);
         }
+         **/
+        activity.openCirtuitFullScreeenImage((String) circuitImageView.getTag());
     }
 }

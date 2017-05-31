@@ -89,7 +89,7 @@ public class ProgressDriverFragment extends Fragment {
 
                 int rowNumber = 1;
                 for (RaceResults results : raceResults) {
-                    RaceResultsItemView row = RaceResultsItemView_.build(getActivity(), results, rowNumber);
+                    RaceResultsItemView row = RaceResultsItemView_.build(getActivity(), results.getResults().get(0), rowNumber);
                     tableLayout.addView(row, new TableLayout.LayoutParams(
                             TableLayout.LayoutParams.MATCH_PARENT,
                             TableLayout.LayoutParams.WRAP_CONTENT));

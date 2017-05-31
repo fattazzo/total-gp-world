@@ -1,10 +1,15 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryDark</item>
+    <!-- Light theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="textColorInverted">@color/textColor_dark</item>
 
         <item name="android:windowBackground">@drawable/app_background</item>
         <item name="android:listViewStyle">@style/TransparentListView</item>
@@ -14,16 +19,64 @@
         <item name="android:textAppearanceLarge">@style/TextAppearance.Large</item>
         <item name="android:textAppearanceMedium">@style/TextAppearance.Medium</item>
         <item name="android:textAppearanceSmall">@style/TextAppearance.Small</item>
+
+        <item name="cardBackground">@color/card_bg_color</item>
+        <item name="bgBackground">@color/background_color</item>
+        <item name="bgBackgroundInverted">@color/background_color_dark</item>
+
+        <item name="oddRowColor">@color/odd_row</item>
+        <item name="evenRowColor">@color/even_row</item>
+
+        <item name="toolbar_theme">@style/AppTheme.AppBarOverlay</item>
+        <item name="popup_theme">@style/AppTheme.PopupOverlay</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <!-- Dark theme. -->
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/colorPrimary_dark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_dark</item>
+        <item name="colorAccent">@color/colorAccent_dark</item>
+        <item name="android:textColor">@color/textColor_dark</item>
+        <item name="textColorInverted">@color/textColor</item>
+
+        <item name="android:windowBackground">@drawable/app_dark_background</item>
+        <item name="android:listViewStyle">@style/TransparentListView</item>
+        <item name="android:expandableListViewStyle">@style/TransparentExpandableListView</item>
+
+        <item name="android:textAppearance">@style/TextAppearance</item>
+        <item name="android:textAppearanceLarge">@style/TextAppearance.Large</item>
+        <item name="android:textAppearanceMedium">@style/TextAppearance.Medium</item>
+        <item name="android:textAppearanceSmall">@style/TextAppearance.Small</item>
+
+        <item name="cardBackground">@color/card_bg_color_dark</item>
+        <item name="bgBackground">@color/background_color_dark</item>
+        <item name="bgBackgroundInverted">@color/background_color</item>
+
+        <item name="oddRowColor">@color/odd_row_dark</item>
+        <item name="evenRowColor">@color/even_row_dark</item>
+
+        <item name="toolbar_theme">@style/AppTheme.Dark.AppBarOverlay</item>
+        <item name="popup_theme">@style/AppTheme.Dark.PopupOverlay</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.Dark.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:colorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/background_color_dark</item>
+        </style>
+    <style name="AppTheme.Dark.PopupOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="android:colorBackground">@color/background_color_dark</item>
+        <item name="android:textColor">@color/textColor_dark</item>
+        </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
+    <!-- General style -->
 
     <style name="TransparentListView" parent="@android:style/Widget.ListView">
         <item name="android:cacheColorHint">@android:color/transparent</item>

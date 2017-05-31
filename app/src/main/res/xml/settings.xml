@@ -1,6 +1,16 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/general_pref">
+
+        <ListPreference
+            android:defaultValue="@string/default_appTheme"
+            android:entries="@array/app_themes"
+            android:entryValues="@array/app_themes_code"
+            android:key="@string/key_appTheme"
+            android:summary="%s"
+            android:title="@string/app_theme" />
+
+        <!--
         <ListPreference
             android:defaultValue="@string/default_fragmentTransitionAnimation"
             android:entries="@array/fragment_transtion_animation"
@@ -8,6 +18,7 @@
             android:key="@string/key_fragmentTransitionAnimation"
             android:summary="%s"
             android:title="@string/fragment_transition_animation" />
+        -->
 
         <ListPreference
             android:defaultValue="@string/default_pagerTransitionAnimation"

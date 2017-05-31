@@ -89,6 +89,21 @@ public class CurrentSeasonDataService {
     }
 
     /**
+     * @param constructorId constructor id
+     * @return race results
+     */
+    @NonNull
+    public List<RaceResults> loadConstructorRacesResult(String constructorId) {
+        List<RaceResults> results;
+        try {
+            results = ergastManager.getConstructorRacersResult(constructorId);
+        } catch (Exception e) {
+            results = new ArrayList<>();
+        }
+        return results;
+    }
+
+    /**
      * Load current season race scheduled.
      *
      * @return current race

@@ -11,6 +11,7 @@ import com.gmail.fattazzo.formula1livenews.activity.settings.SettingsActivity_;
 import com.gmail.fattazzo.formula1livenews.fragments.home.circuit.CurrentCircuitTask;
 import com.gmail.fattazzo.formula1livenews.fragments.home.constructorstandings.CurrentConstructorStandingsTask;
 import com.gmail.fattazzo.formula1livenews.fragments.home.driverstandings.CurrentDriverStandingsTask;
+import com.gmail.fattazzo.formula1livenews.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1livenews.utils.Utils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -18,6 +19,8 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+
+import static com.gmail.fattazzo.formula1livenews.activity.home.HomeActivity.PREF_ACTIVITY_RESULT;
 
 /**
  * @author fattazzo
@@ -32,6 +35,9 @@ public class HomeFragment extends Fragment {
 
     @Bean
     Utils utils;
+
+    @Bean
+    ApplicationPreferenceManager preferenceManager;
 
     @Bean
     CurrentCircuitTask currentCircuitTask;
@@ -72,10 +78,12 @@ public class HomeFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            SettingsActivity_.intent(getContext()).start();
+            SettingsActivity_.intent(getContext()).startForResult(PREF_ACTIVITY_RESULT);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

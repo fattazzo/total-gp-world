@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.gmail.fattazzo.formula1livenews.view.ZoomableImageView
+    <com.gmail.fattazzo.formula1world.view.ZoomableImageView
         android:id="@+id/imgDisplay"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

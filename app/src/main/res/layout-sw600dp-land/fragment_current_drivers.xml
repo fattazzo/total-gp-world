@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/windowBackground"
-    tools:context="com.gmail.fattazzo.formula1livenews.fragments.current.drivers.CurrentDriversFragment">
+    tools:context="com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/current_drivers_swipe_refresh_layout"

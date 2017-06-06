@@ -70,16 +70,21 @@ public class ImageUtils {
     /**
      * Retrieve color for constructor.
      *
-     * @param constructorId id constructor
+     * @param constructorRef ref constructor
      * @return color
      */
-    public int getColorForConstructorId(@Nullable String constructorId) {
+    public int getColorForConstructorRef(@Nullable String constructorRef) {
         int color;
 
         try {
-            color = context.getResources().getIdentifier(constructorId, "color", context.getPackageName());
+            color = context.getResources().getIdentifier(constructorRef, "color", context.getPackageName());
         } catch (Exception e) {
-            color = R.color.background_color;
+            color = android.R.color.transparent;
+        }
+
+        // no resource was found
+        if(color == 0) {
+            color = android.R.color.transparent;
         }
 
         return color;

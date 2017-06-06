@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.Constructor;
+import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment;
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
@@ -36,7 +36,7 @@ public class DetailConstructorFragment extends Fragment {
     ApplicationPreferenceManager preferenceManager;
 
     @FragmentArg
-    Constructor constructor;
+    F1Constructor constructor;
 
     @ViewById(R.id.detail_constructor_name)
     TextView constructorNameView;
@@ -48,7 +48,7 @@ public class DetailConstructorFragment extends Fragment {
 
     @AfterViews
     void init() {
-        constructorNameView.setText(constructor.getName());
+        constructorNameView.setText(constructor.name);
 
         adapterViewPager = new DetailConstructorPagerAdapter(getChildFragmentManager(),getActivity(),constructor);
         vpPager.setAdapter(adapterViewPager);

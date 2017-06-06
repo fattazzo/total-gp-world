@@ -1,16 +1,16 @@
 package com.gmail.fattazzo.formula1world.ergast;
 
-import com.gmail.fattazzo.formula1world.ergast.exceptions.QueryLimitException;
-import com.gmail.fattazzo.formula1world.ergast.exceptions.QueryOffsetException;
+import com.gmail.fattazzo.formula1world.ergast.json.exceptions.QueryLimitException;
+import com.gmail.fattazzo.formula1world.ergast.json.exceptions.QueryOffsetException;
 
 import org.androidannotations.annotations.EBean;
 
 
-@EBean
+@EBean(scope = EBean.Scope.Singleton)
 public class Ergast {
 
     public final static int CURRENT_SEASON = -1;
-    public final static int DEFAULT_LIMIT = 30;
+    public final static int DEFAULT_LIMIT = 60;
     public final static int DEFAULT_OFFSET = 0;
     public final static int NO_ROUND = -1;
 

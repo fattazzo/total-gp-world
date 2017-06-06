@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.Driver;
+import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.fragments.UrlViewerFragment;
 import com.gmail.fattazzo.formula1world.fragments.UrlViewerFragment_;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.detail.pages.progress.ProgressDriverFragment;
@@ -18,12 +18,12 @@ class DetailDriverPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
 
-    private Driver driver;
+    private F1Driver driver;
     private UrlViewerFragment urlViewerFragment;
     private ProgressDriverFragment progressDriverFragment;
     private RankingDriverFragment rankingDriverFragment;
 
-    DetailDriverPagerAdapter(FragmentManager fragmentManager, Context context, Driver driver) {
+    DetailDriverPagerAdapter(FragmentManager fragmentManager, Context context, F1Driver driver) {
         super(fragmentManager);
         this.context = context;
         this.driver = driver;
@@ -31,7 +31,7 @@ class DetailDriverPagerAdapter extends FragmentPagerAdapter {
 
     public UrlViewerFragment getUrlViewerFragment() {
         if (urlViewerFragment == null) {
-            urlViewerFragment = UrlViewerFragment_.newInstance(driver.getUrl());
+            urlViewerFragment = UrlViewerFragment_.newInstance(driver.url);
         }
         return urlViewerFragment;
     }

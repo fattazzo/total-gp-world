@@ -7,13 +7,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.utils.ImageUtils;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
+import org.apache.commons.lang3.ObjectUtils;
 
 @EViewGroup(R.layout.standings_item_list)
 public class DriverStandingsItemView extends LinearLayout {
+
+    @Bean
+    ImageUtils imageUtils;
 
     @ViewById(R.id.standings_item_points)
     TextView pointsView;
@@ -28,16 +34,20 @@ public class DriverStandingsItemView extends LinearLayout {
         super(context);
     }
 
-    public void bind(DriverStandings driverStandings) {
-        pointsView.setText(String.valueOf(driverStandings.getPoints()));
-        nameView.setText(driverStandings.getDriver().getGivenName() + " " + driverStandings.getDriver().getFamilyName());
-
-        int color;
-        try {
-            color = teamColorView.getResources().getIdentifier(driverStandings.getConstructors().get(0).getConstructorId(), "color", teamColorView.getContext().getPackageName());
-        } catch (Exception e) {
-            color = R.color.background_color;
+    public void bind(F1DriverStandings driverStandings) {
+        Float points = ObjectUtils.defaultIfNull(driverStandings.points,0f);
+        boolean hasDecimals = points % 1 != 0;
+        if(hasDecimals) {
+            pointsView.setText(String.valueOf(points));
+        } else {
+            pointsView.setText(String.valueOf(points.intValue()));
         }
+
+        if (driverStandings.driver != null) {
+            nameView.setText(driverStandings.driver.getFullName());
+        }
+
+        int color = imageUtils.getColorForConstructorRef(driverStandings.constructor != null ? driverStandings.constructor.constructorRef : "");
         teamColorView.setColorFilter(ContextCompat.getColor(teamColorView.getContext(), color));
     }
 }

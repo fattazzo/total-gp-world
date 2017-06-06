@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/currrent_season">
-        <menu>
-            <item
-                android:id="@+id/nav_current_season_driver"
-                android:icon="@drawable/menu_helmet"
-                android:title="@string/drivers"/>
+    <item
+        android:id="@+id/nav_current_season_driver"
+        android:icon="@drawable/menu_helmet"
+        android:title="@string/drivers" />
 
-            <item
-                android:id="@+id/nav_current_season_constructor"
-                android:icon="@drawable/menu_car"
-                android:title="@string/constructors"/>
-        </menu>
-    </item>
+    <item
+        android:id="@+id/nav_current_season_constructor"
+        android:icon="@drawable/menu_car"
+        android:title="@string/constructors" />
 
 </menu>

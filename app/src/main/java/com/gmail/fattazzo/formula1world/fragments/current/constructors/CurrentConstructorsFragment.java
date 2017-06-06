@@ -7,10 +7,10 @@ import android.widget.RelativeLayout;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.Constructor;
+import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.fragments.current.constructors.detail.DetailConstructorFragment;
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
-import com.gmail.fattazzo.formula1world.service.CurrentSeasonDataService;
+import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 
 import org.androidannotations.annotations.AfterViews;
@@ -24,7 +24,6 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 import static com.dspot.declex.Action.$DetailConstructorFragment;
-import static com.dspot.declex.Action.$DetailDriverFragment;
 import static com.dspot.declex.Action.$HomeFragment;
 
 /**
@@ -41,7 +40,7 @@ public class CurrentConstructorsFragment extends Fragment implements SwipeRefres
     ApplicationPreferenceManager preferenceManager;
 
     @Bean
-    CurrentSeasonDataService dataService;
+    DataService dataService;
 
     @Bean
     ConstructorsListAdapter constructorsListAdapter;
@@ -66,7 +65,7 @@ public class CurrentConstructorsFragment extends Fragment implements SwipeRefres
 
     @Background
     public void loadConstructors() {
-        List<Constructor> result = null;
+        List<F1Constructor> result = null;
         try {
             startLoad();
             result = dataService.loadConstructors();
@@ -83,7 +82,7 @@ public class CurrentConstructorsFragment extends Fragment implements SwipeRefres
     }
 
     @UiThread
-    void updateUI(List<Constructor> result) {
+    void updateUI(List<F1Constructor> result) {
         try {
             constructorsListAdapter.clearItems();
             constructorsListAdapter.setConstructors(result);
@@ -97,7 +96,7 @@ public class CurrentConstructorsFragment extends Fragment implements SwipeRefres
 
     @ItemClick(R.id.current_constructors_list_view)
     public void itemClicked(int position) {
-        Constructor constructor = constructorsListAdapter.getItem(position);
+        F1Constructor constructor = constructorsListAdapter.getItem(position);
 
         if(detailsConstructorFragmentContainer == null) {
             $DetailConstructorFragment(DetailConstructorFragment.TAG).constructor(constructor);

@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.gmail.fattazzo.formula1world.ergast.objects.Driver;
+import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNameComparator;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNumberComparator;
 
@@ -24,7 +24,7 @@ public class DriversListAdapter extends BaseAdapter {
     @RootContext
     Context context;
 
-    private List<Driver> drivers;
+    private List<F1Driver> drivers;
 
     private SortType sortType = SortType.NAME;
 
@@ -35,7 +35,7 @@ public class DriversListAdapter extends BaseAdapter {
         this.sortType = sortType;
     }
 
-    public void setDrivers(List<Driver> drivers) {
+    public void setDrivers(List<F1Driver> drivers) {
         this.drivers = drivers;
         sortDrivers();
     }
@@ -66,7 +66,7 @@ public class DriversListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Driver getItem(int position) {
+    public F1Driver getItem(int position) {
         return drivers.get(position);
     }
 
@@ -80,7 +80,7 @@ public class DriversListAdapter extends BaseAdapter {
     }
 
     void sortDrivers() {
-        Comparator<Driver> comparator;
+        Comparator<F1Driver> comparator;
 
         switch (sortType) {
             case NAME:

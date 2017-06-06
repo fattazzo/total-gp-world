@@ -9,5 +9,6 @@
     <attr name="evenRowColor" format="reference" />
 
     <attr name="toolbar_theme" format="reference" />
+    <attr name="toolbar_textColor" format="reference" />
     <attr name="popup_theme" format="reference" />
 </resources>

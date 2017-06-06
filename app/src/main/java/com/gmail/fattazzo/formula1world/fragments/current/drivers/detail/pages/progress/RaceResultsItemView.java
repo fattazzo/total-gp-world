@@ -6,11 +6,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.RaceResult;
+import com.gmail.fattazzo.formula1world.domain.F1Result;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author fattazzo
@@ -38,28 +40,35 @@ public class RaceResultsItemView extends TableRow {
     @ViewById(R.id.race_results_points)
     TextView pointsView;
 
-    private RaceResult raceResult;
+    private F1Result result;
 
     private int rowNumber;
 
-    public RaceResultsItemView(Context context, RaceResult raceResult, int rowNumber) {
+    public RaceResultsItemView(Context context, F1Result result, int rowNumber) {
         super(context);
-        this.raceResult = raceResult;
+        this.result = result;
         this.rowNumber = rowNumber;
     }
 
     @AfterViews
     void bind() {
-        positionView.setText(raceResult.getPositionText());
-        lapsView.setText(String.valueOf(raceResult.getLaps()));
-        gridView.setText(String.valueOf(raceResult.getGrid()));
+        positionView.setText(result.positionText);
+        lapsView.setText(String.valueOf(result.laps));
+        gridView.setText(String.valueOf(result.grid));
         String time = "-";
-        if (raceResult.getTime() != null) {
-            time = raceResult.getTime().getTime();
+        if (result.time != null) {
+            time = StringUtils.defaultString(result.time.time);
         }
         timeView.setText(time);
-        statusView.setText(raceResult.getStatus());
-        pointsView.setText(String.valueOf(raceResult.getPoints()));
+        statusView.setText(result.status);
+
+        Float points = ObjectUtils.defaultIfNull(result.points,0f);
+        boolean hasDecimals = points % 1 != 0;
+        if(hasDecimals) {
+            pointsView.setText(String.valueOf(points));
+        } else {
+            pointsView.setText(String.valueOf(points.intValue()));
+        }
 
         setBackgroundColor(rowNumber % 2 == 0 ? getThemeEvenRowColor() : getThemeOddRowColor());
     }

@@ -9,8 +9,9 @@ import android.widget.ViewFlipper;
 
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity;
-import com.gmail.fattazzo.formula1world.ergast.objects.ConstructorStandings;
-import com.gmail.fattazzo.formula1world.service.CurrentSeasonDataService;
+import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
+import com.gmail.fattazzo.formula1world.ergast.json.objects.ConstructorStandings;
+import com.gmail.fattazzo.formula1world.service.DataService;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
@@ -18,6 +19,7 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import java.util.List;
 public class CurrentConstructorStandingsTask implements View.OnTouchListener {
 
     @Bean
-    CurrentSeasonDataService dataService;
+    DataService dataService;
 
     @RootContext
     HomeActivity activity;
@@ -46,7 +48,7 @@ public class CurrentConstructorStandingsTask implements View.OnTouchListener {
     private float initialX = 0;
     private float initialY = 0;
 
-    private List<ConstructorStandings> constructorStandings = null;
+    private List<F1ConstructorStandings> constructorStandings = null;
 
     @ViewById(R.id.home_constructor_standings_layout)
     void setOneView(ViewFlipper layout) {
@@ -80,7 +82,7 @@ public class CurrentConstructorStandingsTask implements View.OnTouchListener {
     public void loadCurrentStandings() {
 
         try {
-            if (constructorStandings == null) {
+            if (CollectionUtils.isEmpty(constructorStandings)) {
                 start();
                 constructorStandings = dataService.loadConstructorStandings();
             }
@@ -92,10 +94,10 @@ public class CurrentConstructorStandingsTask implements View.OnTouchListener {
     @UiThread
     void updateUI() {
         try {
-            List<ConstructorStandings> listFront = new ArrayList<>();
-            List<ConstructorStandings> listBack = new ArrayList<>();
+            List<F1ConstructorStandings> listFront = new ArrayList<>();
+            List<F1ConstructorStandings> listBack = new ArrayList<>();
             int nr = 0;
-            for (ConstructorStandings standings : ListUtils.emptyIfNull(constructorStandings)) {
+            for (F1ConstructorStandings standings : ListUtils.emptyIfNull(constructorStandings)) {
                 if (nr < 5) {
                     listFront.add(standings);
                 } else {
@@ -104,11 +106,11 @@ public class CurrentConstructorStandingsTask implements View.OnTouchListener {
                 nr++;
             }
             adapterFront.clearItems();
-            adapterFront.setDrivers(listFront);
+            adapterFront.setConstructors(listFront);
             adapterFront.notifyDataSetChanged();
 
             adapterBack.clearItems();
-            adapterBack.setDrivers(listBack);
+            adapterBack.setConstructors(listBack);
             adapterBack.notifyDataSetChanged();
         } finally {
             progressBar.setVisibility(View.INVISIBLE);

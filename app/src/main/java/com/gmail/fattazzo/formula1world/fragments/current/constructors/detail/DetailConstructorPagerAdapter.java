@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.Constructor;
+import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.fragments.UrlViewerFragment;
 import com.gmail.fattazzo.formula1world.fragments.UrlViewerFragment_;
 import com.gmail.fattazzo.formula1world.fragments.current.constructors.detail.pages.progress.ProgressConstructorFragment;
@@ -16,12 +16,12 @@ class DetailConstructorPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
 
-    private Constructor constructor;
+    private F1Constructor constructor;
 
     private UrlViewerFragment urlViewerFragment;
     private ProgressConstructorFragment progressConstructorFragment;
 
-    DetailConstructorPagerAdapter(FragmentManager fragmentManager, Context context, Constructor constructor) {
+    DetailConstructorPagerAdapter(FragmentManager fragmentManager, Context context, F1Constructor constructor) {
         super(fragmentManager);
         this.context = context;
         this.constructor = constructor;
@@ -29,7 +29,7 @@ class DetailConstructorPagerAdapter extends FragmentPagerAdapter {
 
     private UrlViewerFragment getUrlViewerFragment() {
         if (urlViewerFragment == null) {
-            urlViewerFragment = UrlViewerFragment_.newInstance(constructor.getUrl());
+            urlViewerFragment = UrlViewerFragment_.newInstance(constructor.url);
         }
         return urlViewerFragment;
     }

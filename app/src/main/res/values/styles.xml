@@ -28,6 +28,7 @@
         <item name="evenRowColor">@color/even_row</item>
 
         <item name="toolbar_theme">@style/AppTheme.AppBarOverlay</item>
+        <item name="toolbar_textColor">@color/textColor</item>
         <item name="popup_theme">@style/AppTheme.PopupOverlay</item>
     </style>
 
@@ -62,6 +63,7 @@
         <item name="evenRowColor">@color/even_row_dark</item>
 
         <item name="toolbar_theme">@style/AppTheme.Dark.AppBarOverlay</item>
+        <item name="toolbar_textColor">@color/colorPrimaryDark</item>
         <item name="popup_theme">@style/AppTheme.Dark.PopupOverlay</item>
     </style>
 

@@ -9,8 +9,9 @@ import android.widget.ViewFlipper;
 
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity;
-import com.gmail.fattazzo.formula1world.ergast.objects.DriverStandings;
-import com.gmail.fattazzo.formula1world.service.CurrentSeasonDataService;
+import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.ergast.json.objects.DriverStandings;
+import com.gmail.fattazzo.formula1world.service.DataService;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
@@ -18,6 +19,7 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import java.util.List;
 public class CurrentDriverStandingsTask implements View.OnTouchListener {
 
     @Bean
-    CurrentSeasonDataService dataService;
+    DataService dataService;
 
     @RootContext
     HomeActivity activity;
@@ -45,7 +47,7 @@ public class CurrentDriverStandingsTask implements View.OnTouchListener {
     private float initialX = 0;
     private float initialY = 0;
 
-    private List<DriverStandings> driverStandings = null;
+    private List<F1DriverStandings> driverStandings = null;
 
     @ViewById(R.id.home_driver_standings_layout)
     void setOneView(ViewFlipper layout) {
@@ -79,7 +81,7 @@ public class CurrentDriverStandingsTask implements View.OnTouchListener {
     public void loadCurrentStandings() {
 
         try {
-            if (driverStandings == null) {
+            if (CollectionUtils.isEmpty(driverStandings)) {
                 start();
                 driverStandings = dataService.loadDriverStandings();
             }
@@ -91,10 +93,10 @@ public class CurrentDriverStandingsTask implements View.OnTouchListener {
     @UiThread
     void updateUI() {
         try {
-            List<DriverStandings> listFront = new ArrayList<>();
-            List<DriverStandings> listBack = new ArrayList<>();
+            List<F1DriverStandings> listFront = new ArrayList<>();
+            List<F1DriverStandings> listBack = new ArrayList<>();
             int nr = 0;
-            for (DriverStandings standings : ListUtils.emptyIfNull(driverStandings)) {
+            for (F1DriverStandings standings : ListUtils.emptyIfNull(driverStandings)) {
                 if (nr < 5) {
                     listFront.add(standings);
                 } else {

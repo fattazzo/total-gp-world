@@ -9,10 +9,10 @@ import android.widget.ProgressBar;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.Driver;
-import com.gmail.fattazzo.formula1world.ergast.objects.DriverStandings;
-import com.gmail.fattazzo.formula1world.ergast.objects.RaceResults;
-import com.gmail.fattazzo.formula1world.service.CurrentSeasonDataService;
+import com.gmail.fattazzo.formula1world.domain.F1Driver;
+import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1Result;
+import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -36,7 +36,7 @@ import java.util.List;
 public class RankingDriverFragment extends Fragment {
 
     @FragmentArg
-    Driver driver;
+    F1Driver driver;
 
     @Bean
     ImageUtils imageUtils;
@@ -45,7 +45,7 @@ public class RankingDriverFragment extends Fragment {
     ChartManager chartManager;
 
     @Bean
-    CurrentSeasonDataService dataService;
+    DataService dataService;
 
     @ViewById(R.id.ranking_driver_position_chart)
     LineChart positionChart;
@@ -59,9 +59,9 @@ public class RankingDriverFragment extends Fragment {
     @ViewById
     ProgressBar progressBar;
 
-    private List<RaceResults> raceResults, leaderRaceResults;
+    private List<F1Result> raceResults, leaderRaceResults;
 
-    public static RankingDriverFragment newInstance(Driver driver) {
+    public static RankingDriverFragment newInstance(F1Driver driver) {
         RankingDriverFragment rankingDriverFragment = new RankingDriverFragment_();
         Bundle args = new Bundle();
         args.putSerializable("driver", driver);
@@ -86,7 +86,7 @@ public class RankingDriverFragment extends Fragment {
 
     @UiThread
     void startLoad() {
-        if(progressBar != null) {
+        if (progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
         }
     }
@@ -96,15 +96,15 @@ public class RankingDriverFragment extends Fragment {
         startLoad();
 
         if (raceResults == null) {
-            raceResults = dataService.loadDriverRacesResult(driver.getDriverId());
+            raceResults = dataService.loadDriverRacesResult(driver.driverRef);
         }
 
         if (leaderRaceResults == null) {
             leaderRaceResults = new ArrayList<>();
 
-            DriverStandings driverLeader = dataService.loadDriverLeader();
+            F1DriverStandings driverLeader = dataService.loadDriverLeader();
             if (driverLeader != null) {
-                leaderRaceResults = dataService.loadDriverRacesResult(driverLeader.getDriver().getDriverId());
+                leaderRaceResults = dataService.loadDriverRacesResult(driverLeader.driver.driverRef);
             }
         }
 
@@ -114,13 +114,13 @@ public class RankingDriverFragment extends Fragment {
     @UiThread
     void loadChartData() {
         try {
-            if(positionChart != null && pointsChart != null) {
+            if (positionChart != null && pointsChart != null) {
                 chartManager.loadPositionsChartData(positionChart, raceResults);
                 chartManager.loadPointsChartData(pointsChart, raceResults, leaderRaceResults);
                 startChatsAnimation();
             }
         } finally {
-            if(progressBar != null) {
+            if (progressBar != null) {
                 progressBar.setVisibility(View.INVISIBLE);
             }
         }

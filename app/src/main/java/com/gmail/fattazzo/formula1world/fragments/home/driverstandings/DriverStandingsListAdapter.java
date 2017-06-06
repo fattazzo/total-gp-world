@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.gmail.fattazzo.formula1world.ergast.objects.DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
@@ -17,12 +17,12 @@ import java.util.List;
 @EBean
 class DriverStandingsListAdapter extends BaseAdapter {
 
-    private List<DriverStandings> drivers;
+    private List<F1DriverStandings> drivers;
 
     @RootContext
     Context context;
 
-    public void setDrivers(List<DriverStandings> drivers) {
+    public void setDrivers(List<F1DriverStandings> drivers) {
         this.drivers = drivers;
     }
 
@@ -52,7 +52,7 @@ class DriverStandingsListAdapter extends BaseAdapter {
     }
 
     @Override
-    public DriverStandings getItem(int position) {
+    public F1DriverStandings getItem(int position) {
         return drivers.get(position);
     }
 

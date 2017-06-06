@@ -15,8 +15,7 @@ import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.RaceResult;
-import com.gmail.fattazzo.formula1world.ergast.objects.RaceResults;
+import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
 
 import org.androidannotations.annotations.AfterInject;
@@ -50,44 +49,52 @@ class ChartManager {
     }
 
     @NonNull
-    private LineDataSet buildDataSet(@NonNull List<RaceResults> raceResults, @NonNull DataSetType type) {
+    private LineDataSet buildDataSet(@NonNull List<F1Result> results, @NonNull DataSetType type) {
         String driverName = "";
         List<Entry> entries = new ArrayList<>();
         int color = -1;
-        int points = 0;
-        for (RaceResults data : raceResults) {
-            for (RaceResult result : data.getResults()) {
-                points = points + result.getPoints();
+        float points = 0;
+        for (F1Result result : results) {
+            points = points + result.points;
 
-                switch (type) {
-                    case POSITIONS:
-                        entries.add(new Entry(data.getRound(), result.getPosition()));
-                        break;
-                    case POINTS:
-                        entries.add(new Entry(data.getRound(), points));
-                        break;
-                }
-                if (color == -1) {
-                    color = imageUtils.getColorForConstructorId(result.getConstructor().getConstructorId());
-                }
-                driverName = StringUtils.join(result.getDriver().getGivenName()," ",result.getDriver().getFamilyName());
+            switch (type) {
+                case POSITIONS:
+                    entries.add(new Entry(result.race.round, result.positionOrder));
+                    break;
+                case POINTS:
+                    entries.add(new Entry(result.race.round, points));
+                    break;
             }
+            if (color == -1) {
+                color = imageUtils.getColorForConstructorRef(result.constructor != null ? result.constructor.constructorRef : "");
+            }
+            driverName = result.driver != null ? result.driver.getFullName() : "";
         }
+
 
         LineDataSet dataSet = new LineDataSet(entries, driverName);
         dataSet.setCircleColor(color);
         return dataSet;
     }
 
-    void loadPointsChartData(@NonNull LineChart pointsChart, @NonNull List<RaceResults> raceResults, @NonNull List<RaceResults> leaderRaceResults) {
+    void loadPointsChartData(@NonNull LineChart pointsChart, @NonNull List<F1Result> results, @NonNull List<F1Result> leaderResults) {
 
-        LineDataSet pointsDataSet = buildDataSet(raceResults, DataSetType.POINTS);
-        LineDataSet leaderPointsDataSet = buildDataSet(leaderRaceResults, DataSetType.POINTS);
-        leaderPointsDataSet.setLineWidth(4f);
-        leaderPointsDataSet.setColor(Color.parseColor(context.getResources().getString(leaderPointsDataSet.getCircleColor(0))));
+        LineDataSet pointsDataSet = buildDataSet(results, DataSetType.POINTS);
+        LineDataSet leaderPointsDataSet = null;
+        if(!leaderResults.isEmpty()) {
+            leaderPointsDataSet = buildDataSet(leaderResults, DataSetType.POINTS);
+            leaderPointsDataSet.setLineWidth(4f);
+            int color;
+            try {
+                color = Color.parseColor(context.getResources().getString(leaderPointsDataSet.getCircleColor(0)));
+            } catch (Exception e) {
+                color = getThemeBgInvertedColor(context);
+            }
+            leaderPointsDataSet.setColor(color);
+        }
 
         LineData pointsLineData;
-        if (StringUtils.equals(pointsDataSet.getLabel(), leaderPointsDataSet.getLabel())) {
+        if (leaderPointsDataSet == null || StringUtils.equals(pointsDataSet.getLabel(), leaderPointsDataSet.getLabel())) {
             pointsLineData = new LineData(pointsDataSet);
         } else {
             pointsLineData = new LineData(pointsDataSet, leaderPointsDataSet);
@@ -96,9 +103,9 @@ class ChartManager {
         configureDataSet(pointsDataSet, pointsChart.getAxisLeft().getAxisMinimum());
     }
 
-    void loadPositionsChartData(@NonNull LineChart positionChart, @NonNull List<RaceResults> raceResults) {
+    void loadPositionsChartData(@NonNull LineChart positionChart, @NonNull List<F1Result> results) {
 
-        LineDataSet positionDataSet = buildDataSet(raceResults, DataSetType.POSITIONS);
+        LineDataSet positionDataSet = buildDataSet(results, DataSetType.POSITIONS);
         LineData positionLineData = new LineData(positionDataSet);
         positionChart.getAxisLeft().setInverted(true);
         positionChart.getLegend().setEnabled(false);
@@ -110,7 +117,7 @@ class ChartManager {
         chart.getDescription().setEnabled(false);
         chart.setDrawGridBackground(false);
 
-        if(chart.getData() != null) {
+        if (chart.getData() != null) {
             chart.getData().setHighlightEnabled(false);
             chart.invalidate();
         }
@@ -145,7 +152,13 @@ class ChartManager {
         dataSet.setValueTextColor(textColor);
         dataSet.setDrawFilled(true);
 
-        @SuppressWarnings("ResourceType") int[] colors = {Color.parseColor(context.getResources().getString(dataSet.getCircleColor(0))), Color.parseColor("#00ffffff")};
+        @SuppressWarnings("ResourceType") int[] colors;
+        try {
+            colors = new int[]{Color.parseColor(context.getResources().getString(dataSet.getCircleColor(0))), Color.parseColor("#00ffffff")};
+        } catch (Exception e) {
+            colors = new int[]{Color.parseColor("#00ffffff"), Color.parseColor("#00ffffff")};
+        }
+
         GradientDrawable gd = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM, colors);
         dataSet.setFillDrawable(gd);
@@ -158,11 +171,17 @@ class ChartManager {
         });
     }
 
-    private enum DataSetType {POSITIONS, POINTS}
-
-    private int getThemeTextColor (final Context context) {
-        final TypedValue value = new TypedValue ();
-        context.getTheme ().resolveAttribute (android.R.attr.textColor, value, true);
+    private int getThemeTextColor(final Context context) {
+        final TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.textColor, value, true);
         return value.data;
     }
+
+    private int getThemeBgInvertedColor(final Context context) {
+        final TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.bgBackgroundInverted, value, true);
+        return value.data;
+    }
+
+    private enum DataSetType {POSITIONS, POINTS}
 }

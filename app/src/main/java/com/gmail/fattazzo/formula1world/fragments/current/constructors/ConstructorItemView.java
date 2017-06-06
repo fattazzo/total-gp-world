@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.Constructor;
+import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.utils.CountryNationality;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
 import com.gmail.fattazzo.formula1world.utils.Utils;
@@ -34,11 +34,11 @@ public class ConstructorItemView extends LinearLayout {
         super(context);
     }
 
-    public void bind(Constructor constructor) {
-        nameView.setText(constructor.getName());
+    public void bind(F1Constructor constructor) {
+        nameView.setText(constructor.name);
 
-        CountryNationality countryNationality = utils.getCountryNationality(constructor.getNationality());
-        if(countryNationality != null) {
+        CountryNationality countryNationality = utils.getCountryNationality(constructor.nationality);
+        if (countryNationality != null) {
             flagImageView.setImageBitmap(imageUtils.getFlagForCountryCode(countryNationality.getAlpha2Code()));
         }
     }

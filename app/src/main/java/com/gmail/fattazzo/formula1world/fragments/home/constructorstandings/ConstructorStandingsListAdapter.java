@@ -5,7 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.gmail.fattazzo.formula1world.ergast.objects.ConstructorStandings;
+import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
+import com.gmail.fattazzo.formula1world.ergast.json.objects.ConstructorStandings;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
@@ -17,18 +18,18 @@ import java.util.List;
 @EBean
 class ConstructorStandingsListAdapter extends BaseAdapter {
 
-    private List<ConstructorStandings> drivers;
+    private List<F1ConstructorStandings> constructors;
 
     @RootContext
     Context context;
 
-    public void setDrivers(List<ConstructorStandings> drivers) {
-        this.drivers = drivers;
+    public void setConstructors(List<F1ConstructorStandings> constructors) {
+        this.constructors = constructors;
     }
 
     @AfterInject
     void initAdapter() {
-        drivers = new ArrayList<>();
+        constructors = new ArrayList<>();
     }
 
     @Override
@@ -48,12 +49,12 @@ class ConstructorStandingsListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return drivers.size();
+        return constructors.size();
     }
 
     @Override
-    public ConstructorStandings getItem(int position) {
-        return drivers.get(position);
+    public F1ConstructorStandings getItem(int position) {
+        return constructors.get(position);
     }
 
     @Override
@@ -62,6 +63,6 @@ class ConstructorStandingsListAdapter extends BaseAdapter {
     }
 
     void clearItems() {
-        drivers.clear();
+        constructors.clear();
     }
 }

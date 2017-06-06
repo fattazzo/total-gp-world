@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.Driver;
+import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment;
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
@@ -36,7 +36,7 @@ public class DetailDriverFragment extends Fragment {
     ApplicationPreferenceManager preferenceManager;
 
     @FragmentArg
-    Driver driver;
+    F1Driver driver;
 
     @ViewById(R.id.detail_driver_name)
     TextView driverNameView;
@@ -48,7 +48,7 @@ public class DetailDriverFragment extends Fragment {
 
     @AfterViews
     void init() {
-        driverNameView.setText(driver.getGivenName() + " " + driver.getFamilyName());
+        driverNameView.setText(driver.getFullName());
 
         adapterViewPager = new DetailDriverPagerAdapter(getChildFragmentManager(),getActivity(),driver);
         vpPager.setAdapter(adapterViewPager);

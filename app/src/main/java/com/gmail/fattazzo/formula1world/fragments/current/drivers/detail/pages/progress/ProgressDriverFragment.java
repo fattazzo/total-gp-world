@@ -8,9 +8,10 @@ import android.widget.ProgressBar;
 import android.widget.TableLayout;
 
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.Driver;
-import com.gmail.fattazzo.formula1world.ergast.objects.RaceResults;
-import com.gmail.fattazzo.formula1world.service.CurrentSeasonDataService;
+import com.gmail.fattazzo.formula1world.domain.F1Driver;
+import com.gmail.fattazzo.formula1world.domain.F1Result;
+import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResults;
+import com.gmail.fattazzo.formula1world.service.DataService;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -27,7 +28,7 @@ import java.util.List;
 public class ProgressDriverFragment extends Fragment {
 
     @FragmentArg
-    Driver driver;
+    F1Driver driver;
 
     @ViewById(R.id.progress_driver_table_layout)
     TableLayout tableLayout;
@@ -39,11 +40,11 @@ public class ProgressDriverFragment extends Fragment {
     ProgressBar progressBar;
 
     @Bean
-    CurrentSeasonDataService dataService;
+    DataService dataService;
 
-    private List<RaceResults> raceResults;
+    private List<F1Result> raceResults;
 
-    public static ProgressDriverFragment newInstance(Driver driver) {
+    public static ProgressDriverFragment newInstance(F1Driver driver) {
         ProgressDriverFragment progressFragment = new ProgressDriverFragment_();
         Bundle args = new Bundle();
         args.putSerializable("driver", driver);
@@ -76,7 +77,7 @@ public class ProgressDriverFragment extends Fragment {
         startLoad();
 
         if (raceResults == null) {
-            raceResults = dataService.loadDriverRacesResult(driver.getDriverId());
+            raceResults = dataService.loadDriverRacesResult(driver.driverRef);
         }
         updateUI();
     }
@@ -88,8 +89,8 @@ public class ProgressDriverFragment extends Fragment {
                 tableLayout.removeViews(1, tableLayout.getChildCount() - 1);
 
                 int rowNumber = 1;
-                for (RaceResults results : raceResults) {
-                    RaceResultsItemView row = RaceResultsItemView_.build(getActivity(), results.getResults().get(0), rowNumber);
+                for (F1Result result : raceResults) {
+                    RaceResultsItemView row = RaceResultsItemView_.build(getActivity(), result, rowNumber);
                     tableLayout.addView(row, new TableLayout.LayoutParams(
                             TableLayout.LayoutParams.MATCH_PARENT,
                             TableLayout.LayoutParams.WRAP_CONTENT));

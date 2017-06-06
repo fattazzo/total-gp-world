@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.gmail.fattazzo.formula1world.ergast.objects.Constructor;
+import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
@@ -15,14 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EBean
-public class ConstructorsListAdapter extends BaseAdapter {
+class ConstructorsListAdapter extends BaseAdapter {
 
     @RootContext
     Context context;
 
-    private List<Constructor> constructors;
+    private List<F1Constructor> constructors;
 
-    public void setConstructors(List<Constructor> constructors) {
+    public void setConstructors(List<F1Constructor> constructors) {
         this.constructors = constructors;
     }
 
@@ -52,7 +52,7 @@ public class ConstructorsListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Constructor getItem(int position) {
+    public F1Constructor getItem(int position) {
         return constructors.get(position);
     }
 

@@ -8,6 +8,7 @@ import android.view.View;
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.ErgastDBImporter;
 import com.gmail.fattazzo.formula1world.fragments.home.circuit.CurrentCircuitTask;
 import com.gmail.fattazzo.formula1world.fragments.home.constructorstandings.CurrentConstructorStandingsTask;
 import com.gmail.fattazzo.formula1world.fragments.home.driverstandings.CurrentDriverStandingsTask;
@@ -51,12 +52,16 @@ public class HomeFragment extends Fragment {
     @ViewById(R.id.fab)
     FloatingActionButton fab;
 
+    @Bean
+    ErgastDBImporter ergastDBImporter;
+
     @AfterViews
     void init() {
         setRetainInstance(true);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //ergastDBImporter.importDBImage();
                 currentCircuitTask.loadCurrentSchedule(true);
                 currentDriverStandingsTask.loadCurrentStandings(true);
                 currentConstructorStandingsTask.loadCurrentStandings(true);

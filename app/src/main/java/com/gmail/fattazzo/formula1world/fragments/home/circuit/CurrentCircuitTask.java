@@ -9,9 +9,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
+import com.gmail.fattazzo.formula1world.activity.fullscreen.FullScreenImageActivity_;
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity;
-import com.gmail.fattazzo.formula1world.ergast.objects.Schedule;
-import com.gmail.fattazzo.formula1world.service.CurrentSeasonDataService;
+import com.gmail.fattazzo.formula1world.domain.F1Race;
+import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
 import com.gmail.fattazzo.formula1world.utils.LocaleUtils;
@@ -23,8 +24,6 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-
-import static com.dspot.declex.Action.$FullScreenImageActivity;
 
 @EBean
 public class CurrentCircuitTask {
@@ -42,7 +41,7 @@ public class CurrentCircuitTask {
     ImageUtils imageUtils;
 
     @Bean
-    CurrentSeasonDataService dataService;
+    DataService dataService;
 
     @RootContext
     HomeActivity activity;
@@ -71,7 +70,7 @@ public class CurrentCircuitTask {
     @ViewById(R.id.current_circuit_time)
     TextView roundTimeView;
 
-    Schedule scheduleLoaded = null;
+    F1Race raceLoaded = null;
 
     @ViewById(R.id.current_circuit_info_button)
     void setupInfoButton(Button button) {
@@ -89,7 +88,9 @@ public class CurrentCircuitTask {
         circuitImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCirtuitFullScreeenImage();
+                if (circuitImageView.getTag() != null) {
+                    FullScreenImageActivity_.intent(activity).circuit_id((String) circuitImageView.getTag()).start();
+                }
             }
         });
     }
@@ -102,16 +103,16 @@ public class CurrentCircuitTask {
 
     @Background
     public void loadCurrentSchedule(boolean reloadData) {
-        scheduleLoaded = null;
+        raceLoaded = null;
         loadCurrentSchedule();
     }
 
     @Background
     public void loadCurrentSchedule() {
         try {
-            if(scheduleLoaded == null) {
+            if (raceLoaded == null) {
                 start();
-                scheduleLoaded = dataService.loadCurrentSchedule();
+                raceLoaded = dataService.loadCurrentSchedule();
             }
         } finally {
             updateUI();
@@ -130,22 +131,22 @@ public class CurrentCircuitTask {
             String roundDate = "";
             String roundTime = "";
             String circuitId = null;
-            if (scheduleLoaded != null) {
-                circuitName = scheduleLoaded.getRaceName();
+            if (raceLoaded != null) {
+                circuitName = raceLoaded.name;
 
-                String countryEn = scheduleLoaded.getCircuit().getLocation().getCountry();
+                String countryEn = raceLoaded.circuit.location.country;
                 String countryLocale = localeUtils.getLocaleCountryName(countryEn);
-                circuitLocation = countryLocale + ", " + scheduleLoaded.getCircuit().getLocation().getLocality();
-                circuitInfoLink = scheduleLoaded.getCircuit().getUrl();
+                circuitLocation = countryLocale + ", " + raceLoaded.circuit.location.locality;
+                circuitInfoLink = raceLoaded.circuit.url;
                 flagImage = imageUtils.getFlagForCountryCode(localeUtils.getCountryCode(countryEn));
-                circuitId = scheduleLoaded.getCircuit().getCircuitId();
+                circuitId = raceLoaded.circuit.circuitRef;
                 circuitImage = imageUtils.getCircuitForCode(circuitId);
-                if(preferenceManager.isBitmapInvertedForCurrentTheme()) {
+                if (preferenceManager.isBitmapInvertedForCurrentTheme()) {
                     circuitImage = imageUtils.invertColor(circuitImage);
                 }
-                roundNumber = String.valueOf(scheduleLoaded.getRound());
+                roundNumber = String.valueOf(raceLoaded.round);
 
-                String dateUTCString = scheduleLoaded.getDate() + "T" + scheduleLoaded.getTime();
+                String dateUTCString = raceLoaded.date + "T" + raceLoaded.time;
                 roundDate = utils.convertUTCDateToLocal(dateUTCString, "yyyy-MM-dd'T'HH:mm:ss'Z'", "EEEE dd MMMM yyyy");
                 roundTime = utils.convertUTCDateToLocal(dateUTCString, "yyyy-MM-dd'T'HH:mm:ss'Z'", "HH:mm");
             }
@@ -162,16 +163,5 @@ public class CurrentCircuitTask {
         } finally {
             progressBar.setVisibility(View.INVISIBLE);
         }
-    }
-
-    void openCirtuitFullScreeenImage() {
-        /**
-        String circuitId = (String) circuitImageView.getTag();
-
-        if (circuitId != null) {
-            $FullScreenImageActivity().circuit_id(circuitId);
-        }
-         **/
-        activity.openCirtuitFullScreeenImage((String) circuitImageView.getTag());
     }
 }

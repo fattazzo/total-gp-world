@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.ergast.objects.Driver;
+import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.utils.CountryNationality;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
 import com.gmail.fattazzo.formula1world.utils.Utils;
@@ -14,11 +14,8 @@ import com.gmail.fattazzo.formula1world.utils.Utils;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
-import org.apache.commons.lang3.time.DateUtils;
 
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
 
 @EViewGroup(R.layout.drivers_item_list)
 public class DriverItemView extends LinearLayout {
@@ -45,23 +42,22 @@ public class DriverItemView extends LinearLayout {
         super(context);
     }
 
-    public void bind(Driver driver) {
-        numberView.setText(String.valueOf(driver.getPermanentNumber()));
-        nameView.setText(driver.getGivenName() + " " + driver.getFamilyName());
+    public void bind(F1Driver driver) {
+        numberView.setText(String.valueOf(driver.number));
+        nameView.setText(driver.getFullName());
 
         String localeDateString;
         try {
             DateFormat localDateFormat = android.text.format.DateFormat.getDateFormat(this.getContext().getApplicationContext());
-            Date date = DateUtils.parseDate(driver.getDateOfBirth(),"yyyy-MM-dd");
-            localeDateString = localDateFormat.format(date);
-        } catch (ParseException e) {
-            localeDateString = driver.getDateOfBirth();
+            localeDateString = localDateFormat.format(driver.dateOfBirth);
+        } catch (Exception e) {
+            localeDateString = "";
         }
 
-        dateOfBirthView.setText(driver.getCode() + " " + localeDateString);
+        dateOfBirthView.setText(driver.code + " " + localeDateString);
 
-        CountryNationality countryNationality = utils.getCountryNationality(driver.getNationality());
-        if(countryNationality != null) {
+        CountryNationality countryNationality = utils.getCountryNationality(driver.nationality);
+        if (countryNationality != null) {
             flagImageView.setImageBitmap(imageUtils.getFlagForCountryCode(countryNationality.getAlpha2Code()));
         }
     }

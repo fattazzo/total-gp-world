@@ -1,13 +1,11 @@
 package com.gmail.fattazzo.formula1world.ergast.imagedb;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
-import com.activeandroid.Configuration;
 import com.activeandroid.Model;
-import com.activeandroid.query.Delete;
 import com.activeandroid.util.SQLiteUtils;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Circuit;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
@@ -23,6 +21,7 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Result;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Season;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Status;
 
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.apache.commons.lang3.StringUtils;
@@ -65,21 +64,28 @@ public class ErgastDBImporter {
         objectImportMap.put(DriverStandings.class, "driverStandings");
         objectImportMap.put(Qualification.class, "qualifying");
         objectImportMap.put(Result.class, "results");
-        objectImportMap.put(PitStop.class,"pitStops");
+        objectImportMap.put(PitStop.class, "pitStops");
         objectImportMap.put(LapTime.class, "lapTimes");
     }
 
+    @Background
     public void importDBImage() {
 
         Cache.clear();
 
+        Log.d(TAG, "Drop existing tables");
         dropTables();
 
+        Log.d(TAG, "Recreate tables structures");
         recreateDatabase();
 
+        Log.d(TAG, "Import data");
         importData();
 
+        Log.d(TAG, "Create utilities tables");
         createCustomTable();
+
+        Log.d(TAG, "Done");
     }
 
     private void createCustomTable() {
@@ -106,12 +112,17 @@ public class ErgastDBImporter {
 
     private void importData() {
         for (Map.Entry<Class<? extends Model>, String> entry : objectImportMap.entrySet()) {
-            Log.d(TAG, "Import " + entry.getValue());
 
             List<String> inserts = readInsert(entry.getValue());
+            Log.d(TAG, "Import " + (inserts.size() * 10) + " " + entry.getValue());
+
+            SQLiteDatabase db = Cache.openDatabase();
+            db.beginTransaction();
             for (String string : inserts) {
-                SQLiteUtils.execSql(string);
+                db.execSQL(string);
             }
+            db.setTransactionSuccessful();
+            db.endTransaction();
         }
     }
 

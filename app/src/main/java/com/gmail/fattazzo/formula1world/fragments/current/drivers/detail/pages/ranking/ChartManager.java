@@ -17,11 +17,15 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
+import com.gmail.fattazzo.formula1world.view.chart.marker.F1MarkerView;
+import com.gmail.fattazzo.formula1world.view.chart.valueformatter.AlternateChartValueFormatter;
+import com.gmail.fattazzo.formula1world.view.chart.valueformatter.DefaultChartValueFormatter;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -42,10 +46,12 @@ class ChartManager {
     ImageUtils imageUtils;
 
     private int textColor;
+    private float textSize;
 
     @AfterInject
-    void doSomethingAfterInjection() {
+    void init() {
         textColor = getThemeTextColor(context);
+        textSize = getThemeTextSize(context);
     }
 
     @NonNull
@@ -54,21 +60,24 @@ class ChartManager {
         List<Entry> entries = new ArrayList<>();
         int color = -1;
         float points = 0;
+        int idx = 0;
         for (F1Result result : results) {
             points = points + result.points;
 
+            boolean evenData = idx % 2 == 0;
             switch (type) {
                 case POSITIONS:
-                    entries.add(new Entry(result.race.round, result.positionOrder));
+                    entries.add(new Entry(result.race.round, result.positionOrder,evenData));
                     break;
                 case POINTS:
-                    entries.add(new Entry(result.race.round, points));
+                    entries.add(new Entry(result.race.round, points, evenData));
                     break;
             }
             if (color == -1) {
                 color = imageUtils.getColorForConstructorRef(result.constructor != null ? result.constructor.constructorRef : "");
             }
             driverName = result.driver != null ? result.driver.getFullName() : "";
+            idx++;
         }
 
 
@@ -81,7 +90,7 @@ class ChartManager {
 
         LineDataSet pointsDataSet = buildDataSet(results, DataSetType.POINTS);
         LineDataSet leaderPointsDataSet = null;
-        if(!leaderResults.isEmpty()) {
+        if (!leaderResults.isEmpty()) {
             leaderPointsDataSet = buildDataSet(leaderResults, DataSetType.POINTS);
             leaderPointsDataSet.setLineWidth(4f);
             int color;
@@ -91,6 +100,13 @@ class ChartManager {
                 color = getThemeBgInvertedColor(context);
             }
             leaderPointsDataSet.setColor(color);
+            leaderPointsDataSet.setValueTextColor(textColor);
+            leaderPointsDataSet.setValueTextSize(textSize);
+            if (leaderPointsDataSet.getEntryCount() < 15) {
+                leaderPointsDataSet.setValueFormatter(new DefaultChartValueFormatter());
+            } else {
+                leaderPointsDataSet.setValueFormatter(new AlternateChartValueFormatter());
+            }
         }
 
         LineData pointsLineData;
@@ -101,6 +117,9 @@ class ChartManager {
         }
         pointsChart.setData(pointsLineData);
         configureDataSet(pointsDataSet, pointsChart.getAxisLeft().getAxisMinimum());
+        if (leaderPointsDataSet != null) {
+
+        }
     }
 
     void loadPositionsChartData(@NonNull LineChart positionChart, @NonNull List<F1Result> results) {
@@ -122,9 +141,13 @@ class ChartManager {
             chart.invalidate();
         }
 
-        chart.setTouchEnabled(false);
+        chart.setTouchEnabled(true);
+        chart.setDragEnabled(false);
+        chart.setScaleEnabled(false);
+        chart.setPinchZoom(false);
 
         chart.getXAxis().setTextColor(textColor);
+        chart.getXAxis().setTextSize(textSize);
         chart.getXAxis().setAxisLineColor(textColor);
         chart.getXAxis().setGranularity(1.0f);
         chart.getXAxis().setGranularityEnabled(true);
@@ -132,25 +155,36 @@ class ChartManager {
         chart.getXAxis().setDrawGridLines(false);
 
         chart.getAxisLeft().setTextColor(textColor);
+        chart.getAxisLeft().setTextSize(textSize);
         chart.getAxisLeft().setAxisLineColor(textColor);
         chart.getAxisLeft().setGranularity(1.0f);
         chart.getAxisLeft().setGranularityEnabled(true);
         chart.getAxisLeft().setDrawGridLines(false);
 
         chart.getLegend().setTextColor(textColor);
-        int valueInPixels = (int) context.getResources().getDimension(R.dimen.font_size_small);
-        int dp = (int) (valueInPixels / context.getResources().getDisplayMetrics().density);
-        chart.getLegend().setTextSize(dp);
+        chart.getLegend().setTextSize(textSize);
 
         chart.getAxisRight().setEnabled(false);
+
+        F1MarkerView marker = new F1MarkerView(context);
+        //marker.setChartView(chart);
+        chart.setMarker(marker);
     }
 
     private void configureDataSet(LineDataSet dataSet, final float fillPosition) {
         dataSet.setColor(textColor);
+        dataSet.setValueTextSize(textSize);
         dataSet.setDrawCircles(true);
         dataSet.setLineWidth(4f);
         dataSet.setValueTextColor(textColor);
         dataSet.setDrawFilled(true);
+
+        if (dataSet.getEntryCount() < 15) {
+            dataSet.setValueFormatter(new DefaultChartValueFormatter());
+        } else {
+            dataSet.setValueFormatter(new AlternateChartValueFormatter());
+        }
+
 
         @SuppressWarnings("ResourceType") int[] colors;
         try {
@@ -175,6 +209,12 @@ class ChartManager {
         final TypedValue value = new TypedValue();
         context.getTheme().resolveAttribute(android.R.attr.textColor, value, true);
         return value.data;
+    }
+
+    private float getThemeTextSize(final Context context) {
+        float scaleRatio = ObjectUtils.defaultIfNull(context.getResources().getDisplayMetrics().density, 1f);
+        float dimenPix = ObjectUtils.defaultIfNull(context.getResources().getDimension(R.dimen.font_size_small), 16f);
+        return dimenPix / scaleRatio;
     }
 
     private int getThemeBgInvertedColor(final Context context) {

@@ -107,6 +107,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         nav_view.setNavigationItemSelectedListener(this);
+        nav_view.setItemIconTintList(null);
 
         final List<Integer> seasons = dataService.getAvailableSeasons();
 

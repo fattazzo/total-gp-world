@@ -1,5 +1,6 @@
 package com.gmail.fattazzo.formula1world.fragments.home;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
@@ -7,8 +8,9 @@ import android.view.View;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
+import com.gmail.fattazzo.formula1world.activity.dbimport.DBImportActivity_;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_;
-import com.gmail.fattazzo.formula1world.ergast.imagedb.ErgastDBImporter;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.importer.ErgastDBImporter;
 import com.gmail.fattazzo.formula1world.fragments.home.circuit.CurrentCircuitTask;
 import com.gmail.fattazzo.formula1world.fragments.home.constructorstandings.CurrentConstructorStandingsTask;
 import com.gmail.fattazzo.formula1world.fragments.home.driverstandings.CurrentDriverStandingsTask;
@@ -38,6 +40,9 @@ public class HomeFragment extends Fragment {
     Utils utils;
 
     @Bean
+    ErgastDBImporter dbImporter;
+
+    @Bean
     ApplicationPreferenceManager preferenceManager;
 
     @Bean
@@ -52,16 +57,12 @@ public class HomeFragment extends Fragment {
     @ViewById(R.id.fab)
     FloatingActionButton fab;
 
-    @Bean
-    ErgastDBImporter ergastDBImporter;
-
     @AfterViews
     void init() {
         setRetainInstance(true);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ergastDBImporter.importDBImage();
                 currentCircuitTask.loadCurrentSchedule(true);
                 currentDriverStandingsTask.loadCurrentStandings(true);
                 currentConstructorStandingsTask.loadCurrentStandings(true);
@@ -82,13 +83,18 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            SettingsActivity_.intent(getContext()).startForResult(PREF_ACTIVITY_RESULT);
-            return true;
-        }
+        switch (id) {
+            case R.id.action_settings:
+                SettingsActivity_.intent(getContext()).startForResult(PREF_ACTIVITY_RESULT);
+                return true;
+            case R.id.action_import_dbimage:
+                Intent i = new Intent(getContext(), DBImportActivity_.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(i);
 
+                dbImporter.importDBImage();
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

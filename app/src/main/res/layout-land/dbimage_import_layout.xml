@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:orientation="horizontal"
+    android:weightSum="100">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="50">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/import_dbimage_title"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Medium"
+            android:textStyle="bold"
+            android:id="@+id/textView" />
+
+        <com.gmail.fattazzo.formula1world.view.progressbar.ArcProgress
+            android:id="@+id/dbimage_progressBar_arc"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            app:arc_bottom_text="@string/import_dbimage_init"
+            app:arc_progress="0" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="50"
+        android:orientation="vertical">
+
+        <!-- Seasons -->
+        <CheckedTextView
+            android:id="@+id/db_seasons_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/seasons"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Status -->
+        <CheckedTextView
+            android:id="@+id/db_status_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/status"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Circuits -->
+        <CheckedTextView
+            android:id="@+id/db_circuits_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/circuits"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Races -->
+        <CheckedTextView
+            android:id="@+id/db_races_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/races"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Constructors -->
+        <CheckedTextView
+            android:id="@+id/db_constructors_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/constructors"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Drivers -->
+        <CheckedTextView
+            android:id="@+id/db_drivers_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/drivers"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Constructor standings -->
+        <CheckedTextView
+            android:id="@+id/db_constructorStandings_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/constructorStandings"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Driver standings -->
+        <CheckedTextView
+            android:id="@+id/db_driverStandings_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/driverStandings"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Qualifying -->
+        <CheckedTextView
+            android:id="@+id/db_qualifying_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/qualifying"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Results -->
+        <CheckedTextView
+            android:id="@+id/db_results_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/results"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Pit stops -->
+        <CheckedTextView
+            android:id="@+id/db_pitstops_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/pitStops"
+            android:textAppearance="@style/TextAppearance.Medium" />
+
+        <!-- Lap times -->
+        <CheckedTextView
+            android:id="@+id/db_laptimes_ctv"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:text="@string/lapTimes"
+            android:textAppearance="@style/TextAppearance.Medium" />
+    </LinearLayout>
+
+</LinearLayout>

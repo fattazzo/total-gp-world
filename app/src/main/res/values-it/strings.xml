@@ -10,10 +10,24 @@
     <string name="close">Chiudi</string>
 
     <string name="action_settings">Impostazioni</string>
+    <string name="action_import_older_seasons">Importa archivio stagioni</string>
 
     <string name="service_error">Servizio attualmente non disponibile. Riprovare più tardi</string>
 
     <string name="currrent_season">Stagione corrente</string>
+    <string name="seasons">Stagioni</string>
+    <string name="status">Status</string>
+    <string name="circuits">Circuiti</string>
+    <string name="races">Gare</string>
+    <string name="qualifying">Qualifiche</string>
+    <string name="results">Risultati</string>
+    <string name="pitStops">Pit stops</string>
+    <string name="lapTimes">Tempi sul giro</string>
     <string name="drivers">Piloti</string>
     <string name="constructors">Costruttori</string>
+    <string name="driverStandings">Classifica piloti</string>
+    <string name="constructorStandings">Classifica costruttori</string>
+
+    <string name="import_dbimage_title">Importazione storico stagioni</string>
+    <string name="import_dbimage_init">Attendere</string>
 </resources>

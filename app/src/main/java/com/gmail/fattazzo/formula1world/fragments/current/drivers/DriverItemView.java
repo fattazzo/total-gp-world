@@ -14,6 +14,7 @@ import com.gmail.fattazzo.formula1world.utils.Utils;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
 
@@ -54,7 +55,7 @@ public class DriverItemView extends LinearLayout {
             localeDateString = "";
         }
 
-        dateOfBirthView.setText(driver.code + " " + localeDateString);
+        dateOfBirthView.setText((StringUtils.isNotBlank(driver.code) ? driver.code + " " : "") + localeDateString);
 
         CountryNationality countryNationality = utils.getCountryNationality(driver.nationality);
         if (countryNationality != null) {

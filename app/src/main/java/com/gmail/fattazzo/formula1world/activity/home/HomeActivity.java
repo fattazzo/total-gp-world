@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,6 +82,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             $HomeFragment0.build(null);
             $HomeFragment0.execute();
         }
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int densityDpi = (int)(metrics.density * 160f);
+        Log.d("DENSITY",String.valueOf(metrics.density));
+        Log.d("DPI",String.valueOf(densityDpi));
     }
 
     @OnActivityResult(PREF_ACTIVITY_RESULT)
@@ -122,17 +128,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Integer oldSeason = ergast.getSeason();
 
-                int currentYear = Calendar.getInstance().get(Calendar.YEAR);
                 Integer selectedSeason = seasons.get(position);
-                if (selectedSeason == null || selectedSeason == currentYear) {
-                    ergast.setSeason(Ergast.CURRENT_SEASON);
-                } else {
-                    ergast.setSeason(selectedSeason);
-                }
+                ergast.setSeason(selectedSeason);
                 drawer_layout.closeDrawer(GravityCompat.START);
 
 
                 if(oldSeason != ergast.getSeason()) {
+                    dataService.importDBIfNecessary();
+
                     final HomeFragmentActionHolder_ $HomeFragment0 = HomeFragmentActionHolder_.getInstance_(HomeActivity.this);
                     $HomeFragment0.init((HomeFragment.TAG));
                     $HomeFragment0.build(null);

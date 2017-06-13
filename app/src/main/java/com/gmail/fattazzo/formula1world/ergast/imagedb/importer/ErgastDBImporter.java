@@ -1,7 +1,8 @@
-package com.gmail.fattazzo.formula1world.ergast.imagedb;
+package com.gmail.fattazzo.formula1world.ergast.imagedb.importer;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.activeandroid.Cache;
@@ -24,8 +25,11 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Status;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
+import org.androidannotations.annotations.UiThread;
 import org.apache.commons.lang3.StringUtils;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,6 +55,8 @@ public class ErgastDBImporter {
     @RootContext
     Context context;
 
+    private PropertyChangeListener importListener;
+
     private Map<Class<? extends Model>, String> objectImportMap = new LinkedHashMap<>();
 
     {
@@ -68,24 +74,48 @@ public class ErgastDBImporter {
         objectImportMap.put(LapTime.class, "lapTimes");
     }
 
+    @UiThread
+    void fireImportEvent(@NonNull ImportStep step, Class<? extends Model> model, int currentOp, int totalOp) {
+        if (importListener != null) {
+            PropertyChangeEvent event = new PropertyChangeEvent(this, "importEvent", null, new ImportEventValue(step, model, currentOp, totalOp));
+            importListener.propertyChange(event);
+        }
+    }
+
     @Background
-    public void importDBImage() {
+    void sync() {
 
         Cache.clear();
 
         Log.d(TAG, "Drop existing tables");
+        fireImportEvent(ImportStep.DROP_TABLES, null, 0, 0);
         dropTables();
 
         Log.d(TAG, "Recreate tables structures");
+        fireImportEvent(ImportStep.RECREATE_DB, null, 0, 0);
         recreateDatabase();
 
         Log.d(TAG, "Import data");
         importData();
 
         Log.d(TAG, "Create utilities tables");
+        fireImportEvent(ImportStep.CUSTOM_TABLES, null, 0, 0);
         createCustomTable();
 
         Log.d(TAG, "Done");
+        fireImportEvent(ImportStep.DONE, null, 0, 0);
+
+        removeListener();
+    }
+
+    @UiThread
+    void removeListener() {
+        this.importListener = null;
+    }
+
+    @UiThread
+    public void importDBImage() {
+        sync();
     }
 
     private void createCustomTable() {
@@ -111,48 +141,93 @@ public class ErgastDBImporter {
     }
 
     private void importData() {
+        // total insert calculation
+        // TODO change total insert calculation
+        int totalInserts = 0;
+        for (Map.Entry<Class<? extends Model>, String> entry : objectImportMap.entrySet()) {
+            try (InputStream is = context.getAssets().open(DB_IMAGE_PATH + "/" + entry.getValue() + ".sql.zip");
+                 ZipInputStream zipIs = new ZipInputStream(is);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(zipIs, "UTF-8"))) {
+
+                zipIs.getNextEntry();
+
+                String insert = "";
+                String str;
+                while ((str = in.readLine()) != null) {
+                    if (insert.length() != 0 && str.startsWith("INSERT INTO")) {
+                        totalInserts = totalInserts + 10;
+                        insert = str;
+                    } else {
+                        insert = insert + str;
+                    }
+                }
+                if (StringUtils.isNotBlank(insert)) {
+                    totalInserts = totalInserts + 10;
+                }
+
+            } catch (IOException e) {
+            }
+        }
+        Log.d(TAG, "Total imports: " + totalInserts);
+
+        String[] inserts;
+        int currentInsert = 0;
         for (Map.Entry<Class<? extends Model>, String> entry : objectImportMap.entrySet()) {
 
-            List<String> inserts = readInsert(entry.getValue());
-            Log.d(TAG, "Import " + (inserts.size() * 10) + " " + entry.getValue());
+            inserts = readInsert(entry.getValue());
+
+            Log.d(TAG, "Import " + inserts.length * 10 + " " + entry.getKey().getSimpleName());
+            fireImportEvent(ImportStep.IMPORT, entry.getKey(), currentInsert, totalInserts);
 
             SQLiteDatabase db = Cache.openDatabase();
             db.beginTransaction();
             for (String string : inserts) {
                 db.execSQL(string);
+                currentInsert = currentInsert + 10;
+                if (currentInsert % 200 == 0) {
+                    fireImportEvent(ImportStep.IMPORT, entry.getKey(), currentInsert, totalInserts);
+                }
             }
             db.setTransactionSuccessful();
             db.endTransaction();
+            fireImportEvent(ImportStep.IMPORT_TABLE_FINISHED, entry.getKey(), currentInsert, totalInserts);
         }
     }
 
-    private List<String> readInsert(String file) {
+    private String[] readInsert(String file) {
 
         List<String> inserts = new ArrayList<>();
+        Log.d(TAG, "Lettura " + file);
 
-        StringBuilder buf = new StringBuilder();
         try (InputStream is = context.getAssets().open(DB_IMAGE_PATH + "/" + file + ".sql.zip");
              ZipInputStream zipIs = new ZipInputStream(is);
              BufferedReader in = new BufferedReader(new InputStreamReader(zipIs, "UTF-8"))) {
 
             zipIs.getNextEntry();
 
+            String insert = "";
             String str;
             while ((str = in.readLine()) != null) {
-                if (buf.length() != 0 && str.startsWith("INSERT INTO")) {
-                    inserts.add(buf.toString());
-                    buf = new StringBuilder(str);
+                if (insert.length() != 0 && str.startsWith("INSERT INTO")) {
+                    inserts.add(insert);
+                    insert = str;
                 } else {
-                    buf.append(str);
+                    insert = insert + str;
                 }
             }
-            if (StringUtils.isNotBlank(buf.toString())) {
-                inserts.add(buf.toString());
+            if (StringUtils.isNotBlank(insert)) {
+                inserts.add(insert);
             }
+
         } catch (IOException e) {
         }
 
-        return inserts;
+        String[] insertArray = inserts.toArray(new String[inserts.size()]);
+        inserts.clear();
+        return insertArray;
     }
 
+    public void setImportListener(PropertyChangeListener importListener) {
+        this.importListener = importListener;
+    }
 }

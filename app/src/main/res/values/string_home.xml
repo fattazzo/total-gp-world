@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="driver_standings">Driver standings</string>
-    <string name="constructor_standings">Constructor standings</string>
-
     <string name="no_race_scheduled">No race scheduled</string>
     <string name="circuit_info">Show circuit info</string>
     <string name="round">Round</string>

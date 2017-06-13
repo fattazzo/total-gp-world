@@ -19,6 +19,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme.Dark"
         android:name=".F1WorldApplication">
 
@@ -48,8 +49,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.gmail.fattazzo.formula1world.activity.fullscreen.FullScreenImageActivity_"></activity>
-        <activity android:name="com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_"></activity>
+        <activity android:name="com.gmail.fattazzo.formula1world.activity.fullscreen.FullScreenImageActivity_"/>
+        <activity android:name="com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_"/>
+        <activity android:name=".activity.dbimport.DBImportActivity_">
+        </activity>
     </application>
 
 </manifest>

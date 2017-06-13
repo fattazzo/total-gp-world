@@ -56,9 +56,9 @@ public class CurrentDriverStandingsTask implements View.OnTouchListener {
         ListView listViewFront = (ListView) viewFlipper.findViewById(R.id.standing_listview_front);
 
         TextView titleViewFront = (TextView) viewFlipper.findViewById(R.id.standing_title_front);
-        titleViewFront.setText(activity.getString(R.string.driver_standings));
+        titleViewFront.setText(activity.getString(R.string.driverStandings));
         TextView titleViewBack = (TextView) viewFlipper.findViewById(R.id.standing_title_back);
-        titleViewBack.setText(activity.getString(R.string.driver_standings));
+        titleViewBack.setText(activity.getString(R.string.driverStandings));
 
         listViewFront.setAdapter(adapterFront);
         listViewFront.setOnTouchListener(this);

@@ -9,10 +9,24 @@
     <string name="close">Close</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_import_older_seasons">Import older seasons</string>
 
     <string name="service_error">Network service is temporarily unavailable or unreachable. Please try again later</string>
 
     <string name="currrent_season">Current season</string>
+    <string name="seasons">Seasons</string>
+    <string name="status">Status</string>
+    <string name="circuits">Circuits</string>
+    <string name="races">Races</string>
+    <string name="qualifying">Qualifying</string>
+    <string name="results">Results</string>
+    <string name="pitStops">Pit stops</string>
+    <string name="lapTimes">Lap times</string>
     <string name="drivers">Drivers</string>
     <string name="constructors">Constructors</string>
+    <string name="driverStandings">Driver standings</string>
+    <string name="constructorStandings">Constructor standings</string>
+
+    <string name="import_dbimage_title">Importing older seasons data</string>
+    <string name="import_dbimage_init">Starting</string>
 </resources>

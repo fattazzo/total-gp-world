@@ -6,6 +6,8 @@ import com.activeandroid.annotation.Table;
 import com.dspot.declex.api.localdb.LocalDBModel;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 
+import org.apache.commons.lang3.time.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -33,7 +35,7 @@ public class Driver extends Model implements Serializable {
     String surname;
 
     @Column
-    Date dob;
+    String dob;
 
     @Column
     String url;
@@ -60,7 +62,11 @@ public class Driver extends Model implements Serializable {
         F1Driver f1Driver = new F1Driver();
         f1Driver.driverRef = this.driverRef;
         f1Driver.code = this.code;
-        f1Driver.dateOfBirth = dob;
+        try {
+            f1Driver.dateOfBirth = DateUtils.parseDate(this.dob, "yyyy-MM-dd");
+        } catch (Exception e) {
+            f1Driver.dateOfBirth = null;
+        }
         f1Driver.familyName = this.surname;
         f1Driver.givenName = this.forename;
         f1Driver.number = this.number;

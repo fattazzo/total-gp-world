@@ -26,6 +26,7 @@ import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment;
+import com.gmail.fattazzo.formula1world.fragments.current.races.CurrentRacesFragment;
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragmentActionHolder_;
 import com.gmail.fattazzo.formula1world.service.DataService;
@@ -46,6 +47,7 @@ import static com.dspot.declex.Action.$AlertDialog;
 import static com.dspot.declex.Action.$BackPressedEvent;
 import static com.dspot.declex.Action.$CurrentConstructorsFragment;
 import static com.dspot.declex.Action.$CurrentDriversFragment;
+import static com.dspot.declex.Action.$CurrentRacesFragment;
 import static com.dspot.declex.Action.$FullScreenImageActivity;
 
 @EActivity(R.layout.activity_home)
@@ -173,6 +175,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_current_season_constructor:
                 $CurrentConstructorsFragment(CurrentConstructorsFragment.TAG);
+                break;
+            case R.id.nav_current_season_race:
+                $CurrentRacesFragment(CurrentRacesFragment.TAG);
                 break;
         }
 

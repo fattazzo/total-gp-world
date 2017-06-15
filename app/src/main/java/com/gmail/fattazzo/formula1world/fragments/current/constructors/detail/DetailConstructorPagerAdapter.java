@@ -64,7 +64,7 @@ class DetailConstructorPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return context.getResources().getString(R.string.detail_driver_season_progress_tab_title);
             case 1:
-                return context.getResources().getString(R.string.detail_driver_info_tab_title);
+                return context.getResources().getString(R.string.info_fragment_title);
             default:
                 return null;
         }

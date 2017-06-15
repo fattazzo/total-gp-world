@@ -1,5 +1,7 @@
 package com.gmail.fattazzo.formula1world.ergast.json.objects;
 
+import com.gmail.fattazzo.formula1world.domain.F1Result;
+
 /**
  * @author fattazzo
  *         <p/>
@@ -33,6 +35,32 @@ public class RaceResult {
         this.status = status;
         this.time = time;
         this.fastestLap = fastestLap;
+    }
+
+    public F1Result toF1Result() {
+        F1Result f1Result = new F1Result();
+
+        f1Result.number = number;
+        f1Result.grid = grid;
+        f1Result.position = position;
+        f1Result.positionText = positionText;
+        f1Result.positionOrder = position;
+        f1Result.points = points;
+        f1Result.status = status;
+        f1Result.laps = laps;
+        if (constructor != null) {
+            f1Result.constructor = constructor.toF1Constructor();
+        }
+        if (driver != null) {
+            f1Result.driver = driver.toF1Driver();
+        }
+        if (fastestLap != null) {
+            f1Result.fastestLap = fastestLap.toF1FastestLap();
+        }
+        if (time != null) {
+            f1Result.time = time.toF1Time();
+        }
+        return f1Result;
     }
 
     public int getNumber() {

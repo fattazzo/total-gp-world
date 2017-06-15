@@ -17,7 +17,7 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.webview_fragment_layout)
-public class UrlViewerFragment extends Fragment {
+public class UrlViewerFragment extends Fragment implements ITitledFragment {
 
     @Bean
     Utils utils;
@@ -52,5 +52,10 @@ public class UrlViewerFragment extends Fragment {
             }
         });
         infoWebView.loadUrl(utils.getLocalizedLink(url));
+    }
+
+    @Override
+    public int getTitleResId() {
+        return R.string.info_fragment_title;
     }
 }

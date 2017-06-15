@@ -29,4 +29,6 @@
 
     <string name="import_dbimage_title">Importing older seasons data</string>
     <string name="import_dbimage_init">Starting</string>
+
+    <string name="info_fragment_title">Info</string>
 </resources>

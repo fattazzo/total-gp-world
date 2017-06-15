@@ -11,4 +11,9 @@
         android:icon="@drawable/menu_car"
         android:title="@string/constructors" />
 
+    <item
+        android:id="@+id/nav_current_season_race"
+        android:icon="@drawable/menu_circuit"
+        android:title="@string/circuits" />
+
 </menu>

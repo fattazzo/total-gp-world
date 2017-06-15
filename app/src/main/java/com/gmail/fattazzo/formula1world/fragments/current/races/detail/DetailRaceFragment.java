@@ -1,4 +1,4 @@
-package com.gmail.fattazzo.formula1world.fragments.current.drivers.detail;
+package com.gmail.fattazzo.formula1world.fragments.current.races.detail;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,18 +7,22 @@ import android.widget.TextView;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.domain.F1Driver;
-import com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment;
+import com.gmail.fattazzo.formula1world.domain.F1Race;
+import com.gmail.fattazzo.formula1world.fragments.current.races.CurrentRacesFragment;
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
+import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.apache.commons.collections4.CollectionUtils;
 
-import static com.dspot.declex.Action.$CurrentDriversFragment;
+import static com.dspot.declex.Action.$CurrentRacesFragment;
 import static com.dspot.declex.Action.$HomeFragment;
 
 
@@ -28,15 +32,18 @@ import static com.dspot.declex.Action.$HomeFragment;
  *         date: 19/04/17
  */
 @EFragment(R.layout.view_pager_fragment)
-public class DetailDriverFragment extends Fragment {
+public class DetailRaceFragment extends Fragment {
 
-    public static final String TAG = DetailDriverFragment.class.getSimpleName();
+    public static final String TAG = DetailRaceFragment.class.getSimpleName();
+
+    @Bean
+    DataService dataService;
 
     @Bean
     ApplicationPreferenceManager preferenceManager;
 
     @FragmentArg
-    F1Driver driver;
+    F1Race race;
 
     @ViewById(R.id.title)
     TextView driverNameView;
@@ -44,14 +51,14 @@ public class DetailDriverFragment extends Fragment {
     @ViewById(R.id.view_pager)
     ViewPager vpPager;
 
-    DetailDriverPagerAdapter adapterViewPager;
+    DetailRacePagerAdapter adapterViewPager;
+
+    private boolean hasResults = false;
 
     @AfterViews
-    void init() {
-        driverNameView.setText(driver.getFullName());
+    void initView() {
+        driverNameView.setText(race.name);
 
-        adapterViewPager = new DetailDriverPagerAdapter(getChildFragmentManager(),getActivity(),driver);
-        vpPager.setAdapter(adapterViewPager);
         vpPager.setPageTransformer(true, preferenceManager.getPagerTansactionAnimation());
 
         vpPager.setClipToPadding(false);
@@ -60,16 +67,35 @@ public class DetailDriverFragment extends Fragment {
         // sets a margin b/w individual pages to ensure that there is a gap b/w them
         vpPager.setPageMargin(90);
 
+        init();
+    }
+
+    @Background
+    void loadRacesData() {
+        hasResults = CollectionUtils.isNotEmpty(dataService.loadRaceResult(race));
+
+        initPagerAdapter();
+    }
+
+    @UiThread
+    void init() {
+        loadRacesData();
+    }
+
+    @UiThread
+    void initPagerAdapter() {
+        adapterViewPager = new DetailRacePagerAdapter(getChildFragmentManager(), getActivity(), race, hasResults);
+        vpPager.setAdapter(adapterViewPager);
     }
 
     @Event
     void onBackPressedEvent() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        if(fragmentManager.findFragmentByTag(CurrentDriversFragment.TAG) != null) {
+        if (fragmentManager.findFragmentByTag(CurrentRacesFragment.TAG) != null) {
             $HomeFragment(HomeFragment.TAG);
         } else {
-            $CurrentDriversFragment(CurrentDriversFragment.TAG);
+            $CurrentRacesFragment(CurrentRacesFragment.TAG);
         }
     }
 }

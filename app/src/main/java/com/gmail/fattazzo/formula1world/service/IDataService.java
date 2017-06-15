@@ -80,4 +80,21 @@ public interface IDataService {
      */
     @NonNull
     List<F1ConstructorStandings> loadConstructorStandings();
+
+    /**
+     * Load all races for season
+     *
+     * @return races
+     */
+    @NonNull
+    List<F1Race> loadRaces();
+
+    /**
+     * load race results
+     *
+     * @param race race
+     * @return results
+     */
+    @NonNull
+    List<F1Result> loadRaceResult(F1Race race);
 }

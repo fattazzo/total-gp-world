@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/results_race_table_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="*">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/drivers"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pos"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_driver_laps"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_driver_grid"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_driver_time"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_driver_status"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pt"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
+    </TableRow>
+
+</TableLayout>

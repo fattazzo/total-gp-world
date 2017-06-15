@@ -130,7 +130,7 @@ public class ErgastManager {
         }
 
         String json = ergastConnection.getJson(ergast, RESULTS, round);
-        return new Parser<>(json, new String[]{"RaceTable", "Races", "Results"}, RaceResult.class).parse();
+        return new Parser<>(json, new String[]{"RaceTable", "Races", "results"}, RaceResult.class).parse();
     }
 
     /**

@@ -77,7 +77,7 @@ class DetailDriverPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return context.getResources().getString(R.string.detail_driver_ranking_tab_title);
             case 2:
-                return context.getResources().getString(R.string.detail_driver_info_tab_title);
+                return context.getResources().getString(R.string.info_fragment_title);
             default:
                 return null;
         }

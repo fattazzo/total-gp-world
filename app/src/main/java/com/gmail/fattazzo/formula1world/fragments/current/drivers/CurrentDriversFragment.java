@@ -34,7 +34,7 @@ import static com.dspot.declex.Action.$HomeFragment;
  *         date: 15/04/17
  */
 @OptionsMenu(R.menu.drivers)
-@EFragment(R.layout.fragment_current_drivers)
+@EFragment(R.layout.fragment_swipe_listview)
 public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = CurrentDriversFragment.class.getSimpleName();
@@ -48,13 +48,13 @@ public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayo
     @Bean
     DriversListAdapter driversListAdapter;
 
-    @ViewById(R.id.current_drivers_list_view)
+    @ViewById(R.id.list_view)
     ListView listView;
 
-    @ViewById(R.id.current_drivers_swipe_refresh_layout)
+    @ViewById(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    @ViewById(R.id.details_driver_fragment_container)
+    @ViewById(R.id.details_fragment_container)
     RelativeLayout detailsDriverFragmentContainer;
 
     @AfterViews
@@ -99,14 +99,14 @@ public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayo
         }
     }
 
-    @ItemClick(R.id.current_drivers_list_view)
+    @ItemClick(R.id.list_view)
     public void itemClicked(int position) {
         F1Driver driver = driversListAdapter.getItem(position);
 
-        if(detailsDriverFragmentContainer == null) {
+        if (detailsDriverFragmentContainer == null) {
             $DetailDriverFragment(DetailDriverFragment.TAG).driver(driver);
         } else {
-            $DetailDriverFragment(DetailDriverFragment.TAG).driver(driver).container(R.id.details_driver_fragment_container).add();
+            $DetailDriverFragment(DetailDriverFragment.TAG).driver(driver).container(R.id.details_fragment_container).add();
         }
     }
 

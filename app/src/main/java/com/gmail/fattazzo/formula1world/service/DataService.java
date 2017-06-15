@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.gmail.fattazzo.formula1world.activity.dbimport.DBImportActivity;
 import com.gmail.fattazzo.formula1world.activity.dbimport.DBImportActivity_;
 import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
@@ -81,7 +80,7 @@ public class DataService implements IDataService {
         int selectedSeason = getSelectedSeasons();
         boolean dbSeasonFound = localDBDataService.loadSeason(selectedSeason) != null;
 
-        if(selectedSeason < currentYear && !dbSeasonFound) {
+        if (selectedSeason < currentYear && !dbSeasonFound) {
             Intent i = new Intent(context, DBImportActivity_.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
@@ -150,5 +149,17 @@ public class DataService implements IDataService {
     @Override
     public List<F1ConstructorStandings> loadConstructorStandings() {
         return getDataServiceImpl().loadConstructorStandings();
+    }
+
+    @NonNull
+    @Override
+    public List<F1Race> loadRaces() {
+        return getDataServiceImpl().loadRaces();
+    }
+
+    @NonNull
+    @Override
+    public List<F1Result> loadRaceResult(F1Race race) {
+        return getDataServiceImpl().loadRaceResult(race);
     }
 }

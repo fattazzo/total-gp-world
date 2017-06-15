@@ -2,16 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/windowBackground"
-    tools:context="com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment">
+    android:background="?android:attr/windowBackground">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/current_drivers_swipe_refresh_layout"
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ListView
-            android:id="@+id/current_drivers_list_view"
+            android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

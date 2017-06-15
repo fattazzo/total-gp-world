@@ -1,6 +1,5 @@
 package com.gmail.fattazzo.formula1world.ergast.imagedb.service;
 
-import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -212,5 +211,47 @@ public class LocalDBDataService implements IDataService {
         }
 
         return f1ConstructorStandings;
+    }
+
+    @NonNull
+    @Override
+    public List<F1Race> loadRaces() {
+        List<F1Race> f1Races = new ArrayList<>();
+
+        try {
+            List<Race> dbRaces = new Select("race.*")
+                    .from(Race.class).as("race")
+                    .where("race.year = ?", ergast.getSeason())
+                    .orderBy("race.round").execute();
+
+            for (Race race : dbRaces) {
+                f1Races.add(race.toF1Race());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+            f1Races = new ArrayList<>();
+        }
+
+        return f1Races;
+    }
+
+    @NonNull
+    @Override
+    public List<F1Result> loadRaceResult(F1Race race) {
+        List<F1Result> results = new ArrayList<>();
+        try {
+            List<Result> dbResults = new Select("res.*").from(Result.class).as("res")
+                    .innerJoin(Race.class).as("rac").on("rac.Id = res.raceId")
+                    .where("rac.round = ?", race.round)
+                    .where("rac.year = ?", ergast.getSeason())
+                    .execute();
+            for (Result result : dbResults) {
+                results.add(result.toF1Result());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+            results = new ArrayList<>();
+        }
+        return results;
     }
 }

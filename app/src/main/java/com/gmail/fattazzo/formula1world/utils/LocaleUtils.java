@@ -56,6 +56,9 @@ public class LocaleUtils {
         String code;
         try {
             code = getCountries().get(enCountryName);
+            if(code == null) {
+                code = enCountryName;
+            }
         } catch (Exception e) {
             code = "zz";
         }
@@ -73,6 +76,11 @@ public class LocaleUtils {
                 Locale l = new Locale("en", iso);
                 countries.put(l.getDisplayCountry(l), iso);
             }
+            // non iso country variants
+            countries.put("UK","GB");
+            countries.put("USA","US");
+            countries.put("UAE","AE");
+            countries.put("Korea","KR");
         }
         return countries;
     }

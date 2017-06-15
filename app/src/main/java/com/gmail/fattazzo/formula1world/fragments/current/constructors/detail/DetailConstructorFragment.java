@@ -27,7 +27,7 @@ import static com.dspot.declex.Action.$HomeFragment;
  *         <p/>
  *         date: 19/04/17
  */
-@EFragment(R.layout.detail_constructor_fragment)
+@EFragment(R.layout.view_pager_fragment)
 public class DetailConstructorFragment extends Fragment {
 
     public static final String TAG = DetailConstructorFragment.class.getSimpleName();
@@ -38,10 +38,10 @@ public class DetailConstructorFragment extends Fragment {
     @FragmentArg
     F1Constructor constructor;
 
-    @ViewById(R.id.detail_constructor_name)
+    @ViewById(R.id.title)
     TextView constructorNameView;
 
-    @ViewById(R.id.detail_constructor_pager)
+    @ViewById(R.id.view_pager)
     ViewPager vpPager;
 
     DetailConstructorPagerAdapter adapterViewPager;

@@ -1,4 +1,4 @@
-package com.gmail.fattazzo.formula1world.fragments.current.constructors;
+package com.gmail.fattazzo.formula1world.fragments.current.races;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,11 +7,10 @@ import android.widget.RelativeLayout;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.domain.F1Constructor;
-import com.gmail.fattazzo.formula1world.fragments.current.constructors.detail.DetailConstructorFragment;
+import com.gmail.fattazzo.formula1world.domain.F1Race;
+import com.gmail.fattazzo.formula1world.fragments.current.races.detail.DetailRaceFragment;
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
 import com.gmail.fattazzo.formula1world.service.DataService;
-import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -23,7 +22,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-import static com.dspot.declex.Action.$DetailConstructorFragment;
+import static com.dspot.declex.Action.$DetailRaceFragment;
 import static com.dspot.declex.Action.$HomeFragment;
 
 /**
@@ -32,18 +31,15 @@ import static com.dspot.declex.Action.$HomeFragment;
  *         date: 26/05/17
  */
 @EFragment(R.layout.fragment_swipe_listview)
-public class CurrentConstructorsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CurrentRacesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    public static final String TAG = CurrentConstructorsFragment.class.getSimpleName();
-
-    @Bean
-    ApplicationPreferenceManager preferenceManager;
+    public static final String TAG = CurrentRacesFragment.class.getSimpleName();
 
     @Bean
     DataService dataService;
 
     @Bean
-    ConstructorsListAdapter constructorsListAdapter;
+    RacesListAdapter racesListAdapter;
 
     @ViewById(R.id.list_view)
     ListView listView;
@@ -52,23 +48,23 @@ public class CurrentConstructorsFragment extends Fragment implements SwipeRefres
     SwipeRefreshLayout swipeRefreshLayout;
 
     @ViewById(R.id.details_fragment_container)
-    RelativeLayout detailsConstructorFragmentContainer;
+    RelativeLayout detailsRaceFragmentContainer;
 
     @AfterViews
     void init() {
-        listView.setAdapter(constructorsListAdapter);
+        listView.setAdapter(racesListAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);
-        if (constructorsListAdapter.isEmpty()) {
+        if (racesListAdapter.isEmpty()) {
             onRefresh();
         }
     }
 
     @Background
-    public void loadConstructors() {
-        List<F1Constructor> result = null;
+    public void loadRaces() {
+        List<F1Race> result = null;
         try {
             startLoad();
-            result = dataService.loadConstructors();
+            result = dataService.loadRaces();
         } finally {
             updateUI(result);
         }
@@ -82,11 +78,11 @@ public class CurrentConstructorsFragment extends Fragment implements SwipeRefres
     }
 
     @UiThread
-    void updateUI(List<F1Constructor> result) {
+    void updateUI(List<F1Race> result) {
         try {
-            constructorsListAdapter.clearItems();
-            constructorsListAdapter.setConstructors(result);
-            constructorsListAdapter.notifyDataSetChanged();
+            racesListAdapter.clearItems();
+            racesListAdapter.setRaces(result);
+            racesListAdapter.notifyDataSetChanged();
         } finally {
             if (swipeRefreshLayout != null) {
                 swipeRefreshLayout.setRefreshing(false);
@@ -96,18 +92,18 @@ public class CurrentConstructorsFragment extends Fragment implements SwipeRefres
 
     @ItemClick(R.id.list_view)
     public void itemClicked(int position) {
-        F1Constructor constructor = constructorsListAdapter.getItem(position);
+        F1Race race = racesListAdapter.getItem(position);
 
-        if (detailsConstructorFragmentContainer == null) {
-            $DetailConstructorFragment(DetailConstructorFragment.TAG).constructor(constructor);
+        if (detailsRaceFragmentContainer == null) {
+            $DetailRaceFragment(DetailRaceFragment.TAG).race(race);
         } else {
-            $DetailConstructorFragment(DetailConstructorFragment.TAG).constructor(constructor).container(R.id.details_fragment_container).add();
+            $DetailRaceFragment(DetailRaceFragment.TAG).race(race).container(R.id.details_fragment_container).add();
         }
     }
 
     @Override
     public void onRefresh() {
-        loadConstructors();
+        loadRaces();
     }
 
     @Event

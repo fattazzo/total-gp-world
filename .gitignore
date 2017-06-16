@@ -26,7 +26,7 @@ local.properties
 proguard/
 
 /app/build
-/iconsbuilder/build
+/app/src/test/resources/assets
 
 # Log Files
 *.log

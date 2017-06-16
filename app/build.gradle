@@ -29,14 +29,22 @@ android {
     }
 }
 
+task copyFiles(type: Copy) {
+    description = 'copying some file(s)....'
+    from 'src/main/assets/dbimage'
+    into 'src/test/resources/assets/dbimage'
+    include '**/*.zip'
+}
+
+project.afterEvaluate {
+    preBuild.dependsOn copyFiles
+}
+
+clean.dependsOn copyFiles
+clean.mustRunAfter copyFiles
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
-
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
 
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 
@@ -45,6 +53,7 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 
     compile 'com.dspot:declex-api:1.3'
+    annotationProcessor 'com.dspot:declex:1.3'
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
@@ -53,9 +62,26 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
-
-    annotationProcessor 'com.dspot:declex:1.3'
 
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+
+    //------------------ TEST --------------------------------
+    testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.3.2"
+    testCompile ("com.android.support.test:runner:0.5") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    // Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+    }
 }

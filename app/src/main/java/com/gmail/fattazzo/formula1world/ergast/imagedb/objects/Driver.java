@@ -26,10 +26,10 @@ public class Driver extends Model implements Serializable {
     int number;
 
     @Column
-    String code;
+    public String code;
 
     @Column
-    String forename;
+    public String forename;
 
     @Column
     String surname;

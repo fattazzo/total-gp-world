@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gmail.fattazzo.formula1world.test">
+
+    <application android:name="com.gmail.fattazzo.formula1world.TestApp">
+        <meta-data android:name="AA_DB_NAME" android:value="f1db_test" />
+        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Season,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Status,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Circuit,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Race,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverStandings,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Qualification,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Result,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.PitStop,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.LapTime" />
+    </application>
+</manifest>

@@ -1,6 +1,7 @@
 package com.gmail.fattazzo.formula1world.ergast.imagedb.importer;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -26,6 +27,7 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.beans.PropertyChangeEvent;
@@ -96,7 +98,7 @@ public class ErgastDBImporter {
         recreateDatabase();
 
         Log.d(TAG, "Import data");
-        importData();
+        importData(context.getAssets());
 
         Log.d(TAG, "Create utilities tables");
         fireImportEvent(ImportStep.CUSTOM_TABLES, null, 0, 0);
@@ -118,7 +120,7 @@ public class ErgastDBImporter {
         sync();
     }
 
-    private void createCustomTable() {
+    public void createCustomTable() {
         SQLiteUtils.execSql("DROP TABLE IF EXISTS driversConstructors");
         SQLiteUtils.execSql(SQLiteUtils.createTableDefinition(Cache.getTableInfo(DriverConstructor.class)));
         SQLiteUtils.execSql("INSERT INTO driversConstructors (driverId,constructorId,year) " +
@@ -126,13 +128,13 @@ public class ErgastDBImporter {
                 "FROM results inner join races on results.raceId = races.id");
     }
 
-    private void recreateDatabase() {
+    public void recreateDatabase() {
         for (Map.Entry<Class<? extends Model>, String> entry : objectImportMap.entrySet()) {
             SQLiteUtils.execSql(SQLiteUtils.createTableDefinition(Cache.getTableInfo(entry.getKey())));
         }
     }
 
-    private void dropTables() {
+    public void dropTables() {
         List<Class<? extends Model>> reverseOrderedKeys = new ArrayList<>(objectImportMap.keySet());
         Collections.reverse(reverseOrderedKeys);
         for (Class<? extends Model> key : reverseOrderedKeys) {
@@ -140,12 +142,11 @@ public class ErgastDBImporter {
         }
     }
 
-    private void importData() {
+    public void importData(AssetManager assetManager) {
         // total insert calculation
         // TODO change total insert calculation
-        int totalInserts = 0;
-        for (Map.Entry<Class<? extends Model>, String> entry : objectImportMap.entrySet()) {
-            try (InputStream is = context.getAssets().open(DB_IMAGE_PATH + "/" + entry.getValue() + ".sql.zip");
+        int totalInserts = 0;for (Map.Entry<Class<? extends Model>, String> entry : objectImportMap.entrySet()) {
+            try (InputStream is = assetManager.open(DB_IMAGE_PATH + "/" + entry.getValue() + ".sql.zip");
                  ZipInputStream zipIs = new ZipInputStream(is);
                  BufferedReader in = new BufferedReader(new InputStreamReader(zipIs, "UTF-8"))) {
 
@@ -229,5 +230,9 @@ public class ErgastDBImporter {
 
     public void setImportListener(PropertyChangeListener importListener) {
         this.importListener = importListener;
+    }
+
+    public Map<Class<? extends Model>, String> getObjectImportMap() {
+        return MapUtils.unmodifiableMap(objectImportMap);
     }
 }

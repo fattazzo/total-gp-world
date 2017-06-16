@@ -12,7 +12,6 @@ import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
-import com.gmail.fattazzo.formula1world.ergast.imagedb.importer.ErgastDBImporter;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver;
@@ -40,9 +39,6 @@ public class LocalDBDataService implements IDataService {
 
     @Bean
     Ergast ergast;
-
-    @Bean
-    ErgastDBImporter dbImporter;
 
     /**
      * Load the season.

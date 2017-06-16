@@ -6,6 +6,8 @@
 
     <string name="yes">Si</string>
     <string name="no">No</string>
+    <string name="cancel">Annulla</string>
+    <string name="select">Seleziona</string>
 
     <string name="close">Chiudi</string>
 

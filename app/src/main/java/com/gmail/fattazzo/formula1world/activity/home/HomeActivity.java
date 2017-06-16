@@ -1,11 +1,11 @@
 package com.gmail.fattazzo.formula1world.activity.home;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,10 +16,10 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
-import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity;
@@ -32,15 +32,12 @@ import com.gmail.fattazzo.formula1world.fragments.home.HomeFragmentActionHolder_
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.api.view.HasViews;
 
-import java.util.Calendar;
 import java.util.List;
 
 import static com.dspot.declex.Action.$AlertDialog;
@@ -48,7 +45,6 @@ import static com.dspot.declex.Action.$BackPressedEvent;
 import static com.dspot.declex.Action.$CurrentConstructorsFragment;
 import static com.dspot.declex.Action.$CurrentDriversFragment;
 import static com.dspot.declex.Action.$CurrentRacesFragment;
-import static com.dspot.declex.Action.$FullScreenImageActivity;
 
 @EActivity(R.layout.activity_home)
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -86,9 +82,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int densityDpi = (int)(metrics.density * 160f);
-        Log.d("DENSITY",String.valueOf(metrics.density));
-        Log.d("DPI",String.valueOf(densityDpi));
+        int densityDpi = (int) (metrics.density * 160f);
+        Log.d("DENSITY", String.valueOf(metrics.density));
+        Log.d("DPI", String.valueOf(densityDpi));
     }
 
     @OnActivityResult(PREF_ACTIVITY_RESULT)
@@ -122,33 +118,68 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.home_seasons_spinner_item, seasons.toArray(new Integer[seasons.size()]));
         adapter.setDropDownViewResource(R.layout.home_seasons_spinner_dropdown_item);
 
-        Spinner spinner = (Spinner) toolbar.findViewById(R.id.spinner_nav);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(0);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.app_name) + " " + ergast.getSeason() + "▼");
+        }
+        toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onClick(View v) {
+                showSeasonsSelectionDialog();
+            }
+        });
+    }
+
+    public void showSeasonsSelectionDialog() {
+
+        List<Integer> seasons = dataService.getAvailableSeasons();
+
+        final Dialog d = new Dialog(this);
+        d.setTitle(getString(R.string.seasons));
+
+        d.setContentView(R.layout.seasons_selection_dialog_layout);
+        Button b1 = (Button) d.findViewById(R.id.buttonSelect);
+        Button b2 = (Button) d.findViewById(R.id.buttonCancel);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker);
+        np.setMaxValue(seasons.get(0));
+        np.setMinValue(seasons.get(seasons.size() - 1));
+        np.setValue(ergast.getSeason());
+        np.setWrapSelectorWheel(true);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Integer oldSeason = ergast.getSeason();
 
-                Integer selectedSeason = seasons.get(position);
+                Integer selectedSeason = np.getValue();
                 ergast.setSeason(selectedSeason);
+                if(getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(getString(R.string.app_name) + " " + np.getValue() + "▼");
+                }
                 drawer_layout.closeDrawer(GravityCompat.START);
 
-
-                if(oldSeason != ergast.getSeason()) {
+                if (oldSeason != ergast.getSeason()) {
                     dataService.importDBIfNecessary();
 
                     final HomeFragmentActionHolder_ $HomeFragment0 = HomeFragmentActionHolder_.getInstance_(HomeActivity.this);
                     $HomeFragment0.init((HomeFragment.TAG));
                     $HomeFragment0.build(null);
-                    $HomeFragment0 .execute();
+                    $HomeFragment0.execute();
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                d.dismiss();
             }
         });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                d.dismiss(); // dismiss the dialog
+            }
+        });
+        TextView textView = (TextView) d.findViewById(android.R.id.title);
+        if (textView != null) {
+            textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        }
+        d.show();
+
+
     }
 
     @Override

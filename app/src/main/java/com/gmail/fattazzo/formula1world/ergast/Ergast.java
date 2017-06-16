@@ -5,6 +5,8 @@ import com.gmail.fattazzo.formula1world.ergast.json.exceptions.QueryOffsetExcept
 
 import org.androidannotations.annotations.EBean;
 
+import java.util.Calendar;
+
 
 @EBean(scope = EBean.Scope.Singleton)
 public class Ergast {
@@ -31,6 +33,9 @@ public class Ergast {
     }
 
     public int getSeason() {
+        if(season == CURRENT_SEASON) {
+            season = Calendar.getInstance().get(Calendar.YEAR);
+        }
         return season;
     }
 

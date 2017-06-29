@@ -31,9 +31,9 @@ android {
 
 task copyFiles(type: Copy) {
     description = 'copying some file(s)....'
-    from 'src/main/assets/dbimage'
-    into 'src/test/resources/assets/dbimage'
-    include '**/*.zip'
+    from 'src/main/assets'
+    into 'src/test/resources/assets'
+    include '**/*.*'
 }
 
 project.afterEvaluate {

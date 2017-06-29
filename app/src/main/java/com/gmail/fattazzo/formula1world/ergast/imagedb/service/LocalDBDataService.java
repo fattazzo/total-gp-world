@@ -9,6 +9,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
@@ -16,6 +17,7 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverStandings;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Qualification;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Race;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Result;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Season;
@@ -243,6 +245,26 @@ public class LocalDBDataService implements IDataService {
                     .execute();
             for (Result result : dbResults) {
                 results.add(result.toF1Result());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+            results = new ArrayList<>();
+        }
+        return results;
+    }
+
+    @NonNull
+    @Override
+    public List<F1Qualification> loadQualification(F1Race race) {
+        List<F1Qualification> results = new ArrayList<>();
+        try {
+            List<Qualification> dbResults = new Select("qual.*").from(Qualification.class).as("qual")
+                    .innerJoin(Race.class).as("rac").on("rac.Id = qual.raceId")
+                    .where("rac.round = ?", race.round)
+                    .where("rac.year = ?", ergast.getSeason())
+                    .execute();
+            for (Qualification result : dbResults) {
+                results.add(result.toF1Qualification());
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);

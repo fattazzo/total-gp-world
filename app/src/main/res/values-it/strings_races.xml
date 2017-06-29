@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="detail_race_results_tab_title">Risultati</string>
+    <string name="detail_race_qualifications_tab_title">Qualifiche</string>
 </resources>

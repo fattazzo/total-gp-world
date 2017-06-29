@@ -9,6 +9,8 @@ import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.fragments.ITitledFragment;
 import com.gmail.fattazzo.formula1world.fragments.UrlViewerFragment;
 import com.gmail.fattazzo.formula1world.fragments.UrlViewerFragment_;
+import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.qualifications.QualificationsRaceFragment;
+import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.qualifications.QualificationsRaceFragment_;
 import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.results.ResultsRaceFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.results.ResultsRaceFragment_;
 import com.gmail.fattazzo.formula1world.service.IDataService;
@@ -24,20 +26,24 @@ class DetailRacePagerAdapter extends FragmentPagerAdapter {
     private F1Race race;
     private UrlViewerFragment urlViewerFragment;
     private ResultsRaceFragment resultsRaceFragment;
+    private QualificationsRaceFragment qualificationsRaceFragment;
 
     private List<Fragment> detailFragments = new ArrayList<>();
 
-    DetailRacePagerAdapter(FragmentManager fragmentManager, Context context, F1Race race, boolean hasResults) {
+    DetailRacePagerAdapter(FragmentManager fragmentManager, Context context, F1Race race, boolean hasResults,boolean hasQualifications) {
         super(fragmentManager);
         this.context = context;
         this.race = race;
 
-        initSection(hasResults);
+        initSection(hasResults,hasQualifications);
     }
 
-    private void initSection(boolean hasResults) {
+    private void initSection(boolean hasResults,boolean hasQualifications) {
         if (hasResults) {
             detailFragments.add(getResultsRaceFragment());
+        }
+        if(hasQualifications) {
+            detailFragments.add(getQualificationsRaceFragment());
         }
         detailFragments.add(getUrlViewerFragment());
     }
@@ -54,6 +60,13 @@ class DetailRacePagerAdapter extends FragmentPagerAdapter {
             resultsRaceFragment = ResultsRaceFragment_.newInstance(race);
         }
         return resultsRaceFragment;
+    }
+
+    private QualificationsRaceFragment getQualificationsRaceFragment() {
+        if (qualificationsRaceFragment == null) {
+            qualificationsRaceFragment = QualificationsRaceFragment_.newInstance(race);
+        }
+        return qualificationsRaceFragment;
     }
 
     @Override

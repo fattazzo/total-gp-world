@@ -10,6 +10,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
@@ -161,5 +162,11 @@ public class DataService implements IDataService {
     @Override
     public List<F1Result> loadRaceResult(F1Race race) {
         return getDataServiceImpl().loadRaceResult(race);
+    }
+
+    @NonNull
+    @Override
+    public List<F1Qualification> loadQualification(F1Race race) {
+        return getDataServiceImpl().loadQualification(race);
     }
 }

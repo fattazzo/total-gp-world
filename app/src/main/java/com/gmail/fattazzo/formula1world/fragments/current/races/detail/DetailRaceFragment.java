@@ -54,6 +54,7 @@ public class DetailRaceFragment extends Fragment {
     DetailRacePagerAdapter adapterViewPager;
 
     private boolean hasResults = false;
+    private boolean hasQualifications = false;
 
     @AfterViews
     void initView() {
@@ -73,6 +74,7 @@ public class DetailRaceFragment extends Fragment {
     @Background
     void loadRacesData() {
         hasResults = CollectionUtils.isNotEmpty(dataService.loadRaceResult(race));
+        hasQualifications = CollectionUtils.isNotEmpty(dataService.loadQualification(race));
 
         initPagerAdapter();
     }
@@ -84,7 +86,7 @@ public class DetailRaceFragment extends Fragment {
 
     @UiThread
     void initPagerAdapter() {
-        adapterViewPager = new DetailRacePagerAdapter(getChildFragmentManager(), getActivity(), race, hasResults);
+        adapterViewPager = new DetailRacePagerAdapter(getChildFragmentManager(), getActivity(), race, hasResults,hasQualifications);
         vpPager.setAdapter(adapterViewPager);
     }
 

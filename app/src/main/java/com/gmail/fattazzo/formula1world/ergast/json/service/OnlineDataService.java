@@ -7,12 +7,14 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.ergast.json.ErgastManager;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.DriverStandings;
+import com.gmail.fattazzo.formula1world.ergast.json.objects.Qualification;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResult;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResults;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.Schedule;
@@ -213,6 +215,23 @@ public class OnlineDataService implements IDataService {
         } catch (Exception e) {
             results = new ArrayList<>();
         }
+        return results;
+    }
+
+    @NonNull
+    @Override
+    public List<F1Qualification> loadQualification(F1Race race) {
+        List<F1Qualification> results = new ArrayList<>();
+
+        try {
+            List<Qualification> jsonResults = ergastManager.getQualificationResults(race.round);
+            for (Qualification jsonQualification : jsonResults) {
+                results.add(jsonQualification.toF1Qualification(race));
+            }
+        } catch (Exception e) {
+            results = new ArrayList<>();
+        }
+
         return results;
     }
 }

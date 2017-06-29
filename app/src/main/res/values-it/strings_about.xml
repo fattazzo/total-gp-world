@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_thanks_title">Ringraziamenti</string>
+    <string name="about_ergast_title">Ergast Developer API</string>
+
+    <string name="about_terms_conditions_title">Terms &amp; Conditions</string>
+    <string name="about_terms_of_use_text"><![CDATA[<b>Terms Of Use</b><br>You may use this app for personal, non-commercial applications and services including educational and research purposes.]]></string>
+    <string name="about_disclaimer_text"><![CDATA[<b>Disclaimer</b><br>The author disclaims all responsibility for any loss or damage arising from the use of this app. Data availability and accuracy can not be guaranteed.]]></string>
+
+    <string name="about_faq_title">FAQ</string>
+    <string name="about_faq1_text"><![CDATA[<b>Dopo quanto tempo i dati delle gare e qualifiche saranno disponibili?</b><br>Generalmente dalle 3 alle 6 ore.]]></string>
+    <string name="about_faq2_text"><![CDATA[<b>Come si cambia l\'anno della stagione?</b><br>Selezionando il titolo dell\'applicazione in alto apparirà un dialogo di scelta.]]></string>
+
+    <string name="about_project_title">Progetto</string>
+    <string name="about_project_author">Fattarsi Gianluca</string>
+    <string name="about_project_author_email">fattazzo82@gmail.com</string>
+    <string name="about_project_source">Sorgente</string>
+</resources>

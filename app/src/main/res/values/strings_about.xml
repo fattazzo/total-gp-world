@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_thanks_title">Thanks to</string>
+    <string name="about_ergast_title">Ergast Developer API</string>
+
+    <string name="about_terms_conditions_title">Terms &amp; Conditions</string>
+    <string name="about_terms_of_use_text"><![CDATA[<b>Terms Of Use</b><br>You may use this app for personal, non-commercial applications and services including educational and research purposes.]]></string>
+    <string name="about_disclaimer_text"><![CDATA[<b>Disclaimer</b><br>The author disclaims all responsibility for any loss or damage arising from the use of this app. Data availability and accuracy can not be guaranteed.]]></string>
+
+    <string name="about_faq_title">FAQ</string>
+    <string name="about_faq1_text"><![CDATA[<b>How soon after a race or qualification will data become available?</b><br>Usually in 3 &#126; 6 hrs.]]></string>
+    <string name="about_faq2_text"><![CDATA[<b>How do you change the year of the season?</b><br>Selecting the title of the application at the top will display dialog of choice.]]></string>
+
+    <string name="about_project_title">Project</string>
+    <string name="about_project_author">Fattarsi Gianluca</string>
+    <string name="about_project_author_email">fattazzo82@gmail.com</string>
+    <string name="about_project_source">Source</string>
+</resources>

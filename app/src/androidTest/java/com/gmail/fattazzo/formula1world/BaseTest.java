@@ -6,7 +6,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.Suppress;
 
-import com.gmail.fattazzo.formula1world.activity.home.HomeActivity;
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity_;
 
 import org.junit.Rule;

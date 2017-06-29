@@ -14,17 +14,21 @@
 
 
     <application
+        android:name=".F1WorldApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:largeHeap="true"
-        android:theme="@style/AppTheme.Dark"
-        android:name=".F1WorldApplication">
+        android:theme="@style/AppTheme.Dark">
 
-        <meta-data android:name="AA_DB_NAME" android:value="f1db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="f1db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
         <meta-data
             android:name="AA_MODELS"
             android:value="com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Season,
@@ -49,10 +53,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.gmail.fattazzo.formula1world.activity.fullscreen.FullScreenImageActivity_"/>
-        <activity android:name="com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_"/>
-        <activity android:name=".activity.dbimport.DBImportActivity_">
-        </activity>
+        <activity android:name="com.gmail.fattazzo.formula1world.activity.fullscreen.FullScreenImageActivity_" />
+        <activity android:name="com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_" />
+        <activity android:name=".activity.dbimport.DBImportActivity_" />
+        <activity android:name=".activity.about.AboutActivity_" />
     </application>
 
 </manifest>

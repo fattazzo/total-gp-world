@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/attribution_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:width="0dp"
+            android:gravity="start"
+            android:text="@string/about_thanks_title"
+            android:textAppearance="@style/TextAppearance.Large" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/attribution_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/ergast_button"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ergast"
+            android:scaleType="fitXY"
+            android:text="@string/about_ergast_title"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small"/>
+    </LinearLayout>
+
+</LinearLayout>

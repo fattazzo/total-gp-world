@@ -1,6 +1,7 @@
 package com.gmail.fattazzo.formula1world.activity.home;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
+import com.gmail.fattazzo.formula1world.activity.about.AboutActivity_;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment;
@@ -40,6 +42,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
+import static com.dspot.declex.Action.$AboutActivity;
 import static com.dspot.declex.Action.$AlertDialog;
 import static com.dspot.declex.Action.$BackPressedEvent;
 import static com.dspot.declex.Action.$CurrentConstructorsFragment;
@@ -118,7 +121,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.home_seasons_spinner_item, seasons.toArray(new Integer[seasons.size()]));
         adapter.setDropDownViewResource(R.layout.home_seasons_spinner_dropdown_item);
 
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.app_name) + " " + ergast.getSeason() + "▼");
         }
         toolbar.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +154,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 Integer selectedSeason = np.getValue();
                 ergast.setSeason(selectedSeason);
-                if(getSupportActionBar() != null) {
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(getString(R.string.app_name) + " " + np.getValue() + "▼");
                 }
                 drawer_layout.closeDrawer(GravityCompat.START);
@@ -209,6 +212,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_current_season_race:
                 $CurrentRacesFragment(CurrentRacesFragment.TAG);
+                break;
+            case R.id.nav_about:
+                $AboutActivity();
                 break;
         }
 

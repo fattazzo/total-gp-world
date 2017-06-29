@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
-@EFragment(R.layout.webview_fragment_layout)
+@EFragment(R.layout.fragment_webview_layout)
 public class UrlViewerFragment extends Fragment implements ITitledFragment {
 
     @Bean

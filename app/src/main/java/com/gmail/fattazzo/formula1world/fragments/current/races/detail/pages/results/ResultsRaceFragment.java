@@ -24,7 +24,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-@EFragment(R.layout.results_race_fragment)
+@EFragment(R.layout.fragment_race_results)
 public class ResultsRaceFragment extends Fragment implements ITitledFragment {
 
     @FragmentArg

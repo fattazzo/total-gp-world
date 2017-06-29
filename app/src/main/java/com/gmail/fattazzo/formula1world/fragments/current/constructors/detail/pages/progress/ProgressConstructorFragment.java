@@ -15,8 +15,6 @@ import android.widget.TextView;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
-import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResult;
-import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResults;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.detail.pages.progress.RaceResultsItemView;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.detail.pages.progress.RaceResultsItemView_;
 import com.gmail.fattazzo.formula1world.service.DataService;
@@ -34,7 +32,7 @@ import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 import java.util.List;
 
-@EFragment(R.layout.progress_driver_fragment)
+@EFragment(R.layout.fragment_driver_progress)
 public class ProgressConstructorFragment extends Fragment {
 
     @FragmentArg

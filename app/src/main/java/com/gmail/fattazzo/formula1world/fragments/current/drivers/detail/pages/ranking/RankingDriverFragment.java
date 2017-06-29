@@ -32,7 +32,7 @@ import java.util.List;
  *         <p/>
  *         date: 21/04/17
  */
-@EFragment(R.layout.ranking_driver_fragment)
+@EFragment(R.layout.fragment_driver_ranking)
 public class RankingDriverFragment extends Fragment {
 
     @FragmentArg

@@ -10,7 +10,6 @@ import android.widget.TableLayout;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
-import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResults;
 import com.gmail.fattazzo.formula1world.service.DataService;
 
 import org.androidannotations.annotations.AfterViews;
@@ -24,7 +23,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-@EFragment(R.layout.progress_driver_fragment)
+@EFragment(R.layout.fragment_driver_progress)
 public class ProgressDriverFragment extends Fragment {
 
     @FragmentArg

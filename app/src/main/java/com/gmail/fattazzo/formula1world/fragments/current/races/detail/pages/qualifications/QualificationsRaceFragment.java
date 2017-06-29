@@ -61,7 +61,7 @@ public class QualificationsRaceFragment extends Fragment implements ITitledFragm
 
     @Click
     void refreshFab() {
-        raceQualifications = null;
+        dataService.clearRaceQualifications(race);
         load();
     }
 
@@ -76,9 +76,7 @@ public class QualificationsRaceFragment extends Fragment implements ITitledFragm
     void load() {
         startLoad();
 
-        if (raceQualifications == null) {
-            raceQualifications = dataService.loadQualification(race);
-        }
+        raceQualifications = dataService.loadQualification(race);
         updateUI();
     }
 

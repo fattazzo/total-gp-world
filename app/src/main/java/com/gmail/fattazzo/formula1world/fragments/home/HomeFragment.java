@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 currentCircuitTask.loadCurrentSchedule(true);
                 currentDriverStandingsTask.loadCurrentStandings(true);
                 currentConstructorStandingsTask.loadCurrentStandings(true);

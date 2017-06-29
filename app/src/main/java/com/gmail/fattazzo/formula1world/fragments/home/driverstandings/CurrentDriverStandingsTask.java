@@ -72,6 +72,9 @@ public class CurrentDriverStandingsTask implements View.OnTouchListener {
 
     @Background
     public void loadCurrentStandings(boolean reloadData) {
+        if (reloadData) {
+            dataService.clearDriverStandingsCache();
+        }
         driverStandings = null;
         loadCurrentStandings();
     }

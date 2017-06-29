@@ -55,7 +55,7 @@ public class CurrentRacesFragment extends Fragment implements SwipeRefreshLayout
         listView.setAdapter(racesListAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);
         if (racesListAdapter.isEmpty()) {
-            onRefresh();
+            loadRaces();
         }
     }
 
@@ -103,6 +103,7 @@ public class CurrentRacesFragment extends Fragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
+        dataService.clearRacesCache();
         loadRaces();
     }
 

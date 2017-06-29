@@ -45,4 +45,23 @@ public class F1Race implements Serializable {
                 ", time='" + time + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        F1Race f1Race = (F1Race) o;
+
+        if (year != f1Race.year) return false;
+        return round == f1Race.round;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = year;
+        result = 31 * result + round;
+        return result;
+    }
 }

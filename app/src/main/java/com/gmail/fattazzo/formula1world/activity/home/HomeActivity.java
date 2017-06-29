@@ -51,7 +51,7 @@ import static com.dspot.declex.Action.$CurrentRacesFragment;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final int PREF_ACTIVITY_RESULT = 1;
-
+    private static final String TAG = HomeActivity.class.getSimpleName();
     @Bean
     Ergast ergast;
 
@@ -74,6 +74,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
+            Log.d(TAG, "Clear cache");
+            dataService.clearCache();
             // Instanzio il fragment se savedInstanceState == null altrimenti (ad es. girando il dispositivo)
             // viene rimesso anche se quello attivo è un altro
             final HomeFragmentActionHolder_ $HomeFragment0 = HomeFragmentActionHolder_.getInstance_(this);
@@ -158,6 +160,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 drawer_layout.closeDrawer(GravityCompat.START);
 
                 if (oldSeason != ergast.getSeason()) {
+                    dataService.clearCache();
                     dataService.importDBIfNecessary();
 
                     final HomeFragmentActionHolder_ $HomeFragment0 = HomeFragmentActionHolder_.getInstance_(HomeActivity.this);

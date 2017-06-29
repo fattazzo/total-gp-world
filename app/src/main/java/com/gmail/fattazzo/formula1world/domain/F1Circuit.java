@@ -1,11 +1,13 @@
 package com.gmail.fattazzo.formula1world.domain;
 
+import java.io.Serializable;
+
 /**
  * @author fattazzo
  *         <p/>
  *         date: 06/06/17
  */
-public class F1Circuit {
+public class F1Circuit implements Serializable {
 
     public String circuitRef;
 

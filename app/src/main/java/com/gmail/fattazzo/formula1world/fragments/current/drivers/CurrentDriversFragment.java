@@ -64,7 +64,7 @@ public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayo
         listView.setAdapter(driversListAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);
         if (driversListAdapter.isEmpty()) {
-            onRefresh();
+            loadDrivers();
         }
     }
 
@@ -132,6 +132,7 @@ public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void onRefresh() {
+        dataService.clearDriversCache();
         loadDrivers();
     }
 

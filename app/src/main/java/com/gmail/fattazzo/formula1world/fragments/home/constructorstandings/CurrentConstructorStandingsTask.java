@@ -73,6 +73,9 @@ public class CurrentConstructorStandingsTask implements View.OnTouchListener {
 
     @Background
     public void loadCurrentStandings(boolean reloadData) {
+        if (reloadData) {
+            dataService.clearConstructorStandingsCache();
+        }
         constructorStandings = null;
         loadCurrentStandings();
     }

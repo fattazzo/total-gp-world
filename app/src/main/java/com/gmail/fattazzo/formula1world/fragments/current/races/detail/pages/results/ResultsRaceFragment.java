@@ -61,7 +61,7 @@ public class ResultsRaceFragment extends Fragment implements ITitledFragment {
 
     @Click
     void refreshFab() {
-        raceResults = null;
+        dataService.clearRaceResultsCache(race);
         load();
     }
 
@@ -76,9 +76,7 @@ public class ResultsRaceFragment extends Fragment implements ITitledFragment {
     void load() {
         startLoad();
 
-        if (raceResults == null) {
-            raceResults = dataService.loadRaceResult(race);
-        }
+        raceResults = dataService.loadRaceResult(race);
         updateUI();
     }
 

@@ -21,6 +21,7 @@ import com.gmail.fattazzo.formula1world.ergast.json.service.OnlineDataService;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,9 +48,43 @@ public class DataService implements IDataService {
     LocalDBDataService localDBDataService;
 
     @Bean
+    DataCache dataCache;
+
+    @Bean
     ErgastDBImporter dbImporter;
 
     private List<Integer> availableSeasons;
+
+    // ------------------- Data Cache Actions -------------------
+    public void clearCache() {
+        dataCache.clearAll();
+    }
+
+    public void clearDriverStandingsCache() {
+        dataCache.clearDriverStandings();
+    }
+
+    public void clearConstructorStandingsCache() {
+        dataCache.clearConstructorStandings();
+    }
+
+    public void clearDriversCache() {
+        dataCache.clearDrivers();
+    }
+
+    public void clearRacesCache() {
+        dataCache.clearRaces();
+    }
+
+    public void clearRaceResultsCache(F1Race race) {
+        dataCache.clearRaceResults(race);
+    }
+
+    public void clearRaceQualifications(F1Race race) {
+        dataCache.clearRaceQualifications(race);
+    }
+
+    // ----------------------------------------------------------
 
     public List<Integer> getAvailableSeasons() {
         if (availableSeasons == null) {
@@ -107,7 +142,12 @@ public class DataService implements IDataService {
     @NonNull
     @Override
     public List<F1Driver> loadDrivers() {
-        return getDataServiceImpl().loadDrivers();
+        List<F1Driver> drivers = dataCache.getDrivers();
+        if (CollectionUtils.isEmpty(drivers)) {
+            drivers = getDataServiceImpl().loadDrivers();
+            dataCache.setDrivers(drivers);
+        }
+        return drivers;
     }
 
     @NonNull
@@ -137,7 +177,12 @@ public class DataService implements IDataService {
     @NonNull
     @Override
     public List<F1DriverStandings> loadDriverStandings() {
-        return getDataServiceImpl().loadDriverStandings();
+        List<F1DriverStandings> driverStandings = dataCache.getDriverStandings();
+        if (CollectionUtils.isEmpty(driverStandings)) {
+            driverStandings = getDataServiceImpl().loadDriverStandings();
+            dataCache.setDriverStandings(driverStandings);
+        }
+        return driverStandings;
     }
 
     @Nullable
@@ -149,24 +194,44 @@ public class DataService implements IDataService {
     @NonNull
     @Override
     public List<F1ConstructorStandings> loadConstructorStandings() {
-        return getDataServiceImpl().loadConstructorStandings();
+        List<F1ConstructorStandings> constructorStandings = dataCache.getConstructorStandings();
+        if (CollectionUtils.isEmpty(constructorStandings)) {
+            constructorStandings = getDataServiceImpl().loadConstructorStandings();
+            dataCache.setConstructorStandings(constructorStandings);
+        }
+        return constructorStandings;
     }
 
     @NonNull
     @Override
     public List<F1Race> loadRaces() {
-        return getDataServiceImpl().loadRaces();
+        List<F1Race> races = dataCache.getRaces();
+        if (CollectionUtils.isEmpty(races)) {
+            races = getDataServiceImpl().loadRaces();
+            dataCache.setRaces(races);
+        }
+        return races;
     }
 
     @NonNull
     @Override
     public List<F1Result> loadRaceResult(F1Race race) {
-        return getDataServiceImpl().loadRaceResult(race);
+        List<F1Result> results = dataCache.getRaceResultsCache(race);
+        if (CollectionUtils.isEmpty(results)) {
+            results = getDataServiceImpl().loadRaceResult(race);
+            dataCache.setRaceResults(race, results);
+        }
+        return results;
     }
 
     @NonNull
     @Override
     public List<F1Qualification> loadQualification(F1Race race) {
-        return getDataServiceImpl().loadQualification(race);
+        List<F1Qualification> qualifications = dataCache.getRaceQualificationsCache(race);
+        if (CollectionUtils.isEmpty(qualifications)) {
+            qualifications = getDataServiceImpl().loadQualification(race);
+            dataCache.setRaceQualifications(race, qualifications);
+        }
+        return qualifications;
     }
 }

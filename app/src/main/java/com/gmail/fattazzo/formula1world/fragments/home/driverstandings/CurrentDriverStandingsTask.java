@@ -10,7 +10,6 @@ import android.widget.ViewFlipper;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
-import com.gmail.fattazzo.formula1world.ergast.json.objects.DriverStandings;
 import com.gmail.fattazzo.formula1world.service.DataService;
 
 import org.androidannotations.annotations.Background;

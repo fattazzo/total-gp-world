@@ -1,7 +1,5 @@
 package com.gmail.fattazzo.formula1world.domain;
 
-import com.gmail.fattazzo.formula1world.ergast.json.objects.Time;
-
 /**
  * @author fattazzo
  *         <p/>

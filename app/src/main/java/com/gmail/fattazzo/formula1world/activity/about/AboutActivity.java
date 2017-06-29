@@ -29,8 +29,6 @@ import static com.dspot.declex.Action.$HomeFragment;
 @EActivity(R.layout.activity_about)
 public class AboutActivity extends Activity {
 
-    public static final String TAG = AboutActivity.class.getSimpleName();
-
     @Bean
     Utils utils;
 

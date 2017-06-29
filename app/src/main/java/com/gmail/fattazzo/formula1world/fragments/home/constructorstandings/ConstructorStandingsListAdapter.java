@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
-import com.gmail.fattazzo.formula1world.ergast.json.objects.ConstructorStandings;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;

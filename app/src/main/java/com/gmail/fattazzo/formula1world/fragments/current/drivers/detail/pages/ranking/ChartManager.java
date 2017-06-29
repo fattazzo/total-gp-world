@@ -67,7 +67,7 @@ class ChartManager {
             boolean evenData = idx % 2 == 0;
             switch (type) {
                 case POSITIONS:
-                    entries.add(new Entry(result.race.round, result.positionOrder,evenData));
+                    entries.add(new Entry(result.race.round, result.positionOrder, evenData));
                     break;
                 case POINTS:
                     entries.add(new Entry(result.race.round, points, evenData));
@@ -117,9 +117,6 @@ class ChartManager {
         }
         pointsChart.setData(pointsLineData);
         configureDataSet(pointsDataSet, pointsChart.getAxisLeft().getAxisMinimum());
-        if (leaderPointsDataSet != null) {
-
-        }
     }
 
     void loadPositionsChartData(@NonNull LineChart positionChart, @NonNull List<F1Result> results) {

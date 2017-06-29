@@ -5,10 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
-import com.gmail.fattazzo.formula1world.fragments.current.constructors.ConstructorItemView;
-import com.gmail.fattazzo.formula1world.fragments.current.constructors.ConstructorItemView_;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;

@@ -1,7 +1,6 @@
 package com.gmail.fattazzo.formula1world.activity.home;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -23,7 +22,6 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.activity.about.AboutActivity_;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment;

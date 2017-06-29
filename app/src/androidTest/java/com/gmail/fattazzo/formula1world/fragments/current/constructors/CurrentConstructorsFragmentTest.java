@@ -14,7 +14,6 @@ import static android.support.test.espresso.contrib.DrawerActions.close;
 import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.*;
 
 /**
  * @author fattazzo

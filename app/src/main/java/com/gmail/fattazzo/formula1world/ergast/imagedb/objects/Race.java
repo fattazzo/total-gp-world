@@ -3,10 +3,8 @@ package com.gmail.fattazzo.formula1world.ergast.imagedb.objects;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.dspot.declex.api.localdb.LocalDBModel;
 import com.gmail.fattazzo.formula1world.domain.F1Circuit;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
-import com.gmail.fattazzo.formula1world.domain.F1Result;
 
 /**
  * @author fattazzo

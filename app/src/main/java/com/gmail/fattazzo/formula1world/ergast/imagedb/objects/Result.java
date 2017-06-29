@@ -10,8 +10,6 @@ import com.gmail.fattazzo.formula1world.domain.F1Time;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Collection;
-
 /**
  * @author fattazzo
  *         <p/>

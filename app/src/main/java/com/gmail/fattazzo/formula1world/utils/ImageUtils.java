@@ -11,7 +11,6 @@ import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.config.Config;
 
 import org.androidannotations.annotations.EBean;

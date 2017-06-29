@@ -3,13 +3,11 @@ package com.gmail.fattazzo.formula1world.ergast.imagedb.objects;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.dspot.declex.api.localdb.LocalDBModel;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author fattazzo

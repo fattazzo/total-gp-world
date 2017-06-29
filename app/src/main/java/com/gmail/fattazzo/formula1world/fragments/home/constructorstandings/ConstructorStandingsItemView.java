@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
-import com.gmail.fattazzo.formula1world.ergast.json.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
 
 import org.androidannotations.annotations.Bean;

@@ -13,9 +13,6 @@ import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.qua
 import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.qualifications.QualificationsRaceFragment_;
 import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.results.ResultsRaceFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.results.ResultsRaceFragment_;
-import com.gmail.fattazzo.formula1world.service.IDataService;
-
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;

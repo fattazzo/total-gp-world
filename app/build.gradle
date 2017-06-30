@@ -7,8 +7,8 @@ android {
         applicationId "com.gmail.fattazzo.formula1world"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 4
-        versionName "0.3"
+        versionCode 5
+        versionName "0.4"
         setProperty("archivesBaseName", "Formula1-world-$versionName")
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

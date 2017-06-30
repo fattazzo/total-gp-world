@@ -93,6 +93,11 @@ public class AboutActivity extends Activity {
         utils.openLink("https://bitbucket.org/fattazzo/formula-1-world/");
     }
 
+    @Click(R.id.project_wiki)
+    void openProjectWikiAction() {
+        utils.openLink("https://bitbucket.org/fattazzo/formula-1-world/wiki/Home");
+    }
+
     // ---------- Attribution ------------------------
     @Click(R.id.ergast_button)
     void openErgastWebPage() {

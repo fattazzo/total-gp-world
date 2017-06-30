@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:layout_width="match_parent"
@@ -59,6 +59,16 @@
             android:gravity="center_vertical"
             android:text="@string/about_project_source"
             android:textAppearance="@style/TextAppearance.Small"/>
+
+        <TextView
+            android:id="@+id/project_wiki"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:drawableStart="@android:drawable/ic_menu_info_details"
+            android:gravity="center_vertical"
+            android:text="@string/about_project_wiki"
+            android:textAppearance="@style/TextAppearance.Small" />
     </LinearLayout>
 
 </LinearLayout>

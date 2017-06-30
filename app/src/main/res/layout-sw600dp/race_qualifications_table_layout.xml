@@ -12,37 +12,44 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/constructors"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Small" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/drivers"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Small"/>
+            android:textAppearance="@style/TextAppearance.Small" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pos"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Small"/>
+            android:textAppearance="@style/TextAppearance.Small" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Q1"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Small"/>
+            android:textAppearance="@style/TextAppearance.Small" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Q2"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Small"/>
+            android:textAppearance="@style/TextAppearance.Small" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Q3"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Small"/>
+            android:textAppearance="@style/TextAppearance.Small" />
     </TableRow>
 
 </TableLayout>

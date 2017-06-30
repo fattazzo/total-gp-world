@@ -36,6 +36,7 @@ import java.util.List;
  */
 @EBean(scope = EBean.Scope.Singleton)
 public class DataService implements IDataService {
+    private static final String TAG = DataService.class.getSimpleName();
 
     @RootContext
     Context context;
@@ -87,6 +88,10 @@ public class DataService implements IDataService {
 
     public void clearRaceQualifications(F1Race race) {
         dataCache.clearRaceQualifications(race);
+    }
+
+    public void clearDriverRaceResultsCache(F1Driver driver) {
+        dataCache.clearDriverRaceResults(driver);
     }
     // ----------------------------------------------------------
 
@@ -162,8 +167,13 @@ public class DataService implements IDataService {
 
     @NonNull
     @Override
-    public List<F1Result> loadDriverRacesResult(String driverRef) {
-        return getDataServiceImpl().loadDriverRacesResult(driverRef);
+    public synchronized List<F1Result> loadDriverRacesResult(F1Driver driver) {
+        List<F1Result> results = dataCache.getDriverRaceResults(driver);
+        if (CollectionUtils.isEmpty(results)) {
+            results = getDataServiceImpl().loadDriverRacesResult(driver);
+            dataCache.setDriverRaceResults(driver, results);
+        }
+        return results;
     }
 
     @NonNull

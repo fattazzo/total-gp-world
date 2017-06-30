@@ -60,13 +60,13 @@ public class ProgressDriverFragment extends Fragment {
 
     @Click
     void refreshFab() {
-        raceResults = null;
+        dataService.clearDriverRaceResultsCache(driver);
         load();
     }
 
     @UiThread
     void startLoad() {
-        if(progressBar != null) {
+        if (progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
         }
     }
@@ -74,17 +74,14 @@ public class ProgressDriverFragment extends Fragment {
     @Background
     void load() {
         startLoad();
-
-        if (raceResults == null) {
-            raceResults = dataService.loadDriverRacesResult(driver.driverRef);
-        }
+        raceResults = dataService.loadDriverRacesResult(driver);
         updateUI();
     }
 
     @UiThread
     void updateUI() {
         try {
-            if(tableLayout != null) {
+            if (tableLayout != null) {
                 tableLayout.removeViews(1, tableLayout.getChildCount() - 1);
 
                 int rowNumber = 1;
@@ -97,7 +94,7 @@ public class ProgressDriverFragment extends Fragment {
                 }
             }
         } finally {
-            if(progressBar != null) {
+            if (progressBar != null) {
                 progressBar.setVisibility(View.INVISIBLE);
             }
         }

@@ -80,10 +80,10 @@ public class OnlineDataService implements IDataService {
 
     @Override
     @NonNull
-    public List<F1Result> loadDriverRacesResult(String driverRef) {
+    public List<F1Result> loadDriverRacesResult(F1Driver driver) {
         List<F1Result> results = new ArrayList<>();
         try {
-            List<RaceResults> jsonResults = ergastManager.getDriverRacersResult(driverRef);
+            List<RaceResults> jsonResults = ergastManager.getDriverRacersResult(driver.driverRef);
             for (RaceResults jsonresult : jsonResults) {
                 results.addAll(jsonresult.toF1Result());
             }

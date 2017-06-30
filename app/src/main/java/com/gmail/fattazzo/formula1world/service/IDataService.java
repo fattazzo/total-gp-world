@@ -37,11 +37,11 @@ public interface IDataService {
     List<F1Constructor> loadConstructors();
 
     /**
-     * @param driverRef driver ref
+     * @param driver driver
      * @return race results
      */
     @NonNull
-    List<F1Result> loadDriverRacesResult(String driverRef);
+    List<F1Result> loadDriverRacesResult(F1Driver driver);
 
     /**
      * @param constructorRef constructor ref

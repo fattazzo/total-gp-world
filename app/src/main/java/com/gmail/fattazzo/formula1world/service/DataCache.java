@@ -30,6 +30,7 @@ class DataCache {
     private List<F1Race> racesCache = new ArrayList<>();
     private List<F1DriverStandings> driverStandingsCache = new ArrayList<>();
     private List<F1ConstructorStandings> constructorStandingsCache = new ArrayList<>();
+    private Map<F1Driver, List<F1Result>> driverRaceResultsCache = new HashMap<>();
 
     void clearAll() {
         raceQualificationsCache.clear();
@@ -38,6 +39,7 @@ class DataCache {
         racesCache.clear();
         constructorStandingsCache.clear();
         driverStandingsCache.clear();
+        driverRaceResultsCache.clear();
     }
 
     void clearDriverStandings() {
@@ -62,6 +64,10 @@ class DataCache {
 
     void clearRaceQualifications(F1Race race) {
         raceQualificationsCache.remove(race);
+    }
+
+    void clearDriverRaceResults(F1Driver driver) {
+        driverRaceResultsCache.remove(driver);
     }
 
     List<F1Result> getRaceResultsCache(F1Race race) {
@@ -110,5 +116,13 @@ class DataCache {
 
     public void setConstructorStandings(List<F1ConstructorStandings> constructorStandingsCache) {
         this.constructorStandingsCache = ListUtils.emptyIfNull(constructorStandingsCache);
+    }
+
+    List<F1Result> getDriverRaceResults(F1Driver driver) {
+        return MapUtils.emptyIfNull(driverRaceResultsCache).get(driver);
+    }
+
+    void setDriverRaceResults(F1Driver driver, List<F1Result> results) {
+        driverRaceResultsCache.put(driver, results);
     }
 }

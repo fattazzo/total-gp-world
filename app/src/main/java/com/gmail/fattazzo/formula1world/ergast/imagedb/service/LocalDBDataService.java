@@ -100,14 +100,14 @@ public class LocalDBDataService implements IDataService {
 
     @NonNull
     @Override
-    public List<F1Result> loadDriverRacesResult(String driverRef) {
+    public List<F1Result> loadDriverRacesResult(F1Driver driver) {
         List<F1Result> results = new ArrayList<>();
         try {
             List<Result> dbResults = new Select("res.*").from(Result.class).as("res")
                     .innerJoin(Race.class).as("rac").on("rac.Id = res.raceId")
                     .innerJoin(Driver.class).as("dr").on("dr.Id = res.driverId")
                     .where("rac.year = ?", ergast.getSeason())
-                    .where("dr.driverRef = ?", driverRef)
+                    .where("dr.driverRef = ?", driver.driverRef)
                     .execute();
             for (Result result : dbResults) {
                 results.add(result.toF1Result());

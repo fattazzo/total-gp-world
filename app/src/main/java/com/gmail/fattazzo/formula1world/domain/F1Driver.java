@@ -44,4 +44,20 @@ public class F1Driver implements Serializable {
                 ", nationality='" + nationality + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        F1Driver driver = (F1Driver) o;
+
+        return driverRef.equals(driver.driverRef);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return driverRef.hashCode();
+    }
 }

@@ -23,6 +23,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,8 +80,10 @@ public class RankingDriverFragment extends Fragment {
 
     @Click
     void refreshFab() {
-        raceResults = null;
-        leaderRaceResults = null;
+        dataService.clearDriverRaceResultsCache(driver);
+        if (CollectionUtils.isNotEmpty(leaderRaceResults)) {
+            dataService.clearDriverRaceResultsCache(leaderRaceResults.get(0).driver);
+        }
         loadData();
     }
 
@@ -95,17 +98,12 @@ public class RankingDriverFragment extends Fragment {
     void loadData() {
         startLoad();
 
-        if (raceResults == null) {
-            raceResults = dataService.loadDriverRacesResult(driver.driverRef);
-        }
+        raceResults = dataService.loadDriverRacesResult(driver);
 
-        if (leaderRaceResults == null) {
-            leaderRaceResults = new ArrayList<>();
-
-            F1DriverStandings driverLeader = dataService.loadDriverLeader();
-            if (driverLeader != null) {
-                leaderRaceResults = dataService.loadDriverRacesResult(driverLeader.driver.driverRef);
-            }
+        leaderRaceResults = new ArrayList<>();
+        F1DriverStandings driverLeader = dataService.loadDriverLeader();
+        if (driverLeader != null) {
+            leaderRaceResults = dataService.loadDriverRacesResult(driverLeader.driver);
         }
 
         loadChartData();

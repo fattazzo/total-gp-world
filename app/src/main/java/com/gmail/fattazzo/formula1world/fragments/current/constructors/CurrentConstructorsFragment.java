@@ -59,7 +59,7 @@ public class CurrentConstructorsFragment extends Fragment implements SwipeRefres
         listView.setAdapter(constructorsListAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);
         if (constructorsListAdapter.isEmpty()) {
-            onRefresh();
+            loadConstructors();
         }
     }
 
@@ -107,6 +107,7 @@ public class CurrentConstructorsFragment extends Fragment implements SwipeRefres
 
     @Override
     public void onRefresh() {
+        dataService.clearConstructorsCache();
         loadConstructors();
     }
 

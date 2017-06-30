@@ -69,7 +69,7 @@ public class ProgressConstructorFragment extends Fragment {
 
     @Click
     void refreshFab() {
-        raceResults = null;
+        dataService.clearConstructorRaceResultsCache(constructor);
         load();
     }
 
@@ -83,10 +83,7 @@ public class ProgressConstructorFragment extends Fragment {
     @Background
     void load() {
         startLoad();
-
-        if (raceResults == null) {
-            raceResults = dataService.loadConstructorRacesResult(constructor.constructorRef);
-        }
+        raceResults = dataService.loadConstructorRacesResult(constructor);
         updateUI();
     }
 
@@ -100,8 +97,8 @@ public class ProgressConstructorFragment extends Fragment {
                 MultiValuedMap<String, F1Result> resultsMap = new ArrayListValuedHashMap<>();
 
                 for (F1Result result : raceResults) {
-                        String driverName = result.driver != null ? result.driver.getFullName() : "";
-                        resultsMap.put(driverName, result);
+                    String driverName = result.driver != null ? result.driver.getFullName() : "";
+                    resultsMap.put(driverName, result);
                 }
 
                 for (String driverName : resultsMap.keySet()) {

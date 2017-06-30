@@ -44,11 +44,11 @@ public interface IDataService {
     List<F1Result> loadDriverRacesResult(F1Driver driver);
 
     /**
-     * @param constructorRef constructor ref
+     * @param constructor constructor
      * @return race results
      */
     @NonNull
-    List<F1Result> loadConstructorRacesResult(String constructorRef);
+    List<F1Result> loadConstructorRacesResult(F1Constructor constructor);
 
     /**
      * Load season driver standings.

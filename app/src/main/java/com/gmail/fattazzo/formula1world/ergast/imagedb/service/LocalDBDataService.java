@@ -121,14 +121,14 @@ public class LocalDBDataService implements IDataService {
 
     @NonNull
     @Override
-    public List<F1Result> loadConstructorRacesResult(String constructorRef) {
+    public List<F1Result> loadConstructorRacesResult(F1Constructor constructor) {
         List<F1Result> results = new ArrayList<>();
         try {
             List<Result> dbResults = new Select("res.*").from(Result.class).as("res")
                     .innerJoin(Race.class).as("rac").on("rac.Id = res.raceId")
                     .innerJoin(Constructor.class).as("cs").on("cs.Id = res.constructorId")
                     .where("rac.year = ?", ergast.getSeason())
-                    .where("cs.constructorRef = ?", constructorRef)
+                    .where("cs.constructorRef = ?", constructor.constructorRef)
                     .execute();
             for (Result result : dbResults) {
                 results.add(result.toF1Result());

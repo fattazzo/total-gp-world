@@ -12,6 +12,7 @@ import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.Dri
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +37,8 @@ public class DriversListAdapter extends BaseAdapter {
     }
 
     public void setDrivers(List<F1Driver> drivers) {
-        this.drivers = drivers;
+        this.drivers = new ArrayList<>();
+        CollectionUtils.addAll(this.drivers, CollectionUtils.emptyIfNull(drivers));
         sortDrivers();
     }
 

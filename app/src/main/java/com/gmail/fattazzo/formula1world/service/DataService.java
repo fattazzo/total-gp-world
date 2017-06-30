@@ -78,6 +78,10 @@ public class DataService implements IDataService {
         dataCache.clearDrivers();
     }
 
+    public void clearConstructorsCache() {
+        dataCache.clearConstructors();
+    }
+
     public void clearRacesCache() {
         dataCache.clearRaces();
     }
@@ -92,6 +96,10 @@ public class DataService implements IDataService {
 
     public void clearDriverRaceResultsCache(F1Driver driver) {
         dataCache.clearDriverRaceResults(driver);
+    }
+
+    public void clearConstructorRaceResultsCache(F1Constructor constructor) {
+        dataCache.clearConstructorRaceResults(constructor);
     }
     // ----------------------------------------------------------
 
@@ -150,7 +158,7 @@ public class DataService implements IDataService {
 
     @NonNull
     @Override
-    public List<F1Driver> loadDrivers() {
+    public synchronized List<F1Driver> loadDrivers() {
         List<F1Driver> drivers = dataCache.getDrivers();
         if (CollectionUtils.isEmpty(drivers)) {
             drivers = getDataServiceImpl().loadDrivers();
@@ -161,8 +169,13 @@ public class DataService implements IDataService {
 
     @NonNull
     @Override
-    public List<F1Constructor> loadConstructors() {
-        return getDataServiceImpl().loadConstructors();
+    public synchronized List<F1Constructor> loadConstructors() {
+        List<F1Constructor> constructors = dataCache.getConstructors();
+        if (CollectionUtils.isEmpty(constructors)) {
+            constructors = getDataServiceImpl().loadConstructors();
+            dataCache.setConstructors(constructors);
+        }
+        return constructors;
     }
 
     @NonNull
@@ -178,8 +191,13 @@ public class DataService implements IDataService {
 
     @NonNull
     @Override
-    public List<F1Result> loadConstructorRacesResult(String constructorId) {
-        return getDataServiceImpl().loadConstructorRacesResult(constructorId);
+    public synchronized List<F1Result> loadConstructorRacesResult(F1Constructor constructor) {
+        List<F1Result> results = dataCache.getConstructorRaceResults(constructor);
+        if (CollectionUtils.isEmpty(results)) {
+            results = getDataServiceImpl().loadConstructorRacesResult(constructor);
+            dataCache.setConstructorRaceResults(constructor, results);
+        }
+        return results;
     }
 
     /**
@@ -188,7 +206,7 @@ public class DataService implements IDataService {
      * @return current race
      */
     @Nullable
-    public F1Race loadCurrentSchedule() {
+    public synchronized F1Race loadCurrentSchedule() {
         List<F1Race> races = loadRaces();
 
         Calendar currentDateEnd = Calendar.getInstance();
@@ -209,7 +227,7 @@ public class DataService implements IDataService {
 
     @NonNull
     @Override
-    public List<F1DriverStandings> loadDriverStandings() {
+    public synchronized List<F1DriverStandings> loadDriverStandings() {
         List<F1DriverStandings> driverStandings = dataCache.getDriverStandings();
         if (CollectionUtils.isEmpty(driverStandings)) {
             driverStandings = getDataServiceImpl().loadDriverStandings();
@@ -220,13 +238,21 @@ public class DataService implements IDataService {
 
     @Nullable
     @Override
-    public F1DriverStandings loadDriverLeader() {
+    public synchronized F1DriverStandings loadDriverLeader() {
+
+        // First get from cache
+        List<F1DriverStandings> standings = loadDriverStandings();
+        for (F1DriverStandings standing : standings) {
+            if (standing.position == 1) {
+                return standing;
+            }
+        }
         return getDataServiceImpl().loadDriverLeader();
     }
 
     @NonNull
     @Override
-    public List<F1ConstructorStandings> loadConstructorStandings() {
+    public synchronized List<F1ConstructorStandings> loadConstructorStandings() {
         List<F1ConstructorStandings> constructorStandings = dataCache.getConstructorStandings();
         if (CollectionUtils.isEmpty(constructorStandings)) {
             constructorStandings = getDataServiceImpl().loadConstructorStandings();
@@ -237,7 +263,7 @@ public class DataService implements IDataService {
 
     @NonNull
     @Override
-    public List<F1Race> loadRaces() {
+    public synchronized List<F1Race> loadRaces() {
         List<F1Race> races = dataCache.getRaces();
         if (CollectionUtils.isEmpty(races)) {
             races = getDataServiceImpl().loadRaces();
@@ -248,7 +274,7 @@ public class DataService implements IDataService {
 
     @NonNull
     @Override
-    public List<F1Result> loadRaceResult(F1Race race) {
+    public synchronized List<F1Result> loadRaceResult(F1Race race) {
         List<F1Result> results = dataCache.getRaceResultsCache(race);
         if (CollectionUtils.isEmpty(results)) {
             results = getDataServiceImpl().loadRaceResult(race);
@@ -259,7 +285,7 @@ public class DataService implements IDataService {
 
     @NonNull
     @Override
-    public List<F1Qualification> loadQualification(F1Race race) {
+    public synchronized List<F1Qualification> loadQualification(F1Race race) {
         List<F1Qualification> qualifications = dataCache.getRaceQualificationsCache(race);
         if (CollectionUtils.isEmpty(qualifications)) {
             qualifications = getDataServiceImpl().loadQualification(race);

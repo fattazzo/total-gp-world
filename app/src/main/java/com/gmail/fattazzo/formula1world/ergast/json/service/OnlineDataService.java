@@ -95,10 +95,10 @@ public class OnlineDataService implements IDataService {
 
     @Override
     @NonNull
-    public List<F1Result> loadConstructorRacesResult(String constructorId) {
+    public List<F1Result> loadConstructorRacesResult(F1Constructor constructor) {
         List<F1Result> results = new ArrayList<>();
         try {
-            List<RaceResults> jsonResults = ergastManager.getConstructorRacersResult(constructorId);
+            List<RaceResults> jsonResults = ergastManager.getConstructorRacersResult(constructor.constructorRef);
             for (RaceResults jsonresult : jsonResults) {
                 results.addAll(jsonresult.toF1Result());
             }

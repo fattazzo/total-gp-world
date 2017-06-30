@@ -51,14 +51,6 @@ public interface IDataService {
     List<F1Result> loadConstructorRacesResult(String constructorRef);
 
     /**
-     * Load current race scheduled.
-     *
-     * @return current race
-     */
-    @Nullable
-    F1Race loadCurrentSchedule();
-
-    /**
      * Load season driver standings.
      *
      * @return current standings

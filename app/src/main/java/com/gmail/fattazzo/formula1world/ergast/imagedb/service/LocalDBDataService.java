@@ -140,12 +140,6 @@ public class LocalDBDataService implements IDataService {
         return results;
     }
 
-    @Nullable
-    @Override
-    public F1Race loadCurrentSchedule() {
-        return null;
-    }
-
     @NonNull
     @Override
     public List<F1DriverStandings> loadDriverStandings() {

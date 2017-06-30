@@ -19,15 +19,12 @@ import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResult;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResults;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.Schedule;
 import com.gmail.fattazzo.formula1world.service.IDataService;
-import com.gmail.fattazzo.formula1world.utils.Utils;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
-import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -40,9 +37,6 @@ public class OnlineDataService implements IDataService {
 
     @Bean
     ErgastManager ergastManager;
-
-    @Bean
-    Utils utils;
 
     @AfterInject
     void afterInjenction() {
@@ -112,33 +106,6 @@ public class OnlineDataService implements IDataService {
             results = new ArrayList<>();
         }
         return results;
-    }
-
-    @Override
-    @Nullable
-    public F1Race loadCurrentSchedule() {
-        List<Schedule> schedules;
-        try {
-            schedules = ergastManager.getSchedules();
-        } catch (Exception e) {
-            schedules = new ArrayList<>();
-        }
-
-        Calendar currentDateEnd = Calendar.getInstance();
-        currentDateEnd.add(Calendar.HOUR_OF_DAY, 2);
-        String currentDate = DateFormatUtils.format(currentDateEnd, "yyyy-MM-dd'T'HH:mm:ss");
-
-        for (Schedule schedule : schedules) {
-
-            String scheudleDateUTC = schedule.getDate() + "T" + schedule.getTime();
-            String scheduleDateLocal = utils.convertUTCDateToLocal(scheudleDateUTC, "yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd'T'HH:mm:ss");
-
-            if (scheduleDateLocal.compareTo(currentDate) >= 0) {
-                return schedule.toF1Race();
-            }
-        }
-
-        return null;
     }
 
     @Override

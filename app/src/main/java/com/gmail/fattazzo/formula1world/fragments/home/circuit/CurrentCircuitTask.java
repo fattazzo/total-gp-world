@@ -70,7 +70,7 @@ public class CurrentCircuitTask {
     @ViewById(R.id.current_circuit_time)
     TextView roundTimeView;
 
-    F1Race raceLoaded = null;
+    private F1Race raceLoaded = null;
 
     @ViewById(R.id.current_circuit_info_button)
     void setupInfoButton(Button button) {
@@ -103,17 +103,17 @@ public class CurrentCircuitTask {
 
     @Background
     public void loadCurrentSchedule(boolean reloadData) {
-        raceLoaded = null;
+        if (reloadData) {
+            dataService.clearRacesCache();
+        }
         loadCurrentSchedule();
     }
 
     @Background
     public void loadCurrentSchedule() {
         try {
-            if (raceLoaded == null) {
-                start();
-                raceLoaded = dataService.loadCurrentSchedule();
-            }
+            start();
+            raceLoaded = dataService.loadCurrentSchedule();
         } finally {
             updateUI();
         }

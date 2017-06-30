@@ -22,7 +22,7 @@ import java.util.Map;
  *         date: 29/06/17
  */
 @EBean(scope = EBean.Scope.Singleton)
-public class DataCache {
+class DataCache {
 
     private Map<F1Race, List<F1Qualification>> raceQualificationsCache = new HashMap<>();
     private Map<F1Race, List<F1Result>> raceResultsCache = new HashMap<>();
@@ -40,43 +40,43 @@ public class DataCache {
         driverStandingsCache.clear();
     }
 
-    public void clearDriverStandings() {
+    void clearDriverStandings() {
         driverStandingsCache.clear();
     }
 
-    public void clearConstructorStandings() {
+    void clearConstructorStandings() {
         constructorStandingsCache.clear();
     }
 
-    public void clearDrivers() {
+    void clearDrivers() {
         driversCache.clear();
     }
 
-    public void clearRaces() {
+    void clearRaces() {
         racesCache.clear();
     }
 
-    public void clearRaceResults(F1Race race) {
+    void clearRaceResults(F1Race race) {
         raceResultsCache.remove(race);
     }
 
-    public void clearRaceQualifications(F1Race race) {
+    void clearRaceQualifications(F1Race race) {
         raceQualificationsCache.remove(race);
     }
 
-    public List<F1Result> getRaceResultsCache(F1Race race) {
+    List<F1Result> getRaceResultsCache(F1Race race) {
         return MapUtils.emptyIfNull(raceResultsCache).get(race);
     }
 
-    public void setRaceResults(F1Race race, List<F1Result> results) {
+    void setRaceResults(F1Race race, List<F1Result> results) {
         raceResultsCache.put(race, results);
     }
 
-    public List<F1Qualification> getRaceQualificationsCache(F1Race race) {
+    List<F1Qualification> getRaceQualificationsCache(F1Race race) {
         return MapUtils.emptyIfNull(raceQualificationsCache).get(race);
     }
 
-    public void setRaceQualifications(F1Race race, List<F1Qualification> qualifications) {
+    void setRaceQualifications(F1Race race, List<F1Qualification> qualifications) {
         raceQualificationsCache.put(race, qualifications);
     }
 

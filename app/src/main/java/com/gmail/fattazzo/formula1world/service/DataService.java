@@ -17,11 +17,13 @@ import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.importer.ErgastDBImporter;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.LocalDBDataService;
 import com.gmail.fattazzo.formula1world.ergast.json.service.OnlineDataService;
+import com.gmail.fattazzo.formula1world.utils.Utils;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +39,9 @@ public class DataService implements IDataService {
 
     @RootContext
     Context context;
+
+    @Bean
+    Utils utils;
 
     @Bean
     Ergast ergast;
@@ -83,7 +88,6 @@ public class DataService implements IDataService {
     public void clearRaceQualifications(F1Race race) {
         dataCache.clearRaceQualifications(race);
     }
-
     // ----------------------------------------------------------
 
     public List<Integer> getAvailableSeasons() {
@@ -168,10 +172,29 @@ public class DataService implements IDataService {
         return getDataServiceImpl().loadConstructorRacesResult(constructorId);
     }
 
+    /**
+     * Load current race scheduled.
+     *
+     * @return current race
+     */
     @Nullable
-    @Override
     public F1Race loadCurrentSchedule() {
-        return getDataServiceImpl().loadCurrentSchedule();
+        List<F1Race> races = loadRaces();
+
+        Calendar currentDateEnd = Calendar.getInstance();
+        currentDateEnd.add(Calendar.HOUR_OF_DAY, 2);
+        String currentDate = DateFormatUtils.format(currentDateEnd, "yyyy-MM-dd'T'HH:mm:ss");
+
+        for (F1Race race : CollectionUtils.emptyIfNull(races)) {
+            String scheudleDateUTC = race.date + "T" + race.time;
+            String scheduleDateLocal = utils.convertUTCDateToLocal(scheudleDateUTC, "yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd'T'HH:mm:ss");
+
+            if (scheduleDateLocal.compareTo(currentDate) >= 0) {
+                return race;
+            }
+        }
+
+        return null;
     }
 
     @NonNull

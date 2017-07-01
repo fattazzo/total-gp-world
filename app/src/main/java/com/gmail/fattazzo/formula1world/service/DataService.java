@@ -36,7 +36,6 @@ import java.util.List;
  */
 @EBean(scope = EBean.Scope.Singleton)
 public class DataService implements IDataService {
-    private static final String TAG = DataService.class.getSimpleName();
 
     @RootContext
     Context context;

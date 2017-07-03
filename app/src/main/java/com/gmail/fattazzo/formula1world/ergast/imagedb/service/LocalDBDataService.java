@@ -9,6 +9,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
@@ -17,6 +18,7 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverStandings;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.PitStop;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Qualification;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Race;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Result;
@@ -264,6 +266,29 @@ public class LocalDBDataService implements IDataService {
             Log.e(TAG, e.getMessage(), e);
             results = new ArrayList<>();
         }
+        return results;
+    }
+
+    @NonNull
+    @Override
+    public List<F1PitStop> loadPitStops(F1Race race) {
+        List<F1PitStop> results = new ArrayList<>();
+
+        try {
+            List<PitStop> dbResult = new Select("pits.*").from(PitStop.class).as("pits")
+                    .innerJoin(Race.class).as("rac").on("rac.Id = pits.raceId")
+                    .leftJoin(Driver.class).as("dr").on("dr.id = pits.driverId")
+                    .where("rac.round = ?", race.round)
+                    .where("rac.year = ?", ergast.getSeason())
+                    .execute();
+            for (PitStop result : dbResult) {
+                results.add(result.f1PitStop());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+            results = new ArrayList<>();
+        }
+
         return results;
     }
 }

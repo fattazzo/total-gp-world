@@ -1,5 +1,13 @@
 package com.gmail.fattazzo.formula1world.ergast.json.objects;
 
+import com.gmail.fattazzo.formula1world.domain.F1Driver;
+import com.gmail.fattazzo.formula1world.domain.F1PitStop;
+import com.gmail.fattazzo.formula1world.domain.F1Race;
+
+import org.apache.commons.collections4.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,15 +25,15 @@ public class RacePitStops {
     private String time;
     private List<PitStop> pitStops;
 
-    public RacePitStops(int season, int round, String url, String raceName, Circuit circuit, String date, String time, List<PitStop> pitStops) {
-        this.season = season;
-        this.round = round;
-        this.url = url;
-        this.raceName = raceName;
-        this.circuit = circuit;
-        this.date = date;
-        this.time = time;
-        this.pitStops = pitStops;
+    public List<F1PitStop> toF1PitStop(F1Race race, List<F1Driver> drivers) {
+        List<F1PitStop> pits = new ArrayList<>();
+
+        Collection<PitStop> pitStopsRace = CollectionUtils.emptyIfNull(pitStops);
+        for (PitStop pitStop : pitStopsRace) {
+            pits.add(pitStop.toF1PitStop(race, drivers));
+        }
+
+        return pits;
     }
 
     @Override

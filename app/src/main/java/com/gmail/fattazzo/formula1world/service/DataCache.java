@@ -4,6 +4,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
@@ -27,6 +28,7 @@ class DataCache {
 
     private Map<F1Race, List<F1Qualification>> raceQualificationsCache = new HashMap<>();
     private Map<F1Race, List<F1Result>> raceResultsCache = new HashMap<>();
+    private Map<F1Race, List<F1PitStop>> racePitStopsCache = new HashMap<>();
     private List<F1Driver> driversCache = new ArrayList<>();
     private List<F1Constructor> constructorsCache = new ArrayList<>();
     private List<F1Race> racesCache = new ArrayList<>();
@@ -38,6 +40,7 @@ class DataCache {
     void clearAll() {
         raceQualificationsCache.clear();
         raceResultsCache.clear();
+        racePitStopsCache.clear();
         driversCache.clear();
         constructorsCache.clear();
         racesCache.clear();
@@ -73,6 +76,10 @@ class DataCache {
 
     void clearRaceQualifications(F1Race race) {
         raceQualificationsCache.remove(race);
+    }
+
+    void clearRacePitStops(F1Race race) {
+        racePitStopsCache.remove(race);
     }
 
     void clearDriverRaceResults(F1Driver driver) {
@@ -153,5 +160,13 @@ class DataCache {
 
     void setConstructorRaceResults(F1Constructor constructor, List<F1Result> results) {
         constructorRaceResultsCache.put(constructor, results);
+    }
+
+    List<F1PitStop> getRacePitStops(F1Race race) {
+        return MapUtils.emptyIfNull(racePitStopsCache).get(race);
+    }
+
+    void setRacePitStops(F1Race race, List<F1PitStop> pitStops) {
+        racePitStopsCache.put(race, pitStops);
     }
 }

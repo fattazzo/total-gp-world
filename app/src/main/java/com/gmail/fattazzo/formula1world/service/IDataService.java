@@ -7,6 +7,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
@@ -99,4 +100,13 @@ public interface IDataService {
      */
     @NonNull
     List<F1Qualification> loadQualification(F1Race race);
+
+    /**
+     * Load race pit stops
+     *
+     * @param race race
+     * @return pit stops
+     */
+    @NonNull
+    List<F1PitStop> loadPitStops(F1Race race);
 }

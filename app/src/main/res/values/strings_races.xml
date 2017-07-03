@@ -2,4 +2,5 @@
 <resources>
     <string name="detail_race_results_tab_title">Results</string>
     <string name="detail_race_qualifications_tab_title">Qualifications</string>
+    <string name="detail_race_statistics_tab_title">Statistics</string>
 </resources>

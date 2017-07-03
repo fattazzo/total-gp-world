@@ -7,6 +7,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
@@ -15,6 +16,7 @@ import com.gmail.fattazzo.formula1world.ergast.json.ErgastManager;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.DriverStandings;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.Qualification;
+import com.gmail.fattazzo.formula1world.ergast.json.objects.RacePitStops;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResult;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResults;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.Schedule;
@@ -194,6 +196,25 @@ public class OnlineDataService implements IDataService {
             List<Qualification> jsonResults = ergastManager.getQualificationResults(race.round);
             for (Qualification jsonQualification : jsonResults) {
                 results.add(jsonQualification.toF1Qualification(race));
+            }
+        } catch (Exception e) {
+            results = new ArrayList<>();
+        }
+
+        return results;
+    }
+
+    @NonNull
+    @Override
+    public List<F1PitStop> loadPitStops(F1Race race) {
+        List<F1PitStop> results = new ArrayList<>();
+
+        List<F1Driver> drivers = loadDrivers();
+
+        try {
+            List<RacePitStops> jsonResults = ergastManager.getRacePitStops(race.round);
+            for (RacePitStops jsonPit : jsonResults) {
+                results.addAll(jsonPit.toF1PitStop(race,drivers));
             }
         } catch (Exception e) {
             results = new ArrayList<>();

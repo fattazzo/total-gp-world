@@ -28,9 +28,15 @@
     <string name="constructors">Constructors</string>
     <string name="driverStandings">Driver standings</string>
     <string name="constructorStandings">Constructor standings</string>
+    <string name="stop">Stop</string>
+    <string name="lap">Lap</string>
+    <string name="time">Time</string>
+    <string name="duration">Duration</string>
 
     <string name="import_dbimage_title">Importing older seasons data</string>
     <string name="import_dbimage_init">Starting</string>
 
     <string name="info_fragment_title">Info</string>
+
+    <string name="sort_by">Ordina per&#8230;</string>
 </resources>

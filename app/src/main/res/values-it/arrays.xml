@@ -21,4 +21,9 @@
         <item>Chiaro</item>
     </string-array>
 
+    <string-array name="race_statistics_entry">
+        <item>Select one…</item>
+        <item>Pit stops</item>
+    </string-array>
+
 </resources>

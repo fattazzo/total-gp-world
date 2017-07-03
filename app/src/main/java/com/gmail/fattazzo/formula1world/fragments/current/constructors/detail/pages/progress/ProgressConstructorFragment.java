@@ -3,12 +3,10 @@ package com.gmail.fattazzo.formula1world.fragments.current.constructors.detail.p
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.view.View;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -22,7 +20,6 @@ import com.gmail.fattazzo.formula1world.service.DataService;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.UiThread;
@@ -33,7 +30,7 @@ import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import java.util.List;
 
 @EFragment(R.layout.fragment_driver_progress)
-public class ProgressConstructorFragment extends Fragment {
+public class ProgressConstructorFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @FragmentArg
     F1Constructor constructor;
@@ -42,10 +39,7 @@ public class ProgressConstructorFragment extends Fragment {
     LinearLayout mainLayout;
 
     @ViewById
-    FloatingActionButton refreshFab;
-
-    @ViewById
-    ProgressBar progressBar;
+    SwipeRefreshLayout swipe_refresh_layout;
 
     @Bean
     DataService dataService;
@@ -64,19 +58,15 @@ public class ProgressConstructorFragment extends Fragment {
     void init() {
         mainLayout.removeAllViews();
 
-        load();
-    }
+        swipe_refresh_layout.setOnRefreshListener(this);
 
-    @Click
-    void refreshFab() {
-        dataService.clearConstructorRaceResultsCache(constructor);
         load();
     }
 
     @UiThread
     void startLoad() {
-        if (progressBar != null) {
-            progressBar.setVisibility(View.VISIBLE);
+        if (swipe_refresh_layout != null) {
+            swipe_refresh_layout.setRefreshing(true);
         }
     }
 
@@ -133,9 +123,15 @@ public class ProgressConstructorFragment extends Fragment {
                 //tableLayout.getChildAt(0).setVisibility(View.INVISIBLE);
             }
         } finally {
-            if (progressBar != null) {
-                progressBar.setVisibility(View.INVISIBLE);
+            if (swipe_refresh_layout != null) {
+                swipe_refresh_layout.setRefreshing(false);
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        dataService.clearConstructorRaceResultsCache(constructor);
+        load();
     }
 }

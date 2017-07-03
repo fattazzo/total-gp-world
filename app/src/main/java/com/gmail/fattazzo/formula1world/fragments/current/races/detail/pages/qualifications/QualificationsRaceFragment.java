@@ -1,10 +1,8 @@
 package com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.qualifications;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.TableLayout;
 
 import com.gmail.fattazzo.formula1world.R;
@@ -16,7 +14,6 @@ import com.gmail.fattazzo.formula1world.service.DataService;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.UiThread;
@@ -25,7 +22,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 @EFragment(R.layout.fragment_race_qualifications)
-public class QualificationsRaceFragment extends Fragment implements ITitledFragment {
+public class QualificationsRaceFragment extends Fragment implements ITitledFragment, SwipeRefreshLayout.OnRefreshListener {
 
     @FragmentArg
     F1Race race;
@@ -34,10 +31,7 @@ public class QualificationsRaceFragment extends Fragment implements ITitledFragm
     TableLayout table_Layout;
 
     @ViewById
-    FloatingActionButton refreshFab;
-
-    @ViewById
-    ProgressBar progressBar;
+    SwipeRefreshLayout swipe_refresh_layout;
 
     @Bean
     DataService dataService;
@@ -56,19 +50,15 @@ public class QualificationsRaceFragment extends Fragment implements ITitledFragm
     void init() {
         table_Layout.removeViews(1, table_Layout.getChildCount() - 1);
 
-        load();
-    }
+        swipe_refresh_layout.setOnRefreshListener(this);
 
-    @Click
-    void refreshFab() {
-        dataService.clearRaceQualifications(race);
         load();
     }
 
     @UiThread
     void startLoad() {
-        if (progressBar != null) {
-            progressBar.setVisibility(View.VISIBLE);
+        if (swipe_refresh_layout != null) {
+            swipe_refresh_layout.setRefreshing(true);
         }
     }
 
@@ -96,10 +86,16 @@ public class QualificationsRaceFragment extends Fragment implements ITitledFragm
                 }
             }
         } finally {
-            if (progressBar != null) {
-                progressBar.setVisibility(View.INVISIBLE);
+            if (swipe_refresh_layout != null) {
+                swipe_refresh_layout.setRefreshing(false);
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        dataService.clearRaceQualifications(race);
+        load();
     }
 
     @Override

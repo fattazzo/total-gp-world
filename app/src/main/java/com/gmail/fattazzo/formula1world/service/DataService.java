@@ -14,6 +14,7 @@ import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
+import com.gmail.fattazzo.formula1world.domain.F1Season;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.importer.ErgastDBImporter;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.LocalDBDataService;
@@ -107,6 +108,12 @@ public class DataService implements IDataService {
     }
     // ----------------------------------------------------------
 
+
+    @Override
+    public F1Season loadSeason(int year) {
+        return getDataServiceImpl().loadSeason(year);
+    }
+
     public List<Integer> getAvailableSeasons() {
         if (availableSeasons == null) {
             int currentYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -117,6 +124,11 @@ public class DataService implements IDataService {
             }
         }
         return availableSeasons;
+    }
+
+    @Override
+    public void updateSeason(F1Season season) {
+        getDataServiceImpl().updateSeason(season);
     }
 
     private IDataService getDataServiceImpl() {
@@ -146,7 +158,7 @@ public class DataService implements IDataService {
         }
     }
 
-    private int getSelectedSeasons() {
+    public int getSelectedSeasons() {
         int season;
         try {
             if (ergast.getSeason() == Ergast.CURRENT_SEASON) {

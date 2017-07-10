@@ -70,13 +70,21 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:minHeight="150dp">
+
+                    <WebView
+                        android:id="@+id/season_wv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"/>
 
                     <include
                         android:id="@+id/home_current_circuit_layout"
                         layout="@layout/current_circuit_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:visibility="gone"/>
 
                     <ProgressBar
                         android:id="@+id/home_current_circuit_progressBar"

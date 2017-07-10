@@ -11,6 +11,7 @@ import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
+import com.gmail.fattazzo.formula1world.domain.F1Season;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.ergast.json.ErgastManager;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.ConstructorStandings;
@@ -43,6 +44,19 @@ public class OnlineDataService implements IDataService {
     @AfterInject
     void afterInjenction() {
         ergastManager.getErgast().setSeason(Ergast.CURRENT_SEASON);
+    }
+
+    @Override
+    public F1Season loadSeason(int year) {
+        F1Season f1Season = new F1Season();
+        f1Season.year = ergastManager.getErgast().getSeason();
+        f1Season.current = true;
+        return f1Season;
+    }
+
+    @Override
+    public void updateSeason(F1Season season) {
+        // Nothing to do
     }
 
     @Override
@@ -214,7 +228,7 @@ public class OnlineDataService implements IDataService {
         try {
             List<RacePitStops> jsonResults = ergastManager.getRacePitStops(race.round);
             for (RacePitStops jsonPit : jsonResults) {
-                results.addAll(jsonPit.toF1PitStop(race,drivers));
+                results.addAll(jsonPit.toF1PitStop(race, drivers));
             }
         } catch (Exception e) {
             results = new ArrayList<>();

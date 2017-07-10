@@ -13,6 +13,7 @@ import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
+import com.gmail.fattazzo.formula1world.domain.F1Season;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings;
@@ -50,8 +51,30 @@ public class LocalDBDataService implements IDataService {
      * @param year year
      * @return season loaded
      */
-    public Season loadSeason(int year) {
-        return new Select().from(Season.class).where("Id = ?", year).executeSingle();
+    public F1Season loadSeason(int year) {
+        F1Season f1Season = null;
+
+        try {
+            Season season = new Select().from(Season.class).where("Id = ?", year).executeSingle();
+            if (season != null) {
+                f1Season = season.toF1Season();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+            f1Season = null;
+        }
+
+        return f1Season;
+    }
+
+    @Override
+    public void updateSeason(F1Season season) {
+        Season dbSeason = new Select().from(Season.class).where("Id = ?", season.year).executeSingle();
+        if (dbSeason != null) {
+            dbSeason.url = season.url;
+            dbSeason.description = season.description;
+            dbSeason.save();
+        }
     }
 
     @NonNull

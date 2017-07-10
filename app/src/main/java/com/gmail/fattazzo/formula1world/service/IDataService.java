@@ -11,6 +11,7 @@ import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
+import com.gmail.fattazzo.formula1world.domain.F1Season;
 
 import java.util.List;
 
@@ -20,6 +21,21 @@ import java.util.List;
  *         date: 03/06/17
  */
 public interface IDataService {
+
+    /**
+     * Load the season.
+     *
+     * @param year year
+     * @return season loaded
+     */
+    F1Season loadSeason(int year);
+
+    /**
+     * Update season data.
+     *
+     * @param season season
+     */
+    void updateSeason(F1Season season);
 
     /**
      * Load all driver of the season.

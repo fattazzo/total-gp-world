@@ -65,6 +65,8 @@ dependencies {
 
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
 
+    compile 'org.jsoup:jsoup:1.10.3'
+
     //------------------ TEST --------------------------------
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.3.2"

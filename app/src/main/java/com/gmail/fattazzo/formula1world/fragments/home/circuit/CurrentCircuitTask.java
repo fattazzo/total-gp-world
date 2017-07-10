@@ -1,7 +1,10 @@
 package com.gmail.fattazzo.formula1world.fragments.home.circuit;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -12,6 +15,7 @@ import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.fullscreen.FullScreenImageActivity_;
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
+import com.gmail.fattazzo.formula1world.domain.F1Season;
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
@@ -24,6 +28,9 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 @EBean
 public class CurrentCircuitTask {
@@ -70,7 +77,14 @@ public class CurrentCircuitTask {
     @ViewById(R.id.current_circuit_time)
     TextView roundTimeView;
 
+    @ViewById
+    View home_current_circuit_layout;
+
+    @ViewById
+    WebView season_wv;
+
     private F1Race raceLoaded = null;
+    private F1Season season = null;
 
     @ViewById(R.id.current_circuit_info_button)
     void setupInfoButton(Button button) {
@@ -101,7 +115,7 @@ public class CurrentCircuitTask {
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    @Background
+
     public void loadCurrentSchedule(boolean reloadData) {
         if (reloadData) {
             dataService.clearRacesCache();
@@ -114,13 +128,52 @@ public class CurrentCircuitTask {
         try {
             start();
             raceLoaded = dataService.loadCurrentSchedule();
+
+            season = dataService.loadSeason(dataService.getSelectedSeasons());
+
+            if(StringUtils.isBlank(season.description)) {
+                Document doc = Jsoup.connect(season.url.replace("en.wikipedia", "en.m.wikipedia")).get();
+                season.description = doc.outerHtml();
+                dataService.updateSeason(season);
+            }
+        } catch (Exception e) {
+            season.description = "";
         } finally {
-            updateUI();
+            if (season.current) {
+                updateRaceUI();
+            } else {
+                updateSeasonUI();
+            }
+        }
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    @UiThread
+    void updateSeasonUI() {
+        home_current_circuit_layout.setVisibility(View.GONE);
+        season_wv.setVisibility(View.VISIBLE);
+
+        season_wv.getSettings().setJavaScriptEnabled(true);
+        season_wv.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if(progressBar != null) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        if(StringUtils.isNotBlank(season.description)) {
+            season_wv.loadDataWithBaseURL("https://en.m.wikipedia.org", season.description, "text/html; charset=UTF-8", null, null);
+        } else {
+            season_wv.loadData("<html>No data</html>", "text/html; charset=UTF-8", null);
         }
     }
 
     @UiThread
-    void updateUI() {
+    void updateRaceUI() {
+        season_wv.setVisibility(View.GONE);
+        home_current_circuit_layout.setVisibility(View.VISIBLE);
+
         try {
             String circuitName = activity.getString(R.string.no_race_scheduled);
             String circuitLocation = "";

@@ -10,6 +10,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Race;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ class RacesListAdapter extends BaseAdapter {
     private List<F1Race> races;
 
     public void setRaces(List<F1Race> races) {
-        this.races = races;
+        CollectionUtils.addAll(this.races,CollectionUtils.emptyIfNull(races));
     }
 
     @AfterInject

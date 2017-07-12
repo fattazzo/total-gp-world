@@ -42,4 +42,6 @@
     <string name="sort_by">Ordina per&#8230;</string>
 
     <string name="all_drivers">Tutti i piloti</string>
+
+    <string name="section">Sezione</string>
 </resources>

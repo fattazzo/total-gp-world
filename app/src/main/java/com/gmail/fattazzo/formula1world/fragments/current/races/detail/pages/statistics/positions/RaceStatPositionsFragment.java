@@ -205,7 +205,8 @@ public class RaceStatPositionsFragment extends Fragment {
         dataSet.setLineWidth(4f);
         int color = imageUtils.getColorForConstructorRef(constructor != null ? constructor.constructorRef : "");
         dataSet.setColor(ContextCompat.getColor(getContext(), color));
-        dataSet.setCircleColor(ContextCompat.getColor(getContext(), color));
+        dataSet.setDrawCircleHole(false);
+        dataSet.setDrawCircles(false);
         return dataSet;
     }
 

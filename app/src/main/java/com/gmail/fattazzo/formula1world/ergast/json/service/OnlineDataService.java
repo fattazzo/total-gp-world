@@ -244,7 +244,10 @@ public class OnlineDataService implements IDataService {
     public List<F1LapTime> loadLaps(@NonNull F1Race race, @NonNull F1Driver driver) {
         List<F1LapTime> results = new ArrayList<>();
 
+        int oldLimit = ergastManager.getErgast().getLimit();
         try {
+            // increase limit for load all race laptimes
+            ergastManager.getErgast().setLimit(150);
             List<LapTimes> jsonLaps = ergastManager.getLapTimes(race.round, driver.driverRef);
             for (LapTimes jsonLaps1 : jsonLaps) {
                 for (Lap lap : jsonLaps1.getLaps()) {
@@ -254,6 +257,9 @@ public class OnlineDataService implements IDataService {
             }
         } catch (Exception e) {
             results = new ArrayList<>();
+        } finally {
+            // restore old limit
+            ergastManager.getErgast().setLimit(oldLimit);
         }
         return results;
     }

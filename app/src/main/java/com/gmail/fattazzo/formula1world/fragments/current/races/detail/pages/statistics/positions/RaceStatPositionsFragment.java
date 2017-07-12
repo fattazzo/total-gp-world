@@ -120,10 +120,17 @@ public class RaceStatPositionsFragment extends Fragment {
 
         for (DriverSpinnerModel driverSelected : driversToAdd) {
             if (driverSelected.getDriver().driverRef.equals("___")) {
+                // skip "all drivers" entry
                 continue;
             }
 
-            loadDriverLapTimes(race, driverSelected.getDriver(),driverSelected.getConstructor());
+            ILineDataSet dataSetDriver = positions_chart.getLineData() != null ? positions_chart.getLineData().getDataSetByLabel(driverSelected.getDriver().getFullName(), false) : null;
+            if(dataSetDriver != null) {
+                // dataset fro driver selected already added
+                continue;
+            }
+
+                loadDriverLapTimes(race, driverSelected.getDriver(), driverSelected.getConstructor());
         }
     }
 
@@ -151,21 +158,21 @@ public class RaceStatPositionsFragment extends Fragment {
 
     @Click
     void remove_button() {
-        DriverSpinnerModel driverSelected = (DriverSpinnerModel) drivers_spinner.getSelectedItem();
+            DriverSpinnerModel driverSelected = (DriverSpinnerModel) drivers_spinner.getSelectedItem();
 
-        if (driverSelected.getDriver().driverRef.equals("___")) {
-            positions_chart.clear();
-        } else {
-            ILineDataSet dataSetByLabel = positions_chart.getLineData().getDataSetByLabel(driverSelected.getDriver().getFullName(), false);
-            if (dataSetByLabel != null) {
-                positions_chart.getLineData().removeDataSet(dataSetByLabel);
+            if (driverSelected.getDriver().driverRef.equals("___")) {
+                positions_chart.clear();
+            } else {
+                ILineDataSet dataSetByLabel = positions_chart.getLineData() != null ? positions_chart.getLineData().getDataSetByLabel(driverSelected.getDriver().getFullName(), false) : null;
+                if (dataSetByLabel != null) {
+                    positions_chart.getLineData().removeDataSet(dataSetByLabel);
 
-                positions_chart.getLineData().notifyDataChanged();
+                    positions_chart.getLineData().notifyDataChanged();
 
-                positions_chart.notifyDataSetChanged();
-                positions_chart.invalidate();
+                    positions_chart.notifyDataSetChanged();
+                    positions_chart.invalidate();
+                }
             }
-        }
     }
 
     @NonNull

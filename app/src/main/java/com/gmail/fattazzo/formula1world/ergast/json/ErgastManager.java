@@ -198,12 +198,12 @@ public class ErgastManager {
      * @param round is a round which you want to get.
      * @return list of lap times that satisfy your query.
      */
-    public List<LapTimes> getLapTimes(int round) {
+    public List<LapTimes> getLapTimes(int round, String driverRef) {
         if (ergast.getSeason() == Ergast.CURRENT_SEASON || round == Ergast.NO_ROUND) {
             throw new SeasonException("Finishing status request requires season and round to be mentioned");
         }
 
-        String json = ergastConnection.getJson(ergast, LAP_TIMES, round);
+        String json = ergastConnection.getJson(ergast, (driverRef != null ? DRIVERS + "/" + driverRef + "/" : "") + LAP_TIMES, round);
         return new Parser<>(json, new String[]{"RaceTable", "Races"}, LapTimes.class).parse();
     }
 

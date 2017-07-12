@@ -15,6 +15,7 @@ import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
 
 import static com.dspot.declex.Action.$RaceStatPitStopFragment;
+import static com.dspot.declex.Action.$RaceStatPositionsFragment;
 
 /**
  * @author fattazzo
@@ -51,6 +52,9 @@ public class StatisticsRaceFragment extends Fragment implements ITitledFragment 
         switch (position) {
             case 1:
                 $RaceStatPitStopFragment().race(race).container(R.id.race_statistics_container);
+                break;
+            case 2:
+                $RaceStatPositionsFragment().race(race).container(R.id.race_statistics_container);
                 break;
             default:
                 race_statistics_container.removeAllViews();

@@ -3,12 +3,9 @@ package com.gmail.fattazzo.formula1world.ergast.json.objects;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
-
-import org.apache.commons.lang3.StringUtils;
+import com.gmail.fattazzo.formula1world.ergast.json.parser.Parser;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author fattazzo
@@ -16,7 +13,6 @@ import java.util.regex.Pattern;
  *         date: 06/06/17
  */
 class PitStop {
-    private static Pattern pattern = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2}).(\\d{3})");
 
     private String driverId;
     private int stop;
@@ -36,42 +32,8 @@ class PitStop {
         f1PitStop.lap = lap;
         f1PitStop.stop = stop;
         f1PitStop.time = time;
+        f1PitStop.milliseconds = Parser.parseTimeToMillisec(duration);
 
-        f1PitStop.milliseconds = 0;
-        if(StringUtils.isNotBlank(duration)) {
-            int millisec;
-
-            String[] timeArray = new String[4];
-            timeArray[0] = "00";
-            timeArray[1] = "00";
-            timeArray[2] = "00";
-            timeArray[3] = "000";
-
-            // format from json ss.SSS or mm:ss.SSS or hh:mm:ss.SSS
-            String[] split1 = StringUtils.split(duration,'.');
-            timeArray[3] = split1[1];
-
-            String[] split2 = StringUtils.split(split1[0],':');
-
-            timeArray[2] = split2[split2.length-1];
-            if(split2.length > 1) {
-                timeArray[1] = split2[split2.length-2];
-            }
-            if(split2.length > 2) {
-                timeArray[0] = split2[split2.length-3];
-            }
-
-            Matcher matcher = pattern.matcher(timeArray[0] + ":" + timeArray[1] + ":" + timeArray[2] + "." + timeArray[3]);
-            if (matcher.matches()) {
-                millisec = Integer.parseInt(matcher.group(1)) * 3600000
-                        + Integer.parseInt(matcher.group(2)) * 60000
-                        + Integer.parseInt(matcher.group(3)) * 1000
-                        + Integer.parseInt(matcher.group(4));
-            } else {
-                throw new IllegalArgumentException("Invalid time format");
-            }
-            f1PitStop.milliseconds = millisec;
-        }
         return f1PitStop;
     }
 

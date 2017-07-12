@@ -10,11 +10,11 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 import com.gmail.fattazzo.formula1world.R;
 
-public class F1MarkerView extends MarkerView {
+public class F1MarkerYValueView extends MarkerView {
 
     private TextView tvContent;
 
-    public F1MarkerView(Context context) {
+    public F1MarkerYValueView(Context context) {
         super(context, R.layout.chart_marker_view);
 
         tvContent = (TextView) findViewById(R.id.tvContent);

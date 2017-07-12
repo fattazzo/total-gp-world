@@ -10,6 +10,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1LapTime;
 import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
@@ -319,5 +320,15 @@ public class DataService implements IDataService {
             dataCache.setRacePitStops(race, pitStops);
         }
         return pitStops;
+    }
+
+    @Override
+    public List<F1LapTime> loadLaps(@NonNull F1Race race, @NonNull F1Driver driver) {
+        List<F1LapTime> lapTimes = dataCache.getRaceLapTimes(race, driver);
+        if (CollectionUtils.isEmpty(lapTimes)) {
+            lapTimes = getDataServiceImpl().loadLaps(race, driver);
+            dataCache.setRaceLapTimes(race, driver, lapTimes);
+        }
+        return lapTimes;
     }
 }

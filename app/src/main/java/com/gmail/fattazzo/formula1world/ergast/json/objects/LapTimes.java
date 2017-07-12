@@ -1,5 +1,7 @@
 package com.gmail.fattazzo.formula1world.ergast.json.objects;
 
+import org.apache.commons.collections4.ListUtils;
+
 import java.util.List;
 
 /**
@@ -26,6 +28,10 @@ public class LapTimes {
         this.date = date;
         this.time = time;
         this.laps = laps;
+    }
+
+    public List<Lap> getLaps() {
+        return ListUtils.emptyIfNull(laps);
     }
 
     @Override

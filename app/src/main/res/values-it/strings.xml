@@ -40,4 +40,6 @@
     <string name="info_fragment_title">Info</string>
 
     <string name="sort_by">Ordina per&#8230;</string>
+
+    <string name="all_drivers">Tutti i piloti</string>
 </resources>

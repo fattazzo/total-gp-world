@@ -16,6 +16,14 @@ class Timing {
         this.time = time;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
     @Override
     public String toString() {
         return "Timing{" +

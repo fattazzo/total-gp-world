@@ -4,12 +4,14 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1LapTime;
 import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 
 import org.androidannotations.annotations.EBean;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.MapUtils;
 
@@ -36,6 +38,7 @@ class DataCache {
     private List<F1ConstructorStandings> constructorStandingsCache = new ArrayList<>();
     private Map<F1Driver, List<F1Result>> driverRaceResultsCache = new HashMap<>();
     private Map<F1Constructor, List<F1Result>> constructorRaceResultsCache = new HashMap<>();
+    private Map<F1Race, Map<F1Driver, List<F1LapTime>>> raceLapTimesCache = new HashMap<>();
 
     void clearAll() {
         raceQualificationsCache.clear();
@@ -48,6 +51,7 @@ class DataCache {
         driverStandingsCache.clear();
         driverRaceResultsCache.clear();
         constructorRaceResultsCache.clear();
+        raceLapTimesCache.clear();
     }
 
     void clearDriverStandings() {
@@ -88,6 +92,19 @@ class DataCache {
 
     void clearConstructorRaceResults(F1Constructor constructor) {
         constructorRaceResultsCache.remove(constructor);
+    }
+
+    void clearRaceLapTimes(F1Race race, F1Driver driver) {
+        if (race == null) {
+            raceLapTimesCache.clear();
+        } else {
+            Map<F1Driver, List<F1LapTime>> raceLaps = MapUtils.emptyIfNull(raceLapTimesCache.get(race));
+            if (driver == null) {
+                raceLaps.clear();
+            } else {
+                CollectionUtils.emptyIfNull(raceLaps.get(driver)).clear();
+            }
+        }
     }
 
     List<F1Result> getRaceResultsCache(F1Race race) {
@@ -168,5 +185,16 @@ class DataCache {
 
     void setRacePitStops(F1Race race, List<F1PitStop> pitStops) {
         racePitStopsCache.put(race, pitStops);
+    }
+
+    List<F1LapTime> getRaceLapTimes(F1Race race, F1Driver driver) {
+        return MapUtils.emptyIfNull(raceLapTimesCache.get(race)).get(driver);
+    }
+
+    void setRaceLapTimes(F1Race race, F1Driver driver, List<F1LapTime> lapTimes) {
+        Map<F1Driver, List<F1LapTime>> lap = new HashMap<>();
+        lap.put(driver, ListUtils.emptyIfNull(lapTimes));
+
+        raceLapTimesCache.put(race, MapUtils.emptyIfNull(lap));
     }
 }

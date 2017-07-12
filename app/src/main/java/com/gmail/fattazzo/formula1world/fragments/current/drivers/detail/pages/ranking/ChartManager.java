@@ -17,7 +17,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
-import com.gmail.fattazzo.formula1world.view.chart.marker.F1MarkerView;
+import com.gmail.fattazzo.formula1world.view.chart.marker.F1MarkerYValueView;
 import com.gmail.fattazzo.formula1world.view.chart.valueformatter.AlternateChartValueFormatter;
 import com.gmail.fattazzo.formula1world.view.chart.valueformatter.DefaultChartValueFormatter;
 
@@ -163,7 +163,7 @@ class ChartManager {
 
         chart.getAxisRight().setEnabled(false);
 
-        F1MarkerView marker = new F1MarkerView(context);
+        F1MarkerYValueView marker = new F1MarkerYValueView(context);
         //marker.setChartView(chart);
         chart.setMarker(marker);
     }

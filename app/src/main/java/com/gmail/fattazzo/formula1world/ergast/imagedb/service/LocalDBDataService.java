@@ -9,6 +9,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
+import com.gmail.fattazzo.formula1world.domain.F1LapTime;
 import com.gmail.fattazzo.formula1world.domain.F1PitStop;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
@@ -19,6 +20,7 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverStandings;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.LapTime;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.PitStop;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Qualification;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Race;
@@ -306,6 +308,30 @@ public class LocalDBDataService implements IDataService {
                     .execute();
             for (PitStop result : dbResult) {
                 results.add(result.f1PitStop());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+            results = new ArrayList<>();
+        }
+
+        return results;
+    }
+
+    @Override
+    public List<F1LapTime> loadLaps(@NonNull F1Race race, @NonNull F1Driver driver) {
+        List<F1LapTime> results = new ArrayList<>();
+
+        try {
+            List<LapTime> dbResults = new Select("laps.*").from(LapTime.class).as("laps")
+                    .innerJoin(Race.class).as("rac").on("rac.Id = laps.raceId")
+                    .innerJoin(Driver.class).as("dr").on("dr.id = laps.driverId")
+                    .where("dr.driverRef = ?", driver.driverRef)
+                    .where("rac.round = ?", race.round)
+                    .where("rac.year = ?", ergast.getSeason())
+                    .execute();
+            for (LapTime lapTime : dbResults) {
+                F1LapTime f1LapTime = lapTime.toF1LapTime();
+                results.add(f1LapTime);
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);

@@ -44,6 +44,7 @@
     <string-array name="race_statistics_entry">
         <item>Select one…</item>
         <item>Pit stops</item>
+        <item>Positions</item>
     </string-array>
 
 </resources>

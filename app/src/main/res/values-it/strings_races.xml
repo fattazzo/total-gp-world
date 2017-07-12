@@ -4,5 +4,5 @@
     <string name="detail_race_qualifications_tab_title">Qualifiche</string>
     <string name="detail_race_statistics_tab_title">Statistiche</string>
 
-    <string name="race_stat_position_info">Il caricamento dei dati per la stagione corrente potrebbe richiedere qualche istante</string>
+    <string name="race_stat_position_info">Il caricamento dei dati per la stagione corrente potrebbe richiedere qualche istante, fai attenzione nel caricare tutti i piloti!</string>
 </resources>

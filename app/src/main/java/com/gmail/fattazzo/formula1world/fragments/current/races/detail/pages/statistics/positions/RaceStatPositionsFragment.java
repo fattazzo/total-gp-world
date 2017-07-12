@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -67,6 +69,9 @@ public class RaceStatPositionsFragment extends Fragment {
     @ViewById
     LineChart positions_chart;
 
+    @ViewById
+    ProgressBar refresh_progressBar;
+
     private int textColor;
     private float textSize;
 
@@ -125,54 +130,68 @@ public class RaceStatPositionsFragment extends Fragment {
             }
 
             ILineDataSet dataSetDriver = positions_chart.getLineData() != null ? positions_chart.getLineData().getDataSetByLabel(driverSelected.getDriver().getFullName(), false) : null;
-            if(dataSetDriver != null) {
+            if (dataSetDriver != null) {
                 // dataset fro driver selected already added
                 continue;
             }
 
-                loadDriverLapTimes(race, driverSelected.getDriver(), driverSelected.getConstructor());
+            loadDriverLapTimes(race, driverSelected.getDriver(), driverSelected.getConstructor());
         }
     }
 
     @Background
     void loadDriverLapTimes(F1Race race, F1Driver driver, F1Constructor constructor) {
+        startAdd();
         driverLapTimes = dataService.loadLaps(race, driver);
         updateChart(driver, constructor);
     }
 
     @UiThread
-    void updateChart(F1Driver driver, F1Constructor constructor) {
-        if (CollectionUtils.isNotEmpty(driverLapTimes)) {
-            LineDataSet dataSet = buildDataSet(driverLapTimes, driver, constructor);
-            if (positions_chart.getLineData() == null) {
-                positions_chart.setData(new LineData(dataSet));
-            } else {
-                positions_chart.getLineData().addDataSet(dataSet);
-            }
-            positions_chart.getLineData().notifyDataChanged();
+    void startAdd() {
+        if (refresh_progressBar != null) {
+            refresh_progressBar.setVisibility(View.VISIBLE);
+        }
+    }
 
-            positions_chart.notifyDataSetChanged();
-            positions_chart.invalidate();
+    @UiThread
+    void updateChart(F1Driver driver, F1Constructor constructor) {
+        try {
+            if (CollectionUtils.isNotEmpty(driverLapTimes)) {
+                LineDataSet dataSet = buildDataSet(driverLapTimes, driver, constructor);
+                if (positions_chart.getLineData() == null) {
+                    positions_chart.setData(new LineData(dataSet));
+                } else {
+                    positions_chart.getLineData().addDataSet(dataSet);
+                }
+                positions_chart.getLineData().notifyDataChanged();
+
+                positions_chart.notifyDataSetChanged();
+                positions_chart.invalidate();
+            }
+        }finally {
+            if (refresh_progressBar != null) {
+                refresh_progressBar.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
     @Click
     void remove_button() {
-            DriverSpinnerModel driverSelected = (DriverSpinnerModel) drivers_spinner.getSelectedItem();
+        DriverSpinnerModel driverSelected = (DriverSpinnerModel) drivers_spinner.getSelectedItem();
 
-            if (driverSelected.getDriver().driverRef.equals("___")) {
-                positions_chart.clear();
-            } else {
-                ILineDataSet dataSetByLabel = positions_chart.getLineData() != null ? positions_chart.getLineData().getDataSetByLabel(driverSelected.getDriver().getFullName(), false) : null;
-                if (dataSetByLabel != null) {
-                    positions_chart.getLineData().removeDataSet(dataSetByLabel);
+        if (driverSelected.getDriver().driverRef.equals("___")) {
+            positions_chart.clear();
+        } else {
+            ILineDataSet dataSetByLabel = positions_chart.getLineData() != null ? positions_chart.getLineData().getDataSetByLabel(driverSelected.getDriver().getFullName(), false) : null;
+            if (dataSetByLabel != null) {
+                positions_chart.getLineData().removeDataSet(dataSetByLabel);
 
-                    positions_chart.getLineData().notifyDataChanged();
+                positions_chart.getLineData().notifyDataChanged();
 
-                    positions_chart.notifyDataSetChanged();
-                    positions_chart.invalidate();
-                }
+                positions_chart.notifyDataSetChanged();
+                positions_chart.invalidate();
             }
+        }
     }
 
     @NonNull

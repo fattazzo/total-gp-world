@@ -22,11 +22,11 @@
             android:layout_toStartOf="@+id/linearLayout2" />
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_alignParentEnd="true"
-            android:id="@+id/linearLayout2">
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/add_button"
@@ -54,11 +54,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/race_stat_position_info"
-        android:textAppearance="@style/TextAppearance.Small" />
+        android:textAppearance="@style/TextAppearance.Small"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"/>
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/positions_chart"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/positions_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/refresh_progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible"/>
+    </RelativeLayout>
 
 </LinearLayout>

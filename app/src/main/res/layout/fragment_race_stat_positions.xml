@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -33,7 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tint="@android:color/holo_green_dark"
-                app:srcCompat="@drawable/add_24dp" />
+                app:srcCompat="@drawable/add_24dp"
+                tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/remove_button"
@@ -41,10 +43,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tint="@android:color/holo_red_dark"
-                app:srcCompat="@drawable/remove_24dp" />
+                app:srcCompat="@drawable/remove_24dp"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/race_stat_position_info"
+        android:textAppearance="@style/TextAppearance.Small" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/positions_chart"

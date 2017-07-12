@@ -3,4 +3,6 @@
     <string name="detail_race_results_tab_title">Results</string>
     <string name="detail_race_qualifications_tab_title">Qualifications</string>
     <string name="detail_race_statistics_tab_title">Statistics</string>
+
+    <string name="race_stat_position_info">Loading data for the current season may take a few moments</string>
 </resources>

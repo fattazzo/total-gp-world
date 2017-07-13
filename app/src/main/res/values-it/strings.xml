@@ -33,6 +33,7 @@
     <string name="lap">Giro</string>
     <string name="time">Ora</string>
     <string name="duration">Durata</string>
+    <string name="constructorColors">Colori team</string>
 
     <string name="import_dbimage_title">Importazione storico stagioni</string>
     <string name="import_dbimage_init">Attendere</string>

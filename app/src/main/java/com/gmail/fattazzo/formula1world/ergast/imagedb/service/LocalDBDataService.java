@@ -1,5 +1,6 @@
 package com.gmail.fattazzo.formula1world.ergast.imagedb.service;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.domain.F1Season;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorColors;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverStandings;
@@ -339,5 +341,25 @@ public class LocalDBDataService implements IDataService {
         }
 
         return results;
+    }
+
+    public Integer loadContructorColor(F1Constructor constructor) {
+        Integer color = null;
+
+        try {
+            ConstructorColors constrColor = new Select("cc.*").from(ConstructorColors.class).as("cc")
+                    .innerJoin(Constructor.class).as("cs").on("cs.Id = cc.constructorId")
+                    .where("cc.year = ?", ergast.getSeason())
+                    .where("cs.constructorRef = ?", constructor.constructorRef)
+                    .executeSingle();
+            if (constrColor != null) {
+                color = Color.parseColor(constrColor.hex);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+            color = null;
+        }
+
+        return color;
     }
 }

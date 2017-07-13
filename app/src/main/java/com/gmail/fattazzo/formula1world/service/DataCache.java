@@ -39,6 +39,7 @@ class DataCache {
     private Map<F1Driver, List<F1Result>> driverRaceResultsCache = new HashMap<>();
     private Map<F1Constructor, List<F1Result>> constructorRaceResultsCache = new HashMap<>();
     private Map<F1Race, Map<F1Driver, List<F1LapTime>>> raceLapTimesCache = new HashMap<>();
+    private Map<F1Constructor, Integer> constructorColorsCache = new HashMap<>();
 
     void clearAll() {
         raceQualificationsCache.clear();
@@ -52,6 +53,8 @@ class DataCache {
         driverRaceResultsCache.clear();
         constructorRaceResultsCache.clear();
         raceLapTimesCache.clear();
+        constructorRaceResultsCache.clear();
+        constructorColorsCache.clear();
     }
 
     void clearDriverStandings() {
@@ -106,6 +109,12 @@ class DataCache {
             }
         }
     }
+
+    void clearConstructorColors() {
+        constructorColorsCache.clear();
+    }
+
+    // ------------------------------------------------------------------------
 
     List<F1Result> getRaceResultsCache(F1Race race) {
         return MapUtils.emptyIfNull(raceResultsCache).get(race);
@@ -196,5 +205,13 @@ class DataCache {
         lap.put(driver, ListUtils.emptyIfNull(lapTimes));
 
         raceLapTimesCache.put(race, MapUtils.emptyIfNull(lap));
+    }
+
+    Integer getConstructorColor(F1Constructor constructor) {
+        return constructorColorsCache.get(constructor);
+    }
+
+    void setConstructorColor(F1Constructor constructor, Integer color) {
+        constructorColorsCache.put(constructor, color);
     }
 }

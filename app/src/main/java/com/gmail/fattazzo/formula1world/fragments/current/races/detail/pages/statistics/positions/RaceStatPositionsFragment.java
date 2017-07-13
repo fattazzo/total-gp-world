@@ -3,7 +3,6 @@ package com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.st
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -203,8 +202,8 @@ public class RaceStatPositionsFragment extends Fragment {
 
         LineDataSet dataSet = new LineDataSet(entries, driver.getFullName());
         dataSet.setLineWidth(4f);
-        int color = imageUtils.getColorForConstructorRef(constructor != null ? constructor.constructorRef : "");
-        dataSet.setColor(ContextCompat.getColor(getContext(), color));
+        int color = dataService.loadContructorColor(constructor);
+        dataSet.setColor(color);
         dataSet.setDrawCircleHole(false);
         dataSet.setDrawCircles(false);
         return dataSet;

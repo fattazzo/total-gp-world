@@ -11,6 +11,7 @@ import com.activeandroid.Model;
 import com.activeandroid.util.SQLiteUtils;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Circuit;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorColors;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverConstructor;
@@ -79,6 +80,7 @@ public class ErgastDBImporter {
         objectImportMap.put(Result.class, "results");
         objectImportMap.put(PitStop.class, "pitStops");
         objectImportMap.put(LapTime.class, "lapTimes");
+        objectImportMap.put(ConstructorColors.class, "constructorColors");
     }
 
     @UiThread

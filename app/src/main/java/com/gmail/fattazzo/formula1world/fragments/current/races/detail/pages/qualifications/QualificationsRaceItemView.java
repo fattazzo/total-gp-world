@@ -1,7 +1,6 @@
 package com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.qualifications;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TableRow;
@@ -9,7 +8,7 @@ import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Qualification;
-import com.gmail.fattazzo.formula1world.utils.ImageUtils;
+import com.gmail.fattazzo.formula1world.service.DataService;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -25,7 +24,7 @@ import org.androidannotations.annotations.ViewById;
 public class QualificationsRaceItemView extends TableRow {
 
     @Bean
-    ImageUtils imageUtils;
+    DataService dataService;
 
     @ViewById
     TextView constructor_tv;
@@ -71,8 +70,8 @@ public class QualificationsRaceItemView extends TableRow {
         q2_tv.setText(qualification.q2);
         q3_tv.setText(qualification.q3);
 
-        int color = imageUtils.getColorForConstructorRef(qualification.constructor != null ? qualification.constructor.constructorRef : "");
-        driver_item_color.setColorFilter(ContextCompat.getColor(driver_item_color.getContext(), color));
+        int color = dataService.loadContructorColor(qualification.constructor);
+        driver_item_color.setColorFilter(color);
 
         setBackgroundColor(rowNumber % 2 == 0 ? getThemeEvenRowColor() : getThemeOddRowColor());
     }

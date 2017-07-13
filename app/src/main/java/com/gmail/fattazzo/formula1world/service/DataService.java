@@ -2,6 +2,7 @@ package com.gmail.fattazzo.formula1world.service;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -27,6 +28,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.ArrayList;
@@ -111,6 +113,10 @@ public class DataService implements IDataService {
     public void clearRacePitStopsCache(F1Race race) {
         dataCache.clearRacePitStops(race);
     }
+
+    public void clearConstructorColorsCache() {
+        dataCache.clearConstructorColors();
+    }
     // ----------------------------------------------------------
 
 
@@ -166,7 +172,7 @@ public class DataService implements IDataService {
     public void importDBIfRequired() {
         int lastFilesVersionImported = preferenceManager.getLastVersionDBFilesImported();
         int dbFilesVersion = dbImporter.getDBFileVersion();
-        if(lastFilesVersionImported < dbFilesVersion) {
+        if (lastFilesVersionImported < dbFilesVersion) {
             Intent i = new Intent(context, DBImportActivity_.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
@@ -346,5 +352,28 @@ public class DataService implements IDataService {
             dataCache.setRaceLapTimes(race, driver, lapTimes);
         }
         return lapTimes;
+    }
+
+    public int loadContructorColor(F1Constructor constructor) {
+        Integer color = dataCache.getConstructorColor(constructor);
+        if (constructor != null && color == null) {
+            // try from db
+            color = localDBDataService.loadContructorColor(constructor);
+            if (color == null) {
+                // try from standard
+                try {
+                    int colorId = context.getResources().getIdentifier(constructor.constructorRef, "color", context.getPackageName());
+                    color = Color.parseColor("#" + Integer.toHexString(context.getResources().getColor(colorId)));
+                } catch (Exception e) {
+                    color = null;
+                }
+            }
+
+            if (color != null) {
+                dataCache.setConstructorColor(constructor, color);
+            }
+        }
+
+        return ObjectUtils.defaultIfNull(color,android.R.color.transparent);
     }
 }

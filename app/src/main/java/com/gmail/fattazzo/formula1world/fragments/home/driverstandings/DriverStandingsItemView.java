@@ -1,14 +1,13 @@
 package com.gmail.fattazzo.formula1world.fragments.home.driverstandings;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1DriverStandings;
-import com.gmail.fattazzo.formula1world.utils.ImageUtils;
+import com.gmail.fattazzo.formula1world.service.DataService;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EViewGroup;
@@ -19,7 +18,7 @@ import org.apache.commons.lang3.ObjectUtils;
 public class DriverStandingsItemView extends LinearLayout {
 
     @Bean
-    ImageUtils imageUtils;
+    DataService dataService;
 
     @ViewById(R.id.standings_item_points)
     TextView pointsView;
@@ -35,9 +34,9 @@ public class DriverStandingsItemView extends LinearLayout {
     }
 
     public void bind(F1DriverStandings driverStandings) {
-        Float points = ObjectUtils.defaultIfNull(driverStandings.points,0f);
+        Float points = ObjectUtils.defaultIfNull(driverStandings.points, 0f);
         boolean hasDecimals = points % 1 != 0;
-        if(hasDecimals) {
+        if (hasDecimals) {
             pointsView.setText(String.valueOf(points));
         } else {
             pointsView.setText(String.valueOf(points.intValue()));
@@ -47,7 +46,7 @@ public class DriverStandingsItemView extends LinearLayout {
             nameView.setText(driverStandings.driver.getFullName());
         }
 
-        int color = imageUtils.getColorForConstructorRef(driverStandings.constructor != null ? driverStandings.constructor.constructorRef : "");
-        teamColorView.setColorFilter(ContextCompat.getColor(teamColorView.getContext(), color));
+        int color = dataService.loadContructorColor(driverStandings.constructor);
+        teamColorView.setColorFilter(color);
     }
 }

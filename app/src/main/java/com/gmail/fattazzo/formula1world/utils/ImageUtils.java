@@ -67,29 +67,6 @@ public class ImageUtils {
     }
 
     /**
-     * Retrieve color for constructor.
-     *
-     * @param constructorRef ref constructor
-     * @return color
-     */
-    public int getColorForConstructorRef(@Nullable String constructorRef) {
-        int color;
-
-        try {
-            color = context.getResources().getIdentifier(constructorRef, "color", context.getPackageName());
-        } catch (Exception e) {
-            color = android.R.color.transparent;
-        }
-
-        // no resource was found
-        if(color == 0) {
-            color = android.R.color.transparent;
-        }
-
-        return color;
-    }
-
-    /**
      * Invert bitmap color.
      *
      * @param src bitmap src

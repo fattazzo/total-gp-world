@@ -32,6 +32,7 @@
     <string name="lap">Lap</string>
     <string name="time">Time</string>
     <string name="duration">Duration</string>
+    <string name="constructorColors">Team colors</string>
 
     <string name="import_dbimage_title">Importing older seasons data</string>
     <string name="import_dbimage_init">Starting</string>

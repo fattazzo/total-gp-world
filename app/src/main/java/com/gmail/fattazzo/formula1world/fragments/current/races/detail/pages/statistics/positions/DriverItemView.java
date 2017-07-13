@@ -1,13 +1,12 @@
 package com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.positions;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.utils.ImageUtils;
+import com.gmail.fattazzo.formula1world.service.DataService;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EViewGroup;
@@ -17,7 +16,7 @@ import org.androidannotations.annotations.ViewById;
 public class DriverItemView extends LinearLayout {
 
     @Bean
-    ImageUtils imageUtils;
+    DataService dataService;
 
     @ViewById
     TextView standings_item_points;
@@ -35,8 +34,8 @@ public class DriverItemView extends LinearLayout {
     public void bind(DriverSpinnerModel model) {
         standings_item_points.setVisibility(GONE);
 
-        int color = imageUtils.getColorForConstructorRef(model.getConstructor() != null ? model.getConstructor().constructorRef : "");
-        standings_item_color.setColorFilter(ContextCompat.getColor(standings_item_color.getContext(), color));
+        int color = dataService.loadContructorColor(model.getConstructor());
+        standings_item_color.setColorFilter(color);
 
         standings_item_name.setText(model.getDriver().getFullName());
     }

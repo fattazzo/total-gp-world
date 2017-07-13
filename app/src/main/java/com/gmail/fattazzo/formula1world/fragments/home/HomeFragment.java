@@ -1,10 +1,8 @@
 package com.gmail.fattazzo.formula1world.fragments.home;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
@@ -14,14 +12,15 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.importer.ErgastDBImporter
 import com.gmail.fattazzo.formula1world.fragments.home.circuit.CurrentCircuitTask;
 import com.gmail.fattazzo.formula1world.fragments.home.constructorstandings.CurrentConstructorStandingsTask;
 import com.gmail.fattazzo.formula1world.fragments.home.driverstandings.CurrentDriverStandingsTask;
+import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1world.utils.Utils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.ViewById;
 
 import static com.gmail.fattazzo.formula1world.activity.home.HomeActivity.PREF_ACTIVITY_RESULT;
 
@@ -54,25 +53,25 @@ public class HomeFragment extends Fragment {
     @Bean
     CurrentConstructorStandingsTask currentConstructorStandingsTask;
 
-    @ViewById(R.id.fab)
-    FloatingActionButton fab;
+    @Bean
+    DataService dataService;
 
     @AfterViews
     void init() {
         setRetainInstance(true);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                currentCircuitTask.loadCurrentSchedule(true);
-                currentDriverStandingsTask.loadCurrentStandings(true);
-                currentConstructorStandingsTask.loadCurrentStandings(true);
-            }
-        });
 
         currentCircuitTask.loadCurrentSchedule();
         currentDriverStandingsTask.loadCurrentStandings();
         currentConstructorStandingsTask.loadCurrentStandings();
+    }
+
+    @Click
+    void fab() {
+        dataService.clearConstructorColorsCache();
+
+        currentCircuitTask.loadCurrentSchedule(true);
+        currentDriverStandingsTask.loadCurrentStandings(true);
+        currentConstructorStandingsTask.loadCurrentStandings(true);
     }
 
     @Event

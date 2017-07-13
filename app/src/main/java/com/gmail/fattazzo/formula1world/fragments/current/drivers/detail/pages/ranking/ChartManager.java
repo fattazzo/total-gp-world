@@ -16,7 +16,7 @@ import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
-import com.gmail.fattazzo.formula1world.utils.ImageUtils;
+import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.view.chart.marker.F1MarkerYValueView;
 import com.gmail.fattazzo.formula1world.view.chart.valueformatter.AlternateChartValueFormatter;
 import com.gmail.fattazzo.formula1world.view.chart.valueformatter.DefaultChartValueFormatter;
@@ -43,7 +43,7 @@ class ChartManager {
     Context context;
 
     @Bean
-    ImageUtils imageUtils;
+    DataService dataService;
 
     private int textColor;
     private float textSize;
@@ -74,7 +74,7 @@ class ChartManager {
                     break;
             }
             if (color == -1) {
-                color = imageUtils.getColorForConstructorRef(result.constructor != null ? result.constructor.constructorRef : "");
+                color = dataService.loadContructorColor(result.constructor);
             }
             driverName = result.driver != null ? result.driver.getFullName() : "";
             idx++;
@@ -95,7 +95,7 @@ class ChartManager {
             leaderPointsDataSet.setLineWidth(4f);
             int color;
             try {
-                color = Color.parseColor(context.getResources().getString(leaderPointsDataSet.getCircleColor(0)));
+                color = leaderPointsDataSet.getCircleColor(0);
             } catch (Exception e) {
                 color = getThemeBgInvertedColor(context);
             }
@@ -185,7 +185,7 @@ class ChartManager {
 
         @SuppressWarnings("ResourceType") int[] colors;
         try {
-            colors = new int[]{Color.parseColor(context.getResources().getString(dataSet.getCircleColor(0))), Color.parseColor("#00ffffff")};
+            colors = new int[]{dataSet.getCircleColor(0), Color.parseColor("#00ffffff")};
         } catch (Exception e) {
             colors = new int[]{Color.parseColor("#00ffffff"), Color.parseColor("#00ffffff")};
         }

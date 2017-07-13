@@ -2,6 +2,7 @@ package com.gmail.fattazzo.formula1world.settings;
 
 import com.gmail.fattazzo.formula1world.R;
 
+import org.androidannotations.annotations.sharedpreferences.DefaultInt;
 import org.androidannotations.annotations.sharedpreferences.DefaultRes;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
@@ -16,4 +17,7 @@ public interface ApplicationPreference {
 
     @DefaultRes(R.string.default_pagerTransitionAnimation)
     String pagerTransitionAnimation();
+
+    @DefaultInt(0)
+    int lastVersionDBFilesImported();
 }

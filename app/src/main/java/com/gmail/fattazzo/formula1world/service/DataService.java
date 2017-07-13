@@ -20,6 +20,7 @@ import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.importer.ErgastDBImporter;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.LocalDBDataService;
 import com.gmail.fattazzo.formula1world.ergast.json.service.OnlineDataService;
+import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1world.utils.Utils;
 
 import org.androidannotations.annotations.Bean;
@@ -60,6 +61,9 @@ public class DataService implements IDataService {
 
     @Bean
     ErgastDBImporter dbImporter;
+
+    @Bean
+    ApplicationPreferenceManager preferenceManager;
 
     private List<Integer> availableSeasons;
 
@@ -151,6 +155,18 @@ public class DataService implements IDataService {
         boolean dbSeasonFound = localDBDataService.loadSeason(selectedSeason) != null;
 
         if (selectedSeason < currentYear && !dbSeasonFound) {
+            Intent i = new Intent(context, DBImportActivity_.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+
+            dbImporter.importDBImage();
+        }
+    }
+
+    public void importDBIfRequired() {
+        int lastFilesVersionImported = preferenceManager.getLastVersionDBFilesImported();
+        int dbFilesVersion = dbImporter.getDBFileVersion();
+        if(lastFilesVersionImported < dbFilesVersion) {
             Intent i = new Intent(context, DBImportActivity_.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);

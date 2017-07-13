@@ -22,8 +22,10 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Race;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Result;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Season;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Status;
+import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
@@ -56,6 +58,9 @@ public class ErgastDBImporter {
 
     @RootContext
     Context context;
+
+    @Bean
+    ApplicationPreferenceManager preferenceManager;
 
     private PropertyChangeListener importListener;
 
@@ -107,6 +112,8 @@ public class ErgastDBImporter {
         Log.d(TAG, "Done");
         fireImportEvent(ImportStep.DONE, null, 0, 0);
 
+        preferenceManager.setLastVersionDBFilesImported(getDBFileVersion());
+
         removeListener();
     }
 
@@ -145,7 +152,8 @@ public class ErgastDBImporter {
     public void importData(AssetManager assetManager) {
         // total insert calculation
         // TODO change total insert calculation
-        int totalInserts = 0;for (Map.Entry<Class<? extends Model>, String> entry : objectImportMap.entrySet()) {
+        int totalInserts = 0;
+        for (Map.Entry<Class<? extends Model>, String> entry : objectImportMap.entrySet()) {
             try (InputStream is = assetManager.open(DB_IMAGE_PATH + "/" + entry.getValue() + ".sql.zip");
                  ZipInputStream zipIs = new ZipInputStream(is);
                  BufferedReader in = new BufferedReader(new InputStreamReader(zipIs, "UTF-8"))) {
@@ -234,5 +242,22 @@ public class ErgastDBImporter {
 
     public Map<Class<? extends Model>, String> getObjectImportMap() {
         return MapUtils.unmodifiableMap(objectImportMap);
+    }
+
+    public int getDBFileVersion() {
+        int version = 0;
+
+        try {
+            String[] files = context.getAssets().list(DB_IMAGE_PATH);
+            for (String file : files) {
+                if(file.endsWith(".version")) {
+                    version = Integer.parseInt(file.split("\\.")[0]);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            version = 0;
+        }
+        return version;
     }
 }

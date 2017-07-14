@@ -102,7 +102,9 @@ public class RaceStatPositionsFragment extends Fragment {
         });
 
         List<F1Result> results = dataService.loadRaceResult(race);
-        driversSpinner.add(allDriversSpinnerModel);
+        if(!dataService.loadSeason(race.year).current) {
+            driversSpinner.add(allDriversSpinnerModel);
+        }
         for (F1Result result : results) {
             driversSpinner.add(new DriverSpinnerModel(result.driver, result.constructor));
         }

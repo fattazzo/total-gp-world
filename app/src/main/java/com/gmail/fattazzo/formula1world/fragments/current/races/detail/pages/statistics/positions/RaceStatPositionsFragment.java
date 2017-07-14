@@ -206,6 +206,11 @@ public class RaceStatPositionsFragment extends Fragment {
         dataSet.setColor(color);
         dataSet.setDrawCircleHole(false);
         dataSet.setDrawCircles(false);
+
+        if(color == getThemeBGColor(getContext())) {
+            dataSet.enableDashedLine(10f, 5f, 0f);
+            dataSet.setColor(textColor);
+        }
         return dataSet;
     }
 
@@ -245,6 +250,12 @@ public class RaceStatPositionsFragment extends Fragment {
     private int getThemeTextColor(final Context context) {
         final TypedValue value = new TypedValue();
         context.getTheme().resolveAttribute(android.R.attr.textColor, value, true);
+        return value.data;
+    }
+
+    private int getThemeBGColor(final Context context) {
+        final TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.bgBackground, value, true);
         return value.data;
     }
 

@@ -114,8 +114,9 @@ public class DataService implements IDataService {
         dataCache.clearRacePitStops(race);
     }
 
-    public void clearConstructorColorsCache() {
+    public void clearColorsCache() {
         dataCache.clearConstructorColors();
+        dataCache.clearDriverColors();
     }
     // ----------------------------------------------------------
 
@@ -169,16 +170,19 @@ public class DataService implements IDataService {
         }
     }
 
-    public void importDBIfRequired() {
+    public boolean importDBIfRequired() {
         int lastFilesVersionImported = preferenceManager.getLastVersionDBFilesImported();
         int dbFilesVersion = dbImporter.getDBFileVersion();
-        if (lastFilesVersionImported < dbFilesVersion) {
+        if (lastFilesVersionImported != dbFilesVersion) {
             Intent i = new Intent(context, DBImportActivity_.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
 
             dbImporter.importDBImage();
         }
+
+        return lastFilesVersionImported != dbFilesVersion;
+
     }
 
     public int getSelectedSeasons() {
@@ -374,6 +378,30 @@ public class DataService implements IDataService {
             }
         }
 
-        return ObjectUtils.defaultIfNull(color,android.R.color.transparent);
+        return ObjectUtils.defaultIfNull(color, android.R.color.transparent);
+    }
+
+    public int loadDriverColor(F1Driver driver) {
+        Integer color = dataCache.getDriverColor(driver);
+        if (driver != null && color == null) {
+            // try from db
+            color = localDBDataService.loadDriverColor(driver);
+            if (color == null) {
+                // try from standard
+                try {
+                    F1Constructor constructor = localDBDataService.loadConstructor(driver);
+                    int colorId = context.getResources().getIdentifier(constructor.constructorRef, "color", context.getPackageName());
+                    color = Color.parseColor("#" + Integer.toHexString(context.getResources().getColor(colorId)));
+                } catch (Exception e) {
+                    color = null;
+                }
+            }
+
+            if (color != null) {
+                dataCache.setDriverColor(driver, color);
+            }
+        }
+
+        return ObjectUtils.defaultIfNull(color, android.R.color.transparent);
     }
 }

@@ -76,7 +76,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             Log.d(TAG, "Clear cache");
             dataService.clearCache();
-            dataService.importDBIfRequired();
             // Instanzio il fragment se savedInstanceState == null altrimenti (ad es. girando il dispositivo)
             // viene rimesso anche se quello attivo è un altro
             final HomeFragmentActionHolder_ $HomeFragment0 = HomeFragmentActionHolder_.getInstance_(this);

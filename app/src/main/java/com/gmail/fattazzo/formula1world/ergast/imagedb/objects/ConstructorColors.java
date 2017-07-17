@@ -13,10 +13,16 @@ import com.activeandroid.annotation.Table;
 public class ConstructorColors extends Model {
 
     @Column
+    public String hex;
+
+    @Column
     int year;
 
     @Column(name = "constructorId")
     Constructor constructor;
+
+    @Column(name = "driverId")
+    Driver driver;
 
     @Column
     int rgbRed;
@@ -27,14 +33,12 @@ public class ConstructorColors extends Model {
     @Column
     int rgbBlue;
 
-    @Column
-    public String hex;
-
     @Override
     public String toString() {
         return "ConstructorColors{" +
                 "year=" + year +
                 ", constructor=" + constructor +
+                ", driver=" + driver +
                 ", rgbRed=" + rgbRed +
                 ", rgbGreen=" + rgbGreen +
                 ", rgbBlue=" + rgbBlue +

@@ -21,6 +21,7 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorColors;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverConstructor;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverStandings;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.LapTime;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.PitStop;
@@ -361,5 +362,46 @@ public class LocalDBDataService implements IDataService {
         }
 
         return color;
+    }
+
+    public Integer loadDriverColor(F1Driver driver) {
+        Integer color = null;
+
+        try {
+            ConstructorColors constrColor = new Select("cc.*").from(ConstructorColors.class).as("cc")
+                    .innerJoin(Driver.class).as("dr").on("dr.Id = cc.driverId")
+                    .where("cc.year = ?", ergast.getSeason())
+                    .where("dr.driverRef = ?", driver.driverRef)
+                    .executeSingle();
+            if (constrColor != null) {
+                color = Color.parseColor(constrColor.hex);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+            color = null;
+        }
+
+        return color;
+    }
+
+    public F1Constructor loadConstructor(F1Driver driver) {
+        F1Constructor constructor = null;
+
+        try {
+            Constructor dbConstructor = new Select("constr.*").distinct().from(Constructor.class).as("constr")
+                    .innerJoin(DriverConstructor.class).as("dc").on("constr.Id = dc.constructorId")
+                    .innerJoin(Driver.class).as("driver").on("driver.Id = dc.driverId")
+                    .where("dc.year = ?",ergast.getSeason())
+                    .where("driver.driverRef = ?",driver.driverRef)
+                    .executeSingle();
+            if(dbConstructor != null) {
+                constructor = dbConstructor.toF1Constructor();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+            constructor = null;
+        }
+
+        return constructor;
     }
 }

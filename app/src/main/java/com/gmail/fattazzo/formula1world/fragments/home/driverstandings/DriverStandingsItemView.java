@@ -46,7 +46,7 @@ public class DriverStandingsItemView extends LinearLayout {
             nameView.setText(driverStandings.driver.getFullName());
         }
 
-        int color = dataService.loadContructorColor(driverStandings.constructor);
+        int color = dataService.loadDriverColor(driverStandings.driver);
         teamColorView.setColorFilter(color);
     }
 }

@@ -16,7 +16,6 @@ import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1world.utils.Utils;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -56,18 +55,19 @@ public class HomeFragment extends Fragment {
     @Bean
     DataService dataService;
 
-    @AfterViews
-    void init() {
-        setRetainInstance(true);
-
-        currentCircuitTask.loadCurrentSchedule();
-        currentDriverStandingsTask.loadCurrentStandings();
-        currentConstructorStandingsTask.loadCurrentStandings();
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!dataService.importDBIfRequired()) {
+            currentCircuitTask.loadCurrentSchedule();
+            currentDriverStandingsTask.loadCurrentStandings();
+            currentConstructorStandingsTask.loadCurrentStandings();
+        }
     }
 
     @Click
     void fab() {
-        dataService.clearConstructorColorsCache();
+        dataService.clearColorsCache();
 
         currentCircuitTask.loadCurrentSchedule(true);
         currentDriverStandingsTask.loadCurrentStandings(true);

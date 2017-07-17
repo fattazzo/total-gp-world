@@ -63,6 +63,8 @@ public class ErgastDBImporter {
     @Bean
     ApplicationPreferenceManager preferenceManager;
 
+    private boolean importing = false;
+
     private PropertyChangeListener importListener;
 
     private Map<Class<? extends Model>, String> objectImportMap = new LinkedHashMap<>();
@@ -126,7 +128,12 @@ public class ErgastDBImporter {
 
     @UiThread
     public void importDBImage() {
-        sync();
+        try {
+            importing = true;
+            sync();
+        } finally {
+            importing = false;
+        }
     }
 
     public void createCustomTable() {
@@ -252,7 +259,7 @@ public class ErgastDBImporter {
         try {
             String[] files = context.getAssets().list(DB_IMAGE_PATH);
             for (String file : files) {
-                if(file.endsWith(".version")) {
+                if (file.endsWith(".version")) {
                     version = Integer.parseInt(file.split("\\.")[0]);
                     break;
                 }
@@ -261,5 +268,9 @@ public class ErgastDBImporter {
             version = 0;
         }
         return version;
+    }
+
+    public boolean isImporting() {
+        return importing;
     }
 }

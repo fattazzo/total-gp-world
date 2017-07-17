@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
+import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.utils.CountryNationality;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
 import com.gmail.fattazzo.formula1world.utils.Utils;
@@ -25,6 +26,9 @@ public class DriverItemView extends LinearLayout {
     Utils utils;
 
     @Bean
+    DataService dataService;
+
+    @Bean
     ImageUtils imageUtils;
 
     @ViewById(R.id.driver_item_number)
@@ -38,6 +42,9 @@ public class DriverItemView extends LinearLayout {
 
     @ViewById(R.id.driver_item_flag)
     ImageView flagImageView;
+
+    @ViewById
+    ImageView driver_color;
 
     public DriverItemView(Context context) {
         super(context);
@@ -61,5 +68,8 @@ public class DriverItemView extends LinearLayout {
         if (countryNationality != null) {
             flagImageView.setImageBitmap(imageUtils.getFlagForCountryCode(countryNationality.getAlpha2Code()));
         }
+
+        int color = dataService.loadDriverColor(driver);
+        driver_color.setBackgroundColor(color);
     }
 }

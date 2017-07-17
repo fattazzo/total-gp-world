@@ -4,40 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="4dp">
 
     <ImageView
         android:id="@+id/driver_item_flag"
         android:layout_width="70dp"
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
         android:layout_marginEnd="4dp"
         android:scaleType="fitXY"
-        android:layout_centerInParent="true"
         app:srcCompat="@color/background_color"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/driver_item_number"
-        android:layout_width="50dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_centerInParent="true"
-        android:layout_toEndOf="@+id/driver_item_flag"
         android:layout_alignBottom="@+id/driver_item_info_layout"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="4dp"
+        android:layout_toEndOf="@+id/driver_item_flag"
         android:gravity="fill_vertical|center_horizontal"
         android:textAppearance="@style/TextAppearance.Large"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/driver_color"
+        android:layout_width="10dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="2dp"
+        android:layout_toEndOf="@+id/driver_item_number"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/driver_item_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/driver_item_number">
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/driver_color"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/driver_item_name"

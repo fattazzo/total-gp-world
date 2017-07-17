@@ -2,10 +2,12 @@ package com.gmail.fattazzo.formula1world.ergast.imagedb.importer;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
 import com.activeandroid.Model;
 import com.activeandroid.util.SQLiteUtils;
@@ -23,10 +25,8 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Race;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Result;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Season;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Status;
-import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 
 import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
@@ -59,9 +59,6 @@ public class ErgastDBImporter {
 
     @RootContext
     Context context;
-
-    @Bean
-    ApplicationPreferenceManager preferenceManager;
 
     private boolean importing = false;
 
@@ -113,10 +110,10 @@ public class ErgastDBImporter {
         fireImportEvent(ImportStep.CUSTOM_TABLES, null, 0, 0);
         createCustomTable();
 
+        setLastVersionDBFilesImported(getDBFileVersion());
+
         Log.d(TAG, "Done");
         fireImportEvent(ImportStep.DONE, null, 0, 0);
-
-        preferenceManager.setLastVersionDBFilesImported(getDBFileVersion());
 
         removeListener();
     }
@@ -137,6 +134,10 @@ public class ErgastDBImporter {
     }
 
     public void createCustomTable() {
+        SQLiteUtils.execSql("DROP TABLE IF EXISTS dbversion");
+        SQLiteUtils.execSql("CREATE TABLE dbversion (value INTEGER NULL)");
+        SQLiteUtils.execSql("Insert into dbversion values (" + getDBFileVersion() + ")");
+
         SQLiteUtils.execSql("DROP TABLE IF EXISTS driversConstructors");
         SQLiteUtils.execSql(SQLiteUtils.createTableDefinition(Cache.getTableInfo(DriverConstructor.class)));
         SQLiteUtils.execSql("INSERT INTO driversConstructors (driverId,constructorId,year) " +
@@ -272,5 +273,32 @@ public class ErgastDBImporter {
 
     public boolean isImporting() {
         return importing;
+    }
+
+    public int getLastVersionDBFilesImported() {
+        int version = -1;
+
+        try {
+        Cursor c = ActiveAndroid.getDatabase().rawQuery("select value from dbversion", null);
+        int i = 0;
+            if (c.getCount() > 0) {
+                c.moveToFirst();
+                do {
+                    version = c.getInt(c.getColumnIndex("value"));
+                    i++;
+                } while (c.moveToNext());
+                c.close();
+            }
+        } catch (Exception e) {
+            version = -1;
+        }
+        Log.d(TAG,"Last DB version " + version);
+        return version;
+    }
+
+    public void setLastVersionDBFilesImported(int version) {
+        Log.d(TAG,"Update db version to " + version);
+        SQLiteUtils.execSql("delete from dbversion");
+        SQLiteUtils.execSql("Insert into dbversion values (" + version + ")");
     }
 }

@@ -171,7 +171,7 @@ public class DataService implements IDataService {
     }
 
     public boolean importDBIfRequired() {
-        int lastFilesVersionImported = preferenceManager.getLastVersionDBFilesImported();
+        int lastFilesVersionImported = dbImporter.getLastVersionDBFilesImported();
         int dbFilesVersion = dbImporter.getDBFileVersion();
         if (lastFilesVersionImported != dbFilesVersion) {
             Intent i = new Intent(context, DBImportActivity_.class);

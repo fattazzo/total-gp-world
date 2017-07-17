@@ -13,7 +13,6 @@ import com.gmail.fattazzo.formula1world.R;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;
-import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * @author fattazzo
@@ -147,21 +146,5 @@ public class ApplicationPreferenceManager {
         }
 
         return transformer;
-    }
-
-    /**
-     * Last version of imported db files
-     *
-     * @return version
-     */
-    public int getLastVersionDBFilesImported() {
-        return ObjectUtils.defaultIfNull(prefs.lastVersionDBFilesImported().get(), 0);
-    }
-
-    /**
-     * Set last version of imported db files
-     */
-    public void setLastVersionDBFilesImported(int version) {
-        prefs.lastVersionDBFilesImported().put(version);
     }
 }

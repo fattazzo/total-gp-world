@@ -204,7 +204,7 @@ public class DataService implements IDataService {
     public synchronized List<F1Driver> loadDrivers() {
         List<F1Driver> drivers = dataCache.getDrivers();
         if (CollectionUtils.isEmpty(drivers)) {
-            drivers = getDataServiceImpl().loadDrivers();
+            drivers = localDBDataService.loadDrivers();
             dataCache.setDrivers(drivers);
         }
         return drivers;
@@ -215,7 +215,7 @@ public class DataService implements IDataService {
     public synchronized List<F1Constructor> loadConstructors() {
         List<F1Constructor> constructors = dataCache.getConstructors();
         if (CollectionUtils.isEmpty(constructors)) {
-            constructors = getDataServiceImpl().loadConstructors();
+            constructors = localDBDataService.loadConstructors();
             dataCache.setConstructors(constructors);
         }
         return constructors;
@@ -258,7 +258,7 @@ public class DataService implements IDataService {
 
         for (F1Race race : CollectionUtils.emptyIfNull(races)) {
             String scheudleDateUTC = race.date + "T" + race.time;
-            String scheduleDateLocal = utils.convertUTCDateToLocal(scheudleDateUTC, "yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd'T'HH:mm:ss");
+            String scheduleDateLocal = utils.convertUTCDateToLocal(scheudleDateUTC, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss");
 
             if (scheduleDateLocal.compareTo(currentDate) >= 0) {
                 return race;
@@ -309,7 +309,7 @@ public class DataService implements IDataService {
     public synchronized List<F1Race> loadRaces() {
         List<F1Race> races = dataCache.getRaces();
         if (CollectionUtils.isEmpty(races)) {
-            races = getDataServiceImpl().loadRaces();
+            races = localDBDataService.loadRaces();
             dataCache.setRaces(races);
         }
         return races;
@@ -320,7 +320,10 @@ public class DataService implements IDataService {
     public synchronized List<F1Result> loadRaceResult(F1Race race) {
         List<F1Result> results = dataCache.getRaceResultsCache(race);
         if (CollectionUtils.isEmpty(results)) {
-            results = getDataServiceImpl().loadRaceResult(race);
+            results = localDBDataService.loadRaceResult(race);
+            if(CollectionUtils.isEmpty(results)) {
+                results = onlineDataService.loadRaceResult(race);
+            }
             dataCache.setRaceResults(race, results);
         }
         return results;
@@ -331,7 +334,10 @@ public class DataService implements IDataService {
     public synchronized List<F1Qualification> loadQualification(F1Race race) {
         List<F1Qualification> qualifications = dataCache.getRaceQualificationsCache(race);
         if (CollectionUtils.isEmpty(qualifications)) {
-            qualifications = getDataServiceImpl().loadQualification(race);
+            qualifications = localDBDataService.loadQualification(race);
+            if(CollectionUtils.isEmpty(qualifications)) {
+                qualifications = onlineDataService.loadQualification(race);
+            }
             dataCache.setRaceQualifications(race, qualifications);
         }
         return qualifications;
@@ -342,7 +348,10 @@ public class DataService implements IDataService {
     public List<F1PitStop> loadPitStops(F1Race race) {
         List<F1PitStop> pitStops = dataCache.getRacePitStops(race);
         if (CollectionUtils.isEmpty(pitStops)) {
-            pitStops = getDataServiceImpl().loadPitStops(race);
+            pitStops = localDBDataService.loadPitStops(race);
+            if(CollectionUtils.isEmpty(pitStops)) {
+                pitStops = onlineDataService.loadPitStops(race);
+            }
             dataCache.setRacePitStops(race, pitStops);
         }
         return pitStops;
@@ -352,7 +361,10 @@ public class DataService implements IDataService {
     public List<F1LapTime> loadLaps(@NonNull F1Race race, @NonNull F1Driver driver) {
         List<F1LapTime> lapTimes = dataCache.getRaceLapTimes(race, driver);
         if (CollectionUtils.isEmpty(lapTimes)) {
-            lapTimes = getDataServiceImpl().loadLaps(race, driver);
+            lapTimes = localDBDataService.loadLaps(race, driver);
+            if(CollectionUtils.isEmpty(lapTimes)) {
+                lapTimes = onlineDataService.loadLaps(race,driver);
+            }
             dataCache.setRaceLapTimes(race, driver, lapTimes);
         }
         return lapTimes;

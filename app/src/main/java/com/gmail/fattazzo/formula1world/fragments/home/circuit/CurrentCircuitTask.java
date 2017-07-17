@@ -200,8 +200,8 @@ public class CurrentCircuitTask {
                 roundNumber = String.valueOf(raceLoaded.round);
 
                 String dateUTCString = raceLoaded.date + "T" + raceLoaded.time;
-                roundDate = utils.convertUTCDateToLocal(dateUTCString, "yyyy-MM-dd'T'HH:mm:ss'Z'", "EEEE dd MMMM yyyy");
-                roundTime = utils.convertUTCDateToLocal(dateUTCString, "yyyy-MM-dd'T'HH:mm:ss'Z'", "HH:mm");
+                roundDate = utils.convertUTCDateToLocal(dateUTCString, "yyyy-MM-dd'T'HH:mm:ss", "EEEE dd MMMM yyyy");
+                roundTime = utils.convertUTCDateToLocal(dateUTCString, "yyyy-MM-dd'T'HH:mm:ss", "HH:mm");
             }
 
             circuitNameView.setText(circuitName);

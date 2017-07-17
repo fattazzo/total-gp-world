@@ -321,7 +321,7 @@ public class DataService implements IDataService {
         List<F1Result> results = dataCache.getRaceResultsCache(race);
         if (CollectionUtils.isEmpty(results)) {
             results = localDBDataService.loadRaceResult(race);
-            if(CollectionUtils.isEmpty(results)) {
+            if (CollectionUtils.isEmpty(results)) {
                 results = onlineDataService.loadRaceResult(race);
             }
             dataCache.setRaceResults(race, results);
@@ -335,7 +335,7 @@ public class DataService implements IDataService {
         List<F1Qualification> qualifications = dataCache.getRaceQualificationsCache(race);
         if (CollectionUtils.isEmpty(qualifications)) {
             qualifications = localDBDataService.loadQualification(race);
-            if(CollectionUtils.isEmpty(qualifications)) {
+            if (CollectionUtils.isEmpty(qualifications)) {
                 qualifications = onlineDataService.loadQualification(race);
             }
             dataCache.setRaceQualifications(race, qualifications);
@@ -349,7 +349,7 @@ public class DataService implements IDataService {
         List<F1PitStop> pitStops = dataCache.getRacePitStops(race);
         if (CollectionUtils.isEmpty(pitStops)) {
             pitStops = localDBDataService.loadPitStops(race);
-            if(CollectionUtils.isEmpty(pitStops)) {
+            if (CollectionUtils.isEmpty(pitStops)) {
                 pitStops = onlineDataService.loadPitStops(race);
             }
             dataCache.setRacePitStops(race, pitStops);
@@ -362,8 +362,8 @@ public class DataService implements IDataService {
         List<F1LapTime> lapTimes = dataCache.getRaceLapTimes(race, driver);
         if (CollectionUtils.isEmpty(lapTimes)) {
             lapTimes = localDBDataService.loadLaps(race, driver);
-            if(CollectionUtils.isEmpty(lapTimes)) {
-                lapTimes = onlineDataService.loadLaps(race,driver);
+            if (CollectionUtils.isEmpty(lapTimes)) {
+                lapTimes = onlineDataService.loadLaps(race, driver);
             }
             dataCache.setRaceLapTimes(race, driver, lapTimes);
         }
@@ -415,5 +415,9 @@ public class DataService implements IDataService {
         }
 
         return ObjectUtils.defaultIfNull(color, android.R.color.transparent);
+    }
+
+    public boolean hasLocalLapsData(F1Race race) {
+        return localDBDataService.hasLocalLapsData(race);
     }
 }

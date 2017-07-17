@@ -102,7 +102,7 @@ public class RaceStatPositionsFragment extends Fragment {
         });
 
         List<F1Result> results = dataService.loadRaceResult(race);
-        if(!dataService.loadSeason(race.year).current) {
+        if (dataService.hasLocalLapsData(race)) {
             driversSpinner.add(allDriversSpinnerModel);
         }
         for (F1Result result : results) {
@@ -169,7 +169,7 @@ public class RaceStatPositionsFragment extends Fragment {
                 positions_chart.notifyDataSetChanged();
                 positions_chart.invalidate();
             }
-        }finally {
+        } finally {
             if (refresh_progressBar != null) {
                 refresh_progressBar.setVisibility(View.INVISIBLE);
             }
@@ -209,7 +209,7 @@ public class RaceStatPositionsFragment extends Fragment {
         dataSet.setDrawCircleHole(false);
         dataSet.setDrawCircles(false);
 
-        if(color == getThemeBGColor(getContext())) {
+        if (color == getThemeBGColor(getContext())) {
             dataSet.enableDashedLine(10f, 5f, 0f);
             dataSet.setColor(textColor);
         }

@@ -1,10 +1,12 @@
 package com.gmail.fattazzo.formula1world.ergast.imagedb.service;
 
+import android.database.Cursor;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
@@ -403,5 +405,29 @@ public class LocalDBDataService implements IDataService {
         }
 
         return constructor;
+    }
+
+    public boolean hasLocalLapsData(F1Race race) {
+        boolean localData = false;
+
+        String sql = "SELECT COUNT(lapTimes.Id) as lapsData FROM lapTimes " +
+                "inner join races on lapTimes.raceId = races.Id " +
+                "where races.year = " + race.year +
+                " and races.round = " + race.round;
+
+        Cursor c = null;
+        try {
+            c = ActiveAndroid.getDatabase().rawQuery(sql, null);
+            c.moveToFirst();
+            int total = c.getInt(c.getColumnIndex("lapsData"));
+            localData = total > 0;
+        } catch (Exception e) {
+            localData = false;
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+        return localData;
     }
 }

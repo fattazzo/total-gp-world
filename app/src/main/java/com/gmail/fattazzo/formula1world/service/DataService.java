@@ -361,11 +361,14 @@ public class DataService implements IDataService {
     public List<F1LapTime> loadLaps(@NonNull F1Race race, @NonNull F1Driver driver) {
         List<F1LapTime> lapTimes = dataCache.getRaceLapTimes(race, driver);
         if (CollectionUtils.isEmpty(lapTimes)) {
-            lapTimes = localDBDataService.loadLaps(race, driver);
-            if (CollectionUtils.isEmpty(lapTimes)) {
+            if (!hasLocalLapsData(race)) {
                 lapTimes = onlineDataService.loadLaps(race, driver);
+            } else {
+                lapTimes = localDBDataService.loadLaps(race, driver);
             }
-            dataCache.setRaceLapTimes(race, driver, lapTimes);
+            if (CollectionUtils.isNotEmpty(lapTimes)) {
+                dataCache.setRaceLapTimes(race, driver, lapTimes);
+            }
         }
         return lapTimes;
     }

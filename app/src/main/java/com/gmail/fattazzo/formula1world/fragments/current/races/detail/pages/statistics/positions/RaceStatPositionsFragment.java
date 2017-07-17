@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -34,11 +35,13 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -75,8 +78,6 @@ public class RaceStatPositionsFragment extends Fragment {
     private float textSize;
 
     private DriverSpinnerModel allDriversSpinnerModel;
-
-    private List<F1LapTime> driverLapTimes;
 
     @AfterInject
     void init() {
@@ -124,6 +125,7 @@ public class RaceStatPositionsFragment extends Fragment {
             driversToAdd.add((DriverSpinnerModel) drivers_spinner.getSelectedItem());
         }
 
+        List<DriverSpinnerModel> driversForChart = new ArrayList<>();
         for (DriverSpinnerModel driverSelected : driversToAdd) {
             if (driverSelected.getDriver().driverRef.equals("___")) {
                 // skip "all drivers" entry
@@ -136,15 +138,24 @@ public class RaceStatPositionsFragment extends Fragment {
                 continue;
             }
 
-            loadDriverLapTimes(race, driverSelected.getDriver(), driverSelected.getConstructor());
+            driversForChart.add(driverSelected);
         }
+        loadDriverLapTimes(race, driversForChart);
     }
 
     @Background
-    void loadDriverLapTimes(F1Race race, F1Driver driver, F1Constructor constructor) {
+    void loadDriverLapTimes(F1Race race, List<DriverSpinnerModel> driversModel) {
         startAdd();
-        driverLapTimes = dataService.loadLaps(race, driver);
-        updateChart(driver, constructor);
+
+        Map<F1Driver, List<F1LapTime>> lapsMap = new HashedMap<>();
+        for (DriverSpinnerModel model : driversModel) {
+            List<F1LapTime> driverLapTimes = dataService.loadLaps(race, model.getDriver());
+            if (CollectionUtils.isNotEmpty(driverLapTimes)) {
+                lapsMap.put(model.getDriver(), driverLapTimes);
+            }
+        }
+
+        updateChart(lapsMap);
     }
 
     @UiThread
@@ -155,20 +166,20 @@ public class RaceStatPositionsFragment extends Fragment {
     }
 
     @UiThread
-    void updateChart(F1Driver driver, F1Constructor constructor) {
+    void updateChart(Map<F1Driver, List<F1LapTime>> laps) {
         try {
-            if (CollectionUtils.isNotEmpty(driverLapTimes)) {
-                LineDataSet dataSet = buildDataSet(driverLapTimes, driver, constructor);
+            for (Map.Entry<F1Driver, List<F1LapTime>> driverEntry : laps.entrySet()) {
+                LineDataSet dataSet = buildDataSet(driverEntry.getValue(), driverEntry.getKey());
                 if (positions_chart.getLineData() == null) {
                     positions_chart.setData(new LineData(dataSet));
                 } else {
                     positions_chart.getLineData().addDataSet(dataSet);
                 }
-                positions_chart.getLineData().notifyDataChanged();
-
-                positions_chart.notifyDataSetChanged();
-                positions_chart.invalidate();
             }
+            positions_chart.getLineData().notifyDataChanged();
+
+            positions_chart.notifyDataSetChanged();
+            positions_chart.animateX(1000,Easing.EasingOption.EaseInSine);
         } finally {
             if (refresh_progressBar != null) {
                 refresh_progressBar.setVisibility(View.INVISIBLE);
@@ -190,13 +201,13 @@ public class RaceStatPositionsFragment extends Fragment {
                 positions_chart.getLineData().notifyDataChanged();
 
                 positions_chart.notifyDataSetChanged();
-                positions_chart.invalidate();
+                positions_chart.animateX(1000,Easing.EasingOption.EaseInSine);
             }
         }
     }
 
     @NonNull
-    public LineDataSet buildDataSet(@NonNull List<F1LapTime> results, F1Driver driver, F1Constructor constructor) {
+    public LineDataSet buildDataSet(@NonNull List<F1LapTime> results, F1Driver driver) {
         List<Entry> entries = new ArrayList<>();
         for (F1LapTime lapTime : results) {
             entries.add(new Entry(lapTime.lap, lapTime.position, driver.getFullName()));
@@ -204,7 +215,7 @@ public class RaceStatPositionsFragment extends Fragment {
 
         LineDataSet dataSet = new LineDataSet(entries, driver.getFullName());
         dataSet.setLineWidth(4f);
-        int color = dataService.loadContructorColor(constructor);
+        int color = dataService.loadDriverColor(driver);
         dataSet.setColor(color);
         dataSet.setDrawCircleHole(false);
         dataSet.setDrawCircles(false);

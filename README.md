@@ -23,6 +23,7 @@ Last version on [Google Play Store](https://play.google.com/store/apps/details?i
 <a href="https://github.com/fattazzo/formula-1-world/wiki/images/driver_progress.png" target="_blank">
 <img align="left" src="https://github.com/fattazzo/formula-1-world/wiki/images/driver_progress.png" width="250" height="400"/>
 </a>
+<br><br>
 
 <a href="https://github.com/fattazzo/formula-1-world/wiki/images/driver_ranking.png" target="_blank">
 <img align="left" src="https://github.com/fattazzo/formula-1-world/wiki/images/driver_ranking.png" width="250" height="400"/>
@@ -57,7 +58,7 @@ Last version on [Google Play Store](https://play.google.com/store/apps/details?i
 </a>
 
 <a href="https://github.com/fattazzo/formula-1-world/wiki/images/race_stat_pittops.png" target="_blank">
-<img align="left" src="https://github.com/fattazzo/formula-1-world/wiki/images/racesì_stat_pittops.png" width="250" height="400"/>
+<img align="left" src="https://github.com/fattazzo/formula-1-world/wiki/images/race_stat_pittops.png" width="250" height="400"/>
 </a>
 
 <a href="https://github.com/fattazzo/formula-1-world/wiki/images/race_stat_positions.png" target="_blank">

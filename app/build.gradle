@@ -30,10 +30,8 @@ android {
 }
 
 task copyFiles(type: Copy) {
-    description = 'copying some file(s)....'
     from 'src/main/assets'
     into 'src/test/resources/assets'
-    include '**/*.*'
 }
 
 project.afterEvaluate {

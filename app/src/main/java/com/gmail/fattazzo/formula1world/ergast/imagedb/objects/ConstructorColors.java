@@ -16,13 +16,13 @@ public class ConstructorColors extends Model {
     public String hex;
 
     @Column
-    int year;
+    public int year;
 
     @Column(name = "constructorId")
-    Constructor constructor;
+    public  Constructor constructor;
 
     @Column(name = "driverId")
-    Driver driver;
+    public Driver driver;
 
     @Column
     int rgbRed;

@@ -3,8 +3,8 @@
     package="com.gmail.fattazzo.formula1world.test">
 
     <application android:name="com.gmail.fattazzo.formula1world.TestApp">
-        <meta-data android:name="AA_DB_NAME" android:value="f1db_test" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data android:name="AA_DB_NAME" android:value="f1db" />
+        <meta-data android:name="AA_DB_VERSION" android:value="3" />
         <meta-data
             android:name="AA_MODELS"
             android:value="com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Season,

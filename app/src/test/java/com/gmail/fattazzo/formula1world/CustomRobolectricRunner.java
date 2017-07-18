@@ -7,7 +7,7 @@ public class CustomRobolectricRunner extends RobolectricTestRunner {
     public CustomRobolectricRunner(Class<?> testClass)
             throws InitializationError {
         super(testClass);
-        String buildVariant = (BuildConfig.FLAVOR.equals("")? "" : BuildConfig.FLAVOR+ "/") + BuildConfig.BUILD_TYPE;
+        String buildVariant = (BuildConfig.FLAVOR.equals("") ? "" : BuildConfig.FLAVOR + "/") + BuildConfig.BUILD_TYPE;
         String intermediatesPath = BuildConfig.class.getResource("")
                 .toString().replace("file:", "");
         intermediatesPath = intermediatesPath
@@ -15,7 +15,7 @@ public class CustomRobolectricRunner extends RobolectricTestRunner {
 
         System.setProperty("android.package",
                 BuildConfig.APPLICATION_ID);
-         System.setProperty("android.assets",
+        System.setProperty("android.assets",
                 intermediatesPath + "/assets/" + buildVariant);
     }
 }

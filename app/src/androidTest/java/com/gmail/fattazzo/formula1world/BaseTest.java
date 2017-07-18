@@ -2,12 +2,19 @@ package com.gmail.fattazzo.formula1world;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.Suppress;
+import android.view.View;
+import android.widget.NumberPicker;
 
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity_;
 
+import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -73,6 +80,36 @@ public class BaseTest {
 
     protected void selectMenu(AppMenu menu) {
         selectMenu(menu, AppMenuSwipeAction.NONE);
+    }
+
+    public void selectSeason(int season) {
+        onView(withId(R.id.toolbar)).perform(click());
+
+        ViewInteraction numPicker = onView(withId(R.id.numberPicker));
+        numPicker.perform(setNumberOfPicker(season));
+
+        onView(withId(R.id.buttonSelect)).perform(click());
+    }
+
+    private ViewAction setNumberOfPicker(final int num) {
+        return new ViewAction() {
+            @Override
+            public void perform(UiController uiController, View view) {
+                NumberPicker np = (NumberPicker) view;
+                np.setValue(num);
+
+            }
+
+            @Override
+            public String getDescription() {
+                return "Set the passed number into the NumberPicker";
+            }
+
+            @Override
+            public Matcher<View> getConstraints() {
+                return ViewMatchers.isAssignableFrom(NumberPicker.class);
+            }
+        };
     }
 
     public enum AppMenu {HOME, BOLL_PROB, BOLL_LOCALE, BOLL_SINTETICO, STAZIONI, NEVE_VALANGHE, RADAR, WEBCAM, IMPOSTAZIONI, GUIDA, ABOUT}

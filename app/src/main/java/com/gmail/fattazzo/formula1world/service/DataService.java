@@ -1,12 +1,10 @@
 package com.gmail.fattazzo.formula1world.service;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.gmail.fattazzo.formula1world.activity.dbimport.DBImportActivity_;
 import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
@@ -18,7 +16,6 @@ import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.domain.F1Season;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
-import com.gmail.fattazzo.formula1world.ergast.imagedb.importer.ErgastDBImporter;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.LocalDBDataService;
 import com.gmail.fattazzo.formula1world.ergast.json.service.OnlineDataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
@@ -60,9 +57,6 @@ public class DataService implements IDataService {
 
     @Bean
     DataCache dataCache;
-
-    @Bean
-    ErgastDBImporter dbImporter;
 
     @Bean
     ApplicationPreferenceManager preferenceManager;
@@ -154,35 +148,6 @@ public class DataService implements IDataService {
         } else {
             return onlineDataService;
         }
-    }
-
-    public void importDBIfNecessary() {
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        int selectedSeason = getSelectedSeasons();
-        boolean dbSeasonFound = localDBDataService.loadSeason(selectedSeason) != null;
-
-        if (selectedSeason < currentYear && !dbSeasonFound) {
-            Intent i = new Intent(context, DBImportActivity_.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
-
-            dbImporter.importDBImage();
-        }
-    }
-
-    public boolean importDBIfRequired() {
-        int lastFilesVersionImported = dbImporter.getLastVersionDBFilesImported();
-        int dbFilesVersion = dbImporter.getDBFileVersion();
-        if (lastFilesVersionImported != dbFilesVersion) {
-            Intent i = new Intent(context, DBImportActivity_.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
-
-            dbImporter.importDBImage();
-        }
-
-        return lastFilesVersionImported != dbFilesVersion;
-
     }
 
     public int getSelectedSeasons() {

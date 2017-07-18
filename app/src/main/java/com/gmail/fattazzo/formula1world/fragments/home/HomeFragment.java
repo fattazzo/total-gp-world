@@ -1,14 +1,11 @@
 package com.gmail.fattazzo.formula1world.fragments.home;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.activity.dbimport.DBImportActivity_;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_;
-import com.gmail.fattazzo.formula1world.ergast.imagedb.importer.ErgastDBImporter;
 import com.gmail.fattazzo.formula1world.fragments.home.circuit.CurrentCircuitTask;
 import com.gmail.fattazzo.formula1world.fragments.home.constructorstandings.CurrentConstructorStandingsTask;
 import com.gmail.fattazzo.formula1world.fragments.home.driverstandings.CurrentDriverStandingsTask;
@@ -16,6 +13,7 @@ import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1world.utils.Utils;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -38,9 +36,6 @@ public class HomeFragment extends Fragment {
     Utils utils;
 
     @Bean
-    ErgastDBImporter dbImporter;
-
-    @Bean
     ApplicationPreferenceManager preferenceManager;
 
     @Bean
@@ -55,14 +50,11 @@ public class HomeFragment extends Fragment {
     @Bean
     DataService dataService;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(!dataService.importDBIfRequired()) {
-            currentCircuitTask.loadCurrentSchedule();
-            currentDriverStandingsTask.loadCurrentStandings();
-            currentConstructorStandingsTask.loadCurrentStandings();
-        }
+    @AfterViews
+    void init() {
+        currentCircuitTask.loadCurrentSchedule();
+        currentDriverStandingsTask.loadCurrentStandings();
+        currentConstructorStandingsTask.loadCurrentStandings();
     }
 
     @Click
@@ -86,13 +78,6 @@ public class HomeFragment extends Fragment {
         switch (id) {
             case R.id.action_settings:
                 SettingsActivity_.intent(getContext()).startForResult(PREF_ACTIVITY_RESULT);
-                return true;
-            case R.id.action_import_dbimage:
-                Intent i = new Intent(getContext(), DBImportActivity_.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getContext().startActivity(i);
-
-                dbImporter.importDBImage();
                 return true;
         }
         return super.onOptionsItemSelected(item);

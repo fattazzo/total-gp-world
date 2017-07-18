@@ -15,8 +15,20 @@
  */
 package com.gmail.fattazzo.formula1world;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.app.Application;
+import com.activeandroid.util.ReflectionUtils;
 
 public class F1WorldApplication extends Application {
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ActiveAndroid.dispose();
+
+        String aaName = ReflectionUtils.getMetaData(getApplicationContext(), "AA_DB_NAME");
+
+        deleteDatabase(aaName);
+        ActiveAndroid.initialize(this);
+    }
 }

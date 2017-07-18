@@ -28,7 +28,7 @@
             android:value="f1db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="3" />
+            android:value="4" />
         <meta-data
             android:name="AA_MODELS"
             android:value="com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Season,
@@ -55,7 +55,6 @@
         </activity>
         <activity android:name="com.gmail.fattazzo.formula1world.activity.fullscreen.FullScreenImageActivity_" />
         <activity android:name="com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_" />
-        <activity android:name=".activity.dbimport.DBImportActivity_" />
         <activity android:name=".activity.about.AboutActivity_" />
     </application>
 

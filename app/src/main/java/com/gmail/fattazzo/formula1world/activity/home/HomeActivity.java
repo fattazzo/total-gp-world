@@ -161,7 +161,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 if (oldSeason != ergast.getSeason()) {
                     dataService.clearCache();
-                    dataService.importDBIfNecessary();
 
                     final HomeFragmentActionHolder_ $HomeFragment0 = HomeFragmentActionHolder_.getInstance_(HomeActivity.this);
                     $HomeFragment0.init((HomeFragment.TAG));

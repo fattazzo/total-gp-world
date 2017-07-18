@@ -12,8 +12,10 @@ Last version on [Google Play Store](https://play.google.com/store/apps/details?i
 
 #### Screenshots
 
-
-
 <a href="https://github.com/fattazzo/formula-1-world/wiki/images/sez_princ2.png" target="_blank">
-<img src="https://github.com/fattazzo/formula-1-world/wiki/images/sez_princ2.png" alt="Drawing" width="250" height="400"/>
+<img align="left" src="https://github.com/fattazzo/formula-1-world/wiki/images/sez_princ2.png" alt="Drawing" width="250" height="400"/>
+</a>
+
+<a href="https://github.com/fattazzo/formula-1-world/wiki/images/drivers.png" target="_blank">
+<img align="left" src="https://github.com/fattazzo/formula-1-world/wiki/images/drivers.png" alt="Drawing" width="250" height="400"/>
 </a>

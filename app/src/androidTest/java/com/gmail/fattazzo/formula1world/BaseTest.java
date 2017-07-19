@@ -24,10 +24,12 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -143,6 +145,14 @@ public class BaseTest {
          */
         public Runnable getAction() {
             return action;
+        }
+    }
+
+    protected void viewNotDisplayed(ViewInteraction view) {
+        try {
+            view.check(matches(not(isDisplayed())));
+        } catch (Exception e) {
+            view.check(doesNotExist());
         }
     }
 }

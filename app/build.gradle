@@ -84,4 +84,8 @@ dependencies {
         exclude module: 'recyclerview-v7'
         exclude module: 'design'
     }
+
+    androidTestCompile('com.android.support.test.espresso:espresso-web:2.2.2') {
+        exclude module: 'support-annotations'
+    }
 }

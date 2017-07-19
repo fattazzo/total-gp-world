@@ -170,6 +170,9 @@ public class RaceStatPositionsFragment extends Fragment {
         try {
             for (Map.Entry<F1Driver, List<F1LapTime>> driverEntry : laps.entrySet()) {
                 LineDataSet dataSet = buildDataSet(driverEntry.getValue(), driverEntry.getKey());
+                if(positions_chart == null) {
+                    return;
+                }
                 if (positions_chart.getLineData() == null) {
                     positions_chart.setData(new LineData(dataSet));
                 } else {
@@ -267,9 +270,13 @@ public class RaceStatPositionsFragment extends Fragment {
     }
 
     private int getThemeBGColor(final Context context) {
-        final TypedValue value = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.bgBackground, value, true);
-        return value.data;
+        try {
+            final TypedValue value = new TypedValue();
+            context.getTheme().resolveAttribute(R.attr.bgBackground, value, true);
+            return value.data;
+        } catch (Exception e) {
+            return android.R.color.transparent;
+        }
     }
 
     private float getThemeTextSize(final Context context) {

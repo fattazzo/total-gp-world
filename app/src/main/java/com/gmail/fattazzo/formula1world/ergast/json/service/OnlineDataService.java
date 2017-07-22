@@ -14,6 +14,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.domain.F1Season;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
+import com.gmail.fattazzo.formula1world.ergast.IDataService;
 import com.gmail.fattazzo.formula1world.ergast.json.ErgastManager;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.ConstructorStandings;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.DriverStandings;
@@ -24,7 +25,6 @@ import com.gmail.fattazzo.formula1world.ergast.json.objects.RacePitStops;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResult;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResults;
 import com.gmail.fattazzo.formula1world.ergast.json.objects.Schedule;
-import com.gmail.fattazzo.formula1world.service.IDataService;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;

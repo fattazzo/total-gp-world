@@ -1,4 +1,4 @@
-package com.gmail.fattazzo.formula1world.service;
+package com.gmail.fattazzo.formula1world.ergast;
 
 import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
@@ -26,7 +26,7 @@ import java.util.Map;
  *         date: 29/06/17
  */
 @EBean(scope = EBean.Scope.Singleton)
-class DataCache {
+public class DataCache {
 
     private Map<F1Race, List<F1Qualification>> raceQualificationsCache = new HashMap<>();
     private Map<F1Race, List<F1Result>> raceResultsCache = new HashMap<>();
@@ -42,7 +42,7 @@ class DataCache {
     private Map<F1Constructor, Integer> constructorColorsCache = new HashMap<>();
     private Map<F1Driver, Integer> driverColorsCache = new HashMap<>();
 
-    void clearAll() {
+    public void clearAll() {
         raceQualificationsCache.clear();
         raceResultsCache.clear();
         racePitStopsCache.clear();
@@ -59,43 +59,43 @@ class DataCache {
         driverColorsCache.clear();
     }
 
-    void clearDriverStandings() {
+    public void clearDriverStandings() {
         driverStandingsCache.clear();
     }
 
-    void clearConstructorStandings() {
+    public void clearConstructorStandings() {
         constructorStandingsCache.clear();
     }
 
-    void clearDrivers() {
+    public void clearDrivers() {
         driversCache.clear();
     }
 
-    void clearConstructors() {
+    public void clearConstructors() {
         constructorsCache.clear();
     }
 
-    void clearRaces() {
+    public void clearRaces() {
         racesCache.clear();
     }
 
-    void clearRaceResults(F1Race race) {
+    public void clearRaceResults(F1Race race) {
         raceResultsCache.remove(race);
     }
 
-    void clearRaceQualifications(F1Race race) {
+    public void clearRaceQualifications(F1Race race) {
         raceQualificationsCache.remove(race);
     }
 
-    void clearRacePitStops(F1Race race) {
+    public void clearRacePitStops(F1Race race) {
         racePitStopsCache.remove(race);
     }
 
-    void clearDriverRaceResults(F1Driver driver) {
+    public void clearDriverRaceResults(F1Driver driver) {
         driverRaceResultsCache.remove(driver);
     }
 
-    void clearConstructorRaceResults(F1Constructor constructor) {
+    public void clearConstructorRaceResults(F1Constructor constructor) {
         constructorRaceResultsCache.remove(constructor);
     }
 
@@ -112,29 +112,29 @@ class DataCache {
         }
     }
 
-    void clearConstructorColors() {
+    public void clearConstructorColors() {
         constructorColorsCache.clear();
     }
 
-    void clearDriverColors() {
+    public void clearDriverColors() {
         driverColorsCache.clear();
     }
 
     // ------------------------------------------------------------------------
 
-    List<F1Result> getRaceResultsCache(F1Race race) {
+    public List<F1Result> getRaceResultsCache(F1Race race) {
         return MapUtils.emptyIfNull(raceResultsCache).get(race);
     }
 
-    void setRaceResults(F1Race race, List<F1Result> results) {
+    public void setRaceResults(F1Race race, List<F1Result> results) {
         raceResultsCache.put(race, results);
     }
 
-    List<F1Qualification> getRaceQualificationsCache(F1Race race) {
+    public List<F1Qualification> getRaceQualificationsCache(F1Race race) {
         return MapUtils.emptyIfNull(raceQualificationsCache).get(race);
     }
 
-    void setRaceQualifications(F1Race race, List<F1Qualification> qualifications) {
+    public void setRaceQualifications(F1Race race, List<F1Qualification> qualifications) {
         raceQualificationsCache.put(race, qualifications);
     }
 
@@ -170,11 +170,11 @@ class DataCache {
         this.constructorStandingsCache = ListUtils.emptyIfNull(constructorStandingsCache);
     }
 
-    List<F1Result> getDriverRaceResults(F1Driver driver) {
+    public List<F1Result> getDriverRaceResults(F1Driver driver) {
         return MapUtils.emptyIfNull(driverRaceResultsCache).get(driver);
     }
 
-    void setDriverRaceResults(F1Driver driver, List<F1Result> results) {
+    public void setDriverRaceResults(F1Driver driver, List<F1Result> results) {
         driverRaceResultsCache.put(driver, results);
     }
 
@@ -186,46 +186,46 @@ class DataCache {
         this.constructorsCache = ListUtils.emptyIfNull(constructors);
     }
 
-    List<F1Result> getConstructorRaceResults(F1Constructor constructor) {
+    public List<F1Result> getConstructorRaceResults(F1Constructor constructor) {
         return MapUtils.emptyIfNull(constructorRaceResultsCache).get(constructor);
     }
 
-    void setConstructorRaceResults(F1Constructor constructor, List<F1Result> results) {
+    public void setConstructorRaceResults(F1Constructor constructor, List<F1Result> results) {
         constructorRaceResultsCache.put(constructor, results);
     }
 
-    List<F1PitStop> getRacePitStops(F1Race race) {
+    public List<F1PitStop> getRacePitStops(F1Race race) {
         return MapUtils.emptyIfNull(racePitStopsCache).get(race);
     }
 
-    void setRacePitStops(F1Race race, List<F1PitStop> pitStops) {
+    public void setRacePitStops(F1Race race, List<F1PitStop> pitStops) {
         racePitStopsCache.put(race, pitStops);
     }
 
-    List<F1LapTime> getRaceLapTimes(F1Race race, F1Driver driver) {
+    public List<F1LapTime> getRaceLapTimes(F1Race race, F1Driver driver) {
         return MapUtils.emptyIfNull(raceLapTimesCache.get(race)).get(driver);
     }
 
-    void setRaceLapTimes(F1Race race, F1Driver driver, List<F1LapTime> lapTimes) {
+    public void setRaceLapTimes(F1Race race, F1Driver driver, List<F1LapTime> lapTimes) {
         Map<F1Driver, List<F1LapTime>> lap = new HashMap<>();
         lap.put(driver, ListUtils.emptyIfNull(lapTimes));
 
         raceLapTimesCache.put(race, MapUtils.emptyIfNull(lap));
     }
 
-    Integer getConstructorColor(F1Constructor constructor) {
+    public Integer getConstructorColor(F1Constructor constructor) {
         return constructorColorsCache.get(constructor);
     }
 
-    void setConstructorColor(F1Constructor constructor, Integer color) {
+    public void setConstructorColor(F1Constructor constructor, Integer color) {
         constructorColorsCache.put(constructor, color);
     }
 
-    Integer getDriverColor(F1Driver driver) {
+    public Integer getDriverColor(F1Driver driver) {
         return driverColorsCache.get(driver);
     }
 
-    void setDriverColor(F1Driver driver, Integer color) {
+    public void setDriverColor(F1Driver driver, Integer color) {
         driverColorsCache.put(driver, color);
     }
 }

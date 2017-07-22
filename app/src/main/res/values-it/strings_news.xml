@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="read_all">Leggi tutto</string>
+
+    <string name="news_language_info_title">Nessuna news nella tua lingua? Vuoi segnalare un sito per le news?</string>
+    <string name="news_language_info_message"><![CDATA[Cliccando sul pulsante OK potrai:\nFare richiesta di nuove news indicando il sito da cui vorresti fossero scaricate\nChiedere che vengano inserite news nella tua lingua preferita indicando il codice lingua <b><i><u>%1$s</u></i></b> e il nome <i><u><b>%2$s</u></i></b>]]></string>
+</resources>

@@ -19,6 +19,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.domain.F1Season;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
+import com.gmail.fattazzo.formula1world.ergast.IDataService;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorColors;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings;
@@ -31,7 +32,6 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Qualification;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Race;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Result;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Season;
-import com.gmail.fattazzo.formula1world.service.IDataService;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;

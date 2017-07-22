@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="read_all">Read all</string>
+
+    <string name="news_language_info_title">No news in your language? Want to report a news site?</string>
+    <string name="news_language_info_message"><![CDATA[Click the OK button and you will be able to:\nAsk for new news indicating the site you would like to download.\nAsk for news in your preferred language by reporting the <b><i><u>%1$s</u></i></b> language code and name <b><i><u>%2$s</u></i></b>]]></string>
+</resources>

@@ -12,7 +12,7 @@
     <string name="close">Chiudi</string>
 
     <string name="action_settings">Impostazioni</string>
-    <string name="action_import_older_seasons">Importa archivio stagioni</string>
+    <string name="action_report_bug">Segnala un problema</string>
 
     <string name="service_error">Servizio attualmente non disponibile. Riprovare più tardi</string>
 
@@ -45,4 +45,9 @@
     <string name="all_drivers">Tutti i piloti</string>
 
     <string name="section">Sezione</string>
+
+    <string name="about">About</string>
+    <string name="news">News</string>
+
+    <string name="selected_season">Stagione selezionata</string>
 </resources>

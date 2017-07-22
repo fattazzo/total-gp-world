@@ -79,6 +79,9 @@ public class HomeFragment extends Fragment {
             case R.id.action_settings:
                 SettingsActivity_.intent(getContext()).startForResult(PREF_ACTIVITY_RESULT);
                 return true;
+            case R.id.action_report_bug:
+                utils.openIssueReportDialog(getActivity());
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

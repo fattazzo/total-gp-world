@@ -18,6 +18,9 @@ package com.gmail.fattazzo.formula1world;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.app.Application;
 import com.activeandroid.util.ReflectionUtils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class F1WorldApplication extends Application {
 
@@ -30,5 +33,12 @@ public class F1WorldApplication extends Application {
 
         deleteDatabase(aaName);
         ActiveAndroid.initialize(this);
+
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(defaultOptions)
+                .build();
+        ImageLoader.getInstance().init(config);
     }
 }

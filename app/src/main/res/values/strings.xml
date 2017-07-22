@@ -11,7 +11,7 @@
     <string name="close">Close</string>
 
     <string name="action_settings">Settings</string>
-    <string name="action_import_older_seasons">Import older seasons</string>
+    <string name="action_report_bug">Report a bug</string>
 
     <string name="service_error">Network service is temporarily unavailable or unreachable. Please try again later</string>
 
@@ -44,4 +44,9 @@
     <string name="all_drivers">All drivers</string>
 
     <string name="section">Section</string>
+
+    <string name="about">About</string>
+    <string name="news">News</string>
+
+    <string name="selected_season">Selected season</string>
 </resources>

@@ -1,0 +1,31 @@
+{
+  "IT": [
+    {
+      "website": "https://www.formula1.it",
+      "url": "https://www.formula1.it/rss.asp",
+      "type": "formula1_it"
+    },
+    {
+      "website": "http://www.circusf1.com",
+      "url": "http://feeds.feedburner.com/CircusFormula1",
+      "type": "circus_f1"
+    }
+  ],
+  "EN": [
+    {
+      "website": "https://www.formula1.com",
+      "url": "https://www.formula1.com/content/fom-website/en/latest.articlefeed.xml",
+      "type": "formula1_com"
+    },
+    {
+      "website": "http://www.autosport.com",
+      "url": "http://www.autosport.com/rss/feed/f1",
+      "type": "autosport_com"
+    },
+    {
+      "website": "http://www.planetf1.com",
+      "url": "http://www.planetf1.com/feed/",
+      "type": "planetf1_com"
+    }
+  ]
+}

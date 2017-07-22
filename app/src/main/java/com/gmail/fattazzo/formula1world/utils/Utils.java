@@ -10,6 +10,7 @@ import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -126,5 +127,12 @@ public class Utils {
         return countriesNationalitiesMap;
     }
 
-
+    public void openIssueReportDialog(Context context) {
+        IssueReporterLauncher.forTarget("fattazzo", "compassApp")
+                .guestToken("6af8f632cafdb0be64831d0d7542c58de9bb2d1e")
+                .guestEmailRequired(true)
+                .minDescriptionLength(20)
+                .homeAsUpEnabled(false)
+                .launch(context);
+    }
 }

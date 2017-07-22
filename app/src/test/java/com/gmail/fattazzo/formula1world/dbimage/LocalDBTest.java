@@ -11,10 +11,8 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Season;
 
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.robolectric.RuntimeEnvironment;
 
 import java.util.List;
@@ -29,7 +27,6 @@ import static org.junit.Assert.assertNotNull;
  *         date: 16/06/17
  */
 @RunWith(CustomRobolectricRunner.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LocalDBTest {
 
     @Before
@@ -80,14 +77,14 @@ public class LocalDBTest {
         assertNotEquals("No circuits in DB", 0, circuits);
         System.out.println("Circuits found: " + circuits + " OK");
 
-        Circuit circuitMonza = new Select().from(Circuit.class).where("circuitRef = ?","monza").executeSingle();
+        Circuit circuitMonza = new Select().from(Circuit.class).where("circuitRef = ?", "monza").executeSingle();
         assertNotNull("Circuit 'monza' not found in DB", circuitMonza);
         assertEquals("Wrong circuit loaded", "monza", circuitMonza.toF1Circuit().circuitRef);
         assertEquals("Wrong circuit loaded", "Autodromo Nazionale di Monza", circuitMonza.toF1Circuit().name);
         assertEquals("Wrong circuit loaded", "Italy", circuitMonza.toF1Circuit().location.country);
         System.out.println("Circuit 'monza' OK");
 
-        Circuit circuitRedBullRing = new Select().from(Circuit.class).where("circuitRef = ?","red_bull_ring").executeSingle();
+        Circuit circuitRedBullRing = new Select().from(Circuit.class).where("circuitRef = ?", "red_bull_ring").executeSingle();
         assertNotNull("Circuit 'red_bull_ring' not found in DB", circuitRedBullRing);
         assertEquals("Wrong circuit loaded", "red_bull_ring", circuitRedBullRing.toF1Circuit().circuitRef);
         assertEquals("Wrong circuit loaded", "Red Bull Ring", circuitRedBullRing.toF1Circuit().name);
@@ -101,14 +98,14 @@ public class LocalDBTest {
         assertNotEquals("No contructor colors in DB", 0, colors);
         System.out.println("Constructor colors found: " + colors + " OK");
 
-        List<ConstructorColors> ferrariColors = new Select().from(ConstructorColors.class).where("constructorId = ?","6").where("year = ?",2017).execute();
+        List<ConstructorColors> ferrariColors = new Select().from(ConstructorColors.class).where("constructorId = ?", "6").where("year = ?", 2017).execute();
         assertNotNull("Ferrari constructor colors not found in DB", ferrariColors);
-        assertEquals("Ferrari constructor colors not found in DB", 2,ferrariColors.size());
+        assertEquals("Ferrari constructor colors not found in DB", 2, ferrariColors.size());
 
-        for (ConstructorColors cc: ferrariColors) {
-            assertEquals("Constructor not valid for " + cc.driver.forename, "ferrari",cc.constructor.toF1Constructor().constructorRef);
-            assertEquals("Year not valid for " + cc.driver.forename, 2017,cc.year);
-            assertEquals("Color not valid for " + cc.driver.forename, "#c30000",ferrariColors.get(0).hex);
+        for (ConstructorColors cc : ferrariColors) {
+            assertEquals("Constructor not valid for " + cc.driver.forename, "ferrari", cc.constructor.toF1Constructor().constructorRef);
+            assertEquals("Year not valid for " + cc.driver.forename, 2017, cc.year);
+            assertEquals("Color not valid for " + cc.driver.forename, "#c30000", ferrariColors.get(0).hex);
 
             System.out.println("Constructor colors for " + cc.driver.forename + " OK");
         }

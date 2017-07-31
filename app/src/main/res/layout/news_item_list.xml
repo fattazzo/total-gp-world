@@ -39,6 +39,7 @@
                 android:layout_toEndOf="@+id/news_image"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.Small"
                 android:textStyle="bold" />
         </RelativeLayout>

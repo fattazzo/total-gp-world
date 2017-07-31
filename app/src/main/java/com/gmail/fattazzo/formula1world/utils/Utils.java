@@ -128,10 +128,10 @@ public class Utils {
     }
 
     public void openIssueReportDialog(Context context) {
-        IssueReporterLauncher.forTarget("fattazzo", "compassApp")
-                .guestToken("6af8f632cafdb0be64831d0d7542c58de9bb2d1e")
+        IssueReporterLauncher.forTarget("fattazzo", "formula-1-world")
+                .guestToken("0fd32e2b9216fc8edb95d2ecdc8f1bff07a20101")
                 .guestEmailRequired(true)
-                .minDescriptionLength(20)
+                .minDescriptionLength(2)
                 .homeAsUpEnabled(false)
                 .launch(context);
     }

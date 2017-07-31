@@ -32,9 +32,10 @@
                 android:id="@+id/news_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.Medium"
-                android:textStyle="bold"
-                android:layout_marginBottom="10dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/news_date"

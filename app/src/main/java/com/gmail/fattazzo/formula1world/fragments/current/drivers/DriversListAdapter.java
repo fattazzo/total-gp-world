@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNameComparator;
+import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNationalityComparator;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNumberComparator;
 
 import org.androidannotations.annotations.AfterInject;
@@ -31,6 +32,7 @@ public class DriversListAdapter extends BaseAdapter {
 
     private final DriverNameComparator driverNameComparator = new DriverNameComparator();
     private final DriverNumberComparator driverNumberComparator = new DriverNumberComparator();
+    private final DriverNationalityComparator driverNationalityComparator = new DriverNationalityComparator();
 
     void setSortType(SortType sortType) {
         this.sortType = sortType;
@@ -91,11 +93,14 @@ public class DriversListAdapter extends BaseAdapter {
             case NUMBER:
                 comparator = driverNumberComparator;
                 break;
+            case NATIONALITY:
+                comparator = driverNationalityComparator;
+                break;
             default:
                 comparator = driverNameComparator;
         }
         Collections.sort(drivers,comparator);
     }
 
-    enum SortType {NUMBER, NAME}
+    enum SortType {NUMBER, NAME, NATIONALITY}
 }

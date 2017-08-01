@@ -14,6 +14,11 @@
                 android:id="@+id/order_by_name"
                 app:showAsAction="ifRoom"
                 android:title="@string/sort_drivers_by_name" />
+
+            <item
+                android:id="@+id/order_by_nationality"
+                app:showAsAction="ifRoom"
+                android:title="@string/sort_drivers_by_nationality" />
         </menu>
     </item>
 </menu>

@@ -10,7 +10,6 @@ import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -125,14 +124,5 @@ public class Utils {
             }
         }
         return countriesNationalitiesMap;
-    }
-
-    public void openIssueReportDialog(Context context) {
-        IssueReporterLauncher.forTarget("fattazzo", "formula-1-world")
-                .guestToken("0fd32e2b9216fc8edb95d2ecdc8f1bff07a20101")
-                .guestEmailRequired(true)
-                .minDescriptionLength(2)
-                .homeAsUpEnabled(false)
-                .launch(context);
     }
 }

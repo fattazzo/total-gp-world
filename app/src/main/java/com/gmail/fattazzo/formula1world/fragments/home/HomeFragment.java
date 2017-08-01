@@ -11,6 +11,7 @@ import com.gmail.fattazzo.formula1world.fragments.home.constructorstandings.Curr
 import com.gmail.fattazzo.formula1world.fragments.home.driverstandings.CurrentDriverStandingsTask;
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
+import com.gmail.fattazzo.formula1world.utils.IssueReporter;
 import com.gmail.fattazzo.formula1world.utils.Utils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -80,7 +81,7 @@ public class HomeFragment extends Fragment {
                 SettingsActivity_.intent(getContext()).startForResult(PREF_ACTIVITY_RESULT);
                 return true;
             case R.id.action_report_bug:
-                utils.openIssueReportDialog(getActivity());
+                IssueReporter.openReportIssue(getActivity(),null,null,true);
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -50,4 +50,6 @@
     <string name="news">News</string>
 
     <string name="selected_season">Stagione selezionata</string>
+
+    <string name="bug_report_user_request">Descrivi la tua richiesta o problema prima di questo testo.Per favore non rimuovere le informazioni che trovi di seguito, serviranno per risolvere il tuo problema al meglio.</string>
 </resources>

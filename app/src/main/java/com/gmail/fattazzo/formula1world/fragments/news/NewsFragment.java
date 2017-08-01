@@ -17,6 +17,7 @@ import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
 import com.gmail.fattazzo.formula1world.news.objects.News;
 import com.gmail.fattazzo.formula1world.service.NewsService;
+import com.gmail.fattazzo.formula1world.utils.IssueReporter;
 import com.gmail.fattazzo.formula1world.utils.Utils;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
@@ -143,7 +144,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @ItemClick
     public void list_view(int position) {
-        News news = (News)((NewsListAdapter)list_view.getAdapter()).getItem(position);
+        News news = (News)(list_view.getAdapter()).getItem(position);
 
         String localeDateString;
         try {
@@ -174,7 +175,8 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 .setPositiveButton(android.R.string.ok, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        utils.openIssueReportDialog(getActivity());
+                        String issueTitle = getString(R.string.news_report_title,Locale.getDefault().getLanguage().toUpperCase(),Locale.getDefault().getDisplayLanguage());
+                        IssueReporter.openReportIssue(getActivity(),issueTitle,"",false);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)

@@ -127,6 +127,11 @@ public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayo
         sortDrivers(DriversListAdapter.SortType.NATIONALITY);
     }
 
+    @OptionsItem
+    void order_by_date_of_birth() {
+        sortDrivers(DriversListAdapter.SortType.DATE_OF_BIRTH);
+    }
+
     private void sortDrivers(DriversListAdapter.SortType sortType) {
         driversListAdapter.setSortType(sortType);
         driversListAdapter.sortDrivers();

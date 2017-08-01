@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
+import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverDateOfBirthComparator;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNameComparator;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNationalityComparator;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNumberComparator;
@@ -23,16 +24,14 @@ import java.util.List;
 @EBean
 public class DriversListAdapter extends BaseAdapter {
 
-    @RootContext
-    Context context;
-
-    private List<F1Driver> drivers;
-
-    private SortType sortType = SortType.NAME;
-
     private final DriverNameComparator driverNameComparator = new DriverNameComparator();
     private final DriverNumberComparator driverNumberComparator = new DriverNumberComparator();
     private final DriverNationalityComparator driverNationalityComparator = new DriverNationalityComparator();
+    private final DriverDateOfBirthComparator driverDateOfBirthComparator = new DriverDateOfBirthComparator();
+    @RootContext
+    Context context;
+    private List<F1Driver> drivers;
+    private SortType sortType = SortType.NAME;
 
     void setSortType(SortType sortType) {
         this.sortType = sortType;
@@ -96,11 +95,14 @@ public class DriversListAdapter extends BaseAdapter {
             case NATIONALITY:
                 comparator = driverNationalityComparator;
                 break;
+            case DATE_OF_BIRTH:
+                comparator = driverDateOfBirthComparator;
+                break;
             default:
                 comparator = driverNameComparator;
         }
-        Collections.sort(drivers,comparator);
+        Collections.sort(drivers, comparator);
     }
 
-    enum SortType {NUMBER, NAME, NATIONALITY}
+    enum SortType {NUMBER, NAME, NATIONALITY, DATE_OF_BIRTH}
 }

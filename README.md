@@ -2,13 +2,29 @@ With Formula 1 world you will have all the information you need, results, rankin
 
 [![paypal-donate-button.png](https://bitbucket.org/repo/A7orjK/images/4010477437-paypal-donate-button.png)](https://www.paypal.me/GianlucaFattarsi)
 
+![Need you!](https://github.com/fattazzo/formula-1-world/wiki/images/needYou.png)
+
+This project also needs you! Right now i need:
+* Wiki translators from italian to english
+* App translators for any language
+
+If you want to help me or know about friends that can do it, please contact me at fattazzo82 \[at\] gmail.com
+
 [Wiki](https://github.com/fattazzo/formula-1-world/wiki)
 
-#### FAQ
-[FAQ section on wiki](https://github.com/fattazzo/formula-1-world/wiki/faq)
+[FAQ](https://github.com/fattazzo/formula-1-world/wiki/faq)
 
-#### App
-Last version on [Google Play Store](https://play.google.com/store/apps/details?id=com.gmail.fattazzo.formula1world)
+[Google Play Store](https://play.google.com/store/apps/details?id=com.gmail.fattazzo.formula1world)
+
+#### Thanks to
+
+[Ergast Developer API](http://ergast.com/mrd/)
+
+[Android-Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader)
+
+[MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
+
+[Declex](https://github.com/smaugho/declex)
 
 #### Screenshots
 

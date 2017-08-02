@@ -22,10 +22,10 @@ public class Constructor extends Model implements Serializable {
     String url;
 
     @Column
-    String name;
+    public String name;
 
     @Column
-    String nationality;
+    public String nationality;
 
     public F1Constructor toF1Constructor() {
         F1Constructor f1Constructor = new F1Constructor();

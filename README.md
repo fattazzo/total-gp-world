@@ -7,6 +7,7 @@ With Formula 1 world you will have all the information you need, results, rankin
 This project also needs you! Right now i need:
 * Wiki translators from italian to english
 * App translators for any language
+* Web site creation with Jekyll hosted on Github Pages
 
 If you want to help me or know about friends that can do it, please contact me at fattazzo82 \[at\] gmail.com
 

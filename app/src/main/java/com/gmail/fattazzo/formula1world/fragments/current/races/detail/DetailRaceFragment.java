@@ -86,8 +86,9 @@ public class DetailRaceFragment extends Fragment {
 
     @UiThread
     void initPagerAdapter() {
-        adapterViewPager = new DetailRacePagerAdapter(getChildFragmentManager(), getActivity(), race, hasResults,hasQualifications);
+        adapterViewPager = new DetailRacePagerAdapter(this.getChildFragmentManager(), getActivity(), race, hasResults,hasQualifications);
         vpPager.setAdapter(adapterViewPager);
+        vpPager.forceLayout();
     }
 
     @Event

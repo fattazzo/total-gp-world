@@ -22,7 +22,8 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 @EFragment(R.layout.fragment_race_results)
-public class ResultsRaceFragment extends Fragment implements ITitledFragment,SwipeRefreshLayout.OnRefreshListener {
+public class ResultsRaceFragment extends Fragment implements
+        ITitledFragment, SwipeRefreshLayout.OnRefreshListener {
 
     @FragmentArg
     F1Race race;

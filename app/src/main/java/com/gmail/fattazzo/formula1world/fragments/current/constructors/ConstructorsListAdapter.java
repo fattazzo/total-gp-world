@@ -10,6 +10,7 @@ import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,8 @@ class ConstructorsListAdapter extends BaseAdapter {
     private List<F1Constructor> constructors;
 
     public void setConstructors(List<F1Constructor> constructors) {
-        this.constructors = constructors;
+        this.constructors = new ArrayList<>();
+        CollectionUtils.addAll(this.constructors, CollectionUtils.emptyIfNull(constructors));
     }
 
     @AfterInject

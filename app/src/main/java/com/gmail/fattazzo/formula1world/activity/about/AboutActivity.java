@@ -68,7 +68,6 @@ public class AboutActivity extends Activity {
         faq1_text.setText(Html.fromHtml(getString(R.string.about_faq1_text)));
         faq2_text.setText(Html.fromHtml(getString(R.string.about_faq2_text)));
 
-        project_container.setVisibility(expand_space_indicator != null ? View.VISIBLE : View.GONE);
         attribution_container.setVisibility(expand_space_indicator != null ? View.VISIBLE : View.GONE);
         terms_conditions_container.setVisibility(expand_space_indicator != null ? View.VISIBLE : View.GONE);
         faq_container.setVisibility(expand_space_indicator != null ? View.VISIBLE : View.GONE);

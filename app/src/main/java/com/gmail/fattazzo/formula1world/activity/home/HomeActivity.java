@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
+import com.gmail.fattazzo.formula1world.fragments.collaborate.CollaborateFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.races.CurrentRacesFragment;
@@ -44,6 +45,7 @@ import java.util.List;
 import static com.dspot.declex.Action.$AboutActivity;
 import static com.dspot.declex.Action.$AlertDialog;
 import static com.dspot.declex.Action.$BackPressedEvent;
+import static com.dspot.declex.Action.$CollaborateFragment;
 import static com.dspot.declex.Action.$CurrentConstructorsFragment;
 import static com.dspot.declex.Action.$CurrentDriversFragment;
 import static com.dspot.declex.Action.$CurrentRacesFragment;
@@ -217,6 +219,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_news:
                 $NewsFragment(NewsFragment.TAG);
+                break;
+            case R.id.nav_collaborate:
+                $CollaborateFragment(CollaborateFragment.TAG);
                 break;
             case R.id.nav_about:
                 $AboutActivity();

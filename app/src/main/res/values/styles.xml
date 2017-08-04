@@ -30,6 +30,8 @@
         <item name="toolbar_theme">@style/AppTheme.AppBarOverlay</item>
         <item name="toolbar_textColor">@color/textColor</item>
         <item name="popup_theme">@style/AppTheme.PopupOverlay</item>
+
+        <item name="listPreferredItemHeightSmall">@dimen/design_navigation_items_height</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar">
@@ -67,6 +69,8 @@
         <item name="toolbar_theme">@style/AppTheme.Dark.AppBarOverlay</item>
         <item name="toolbar_textColor">@color/colorPrimaryDark</item>
         <item name="popup_theme">@style/AppTheme.Dark.PopupOverlay</item>
+
+        <item name="listPreferredItemHeightSmall">@dimen/design_navigation_items_height</item>
     </style>
 
     <style name="AppTheme.Dark.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

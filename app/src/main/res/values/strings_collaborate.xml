@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="collaborate_title">You can also collaborate to improve this application!</string>
+    <string name="collaborate_text1">This project also needs you! Right now i need:</string>
+    <string name="collaborate_wiki_translation">Wiki translators from italian to english</string>
+    <string name="collaborate_app_translation">App translators for any language</string>
+    <string name="collaborate_web_site">Web site creation (preferably with Jekyll hosted on Github Pages)</string>
+    <string name="collaborate_footer">In the About section you will find all the contacts to give your help.</string>
+</resources>

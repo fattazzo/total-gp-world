@@ -15,25 +15,25 @@ import com.gmail.fattazzo.formula1world.domain.F1Location;
 public class Circuit extends Model {
 
     @Column
-    String circuitRef;
+    public String circuitRef;
 
     @Column
     String url;
 
     @Column
-    String name;
+    public String name;
 
     @Column
-    float lat;
+    public float lat;
 
     @Column
-    float lng;
+    public float lng;
 
     @Column
     int alt;
 
     @Column
-    String location;
+    public String location;
 
     @Column
     String country;

@@ -64,6 +64,13 @@ public class Utils {
         return StringUtils.replaceOnce(link, "en.wikipedia.org", Locale.getDefault().getLanguage() + ".wikipedia.org");
     }
 
+    public void openCoordinates(@Nullable float latitude, @Nullable float longitude) {
+            String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+    }
+
     /**
      * Convert UTC date with the specific pattern in local date.
      *

@@ -2,13 +2,13 @@ package com.gmail.fattazzo.formula1world.fragments.home.circuit;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
@@ -87,7 +87,7 @@ public class CurrentCircuitTask {
     private F1Season season = null;
 
     @ViewById(R.id.current_circuit_info_button)
-    void setupInfoButton(Button button) {
+    void setupInfoButton(ImageButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,8 +97,20 @@ public class CurrentCircuitTask {
         });
     }
 
+    @ViewById(R.id.current_circuit_coord_location_button)
+    void setupCoordButton(ImageButton button) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(raceLoaded != null && raceLoaded.circuit != null && raceLoaded.circuit.location != null) {
+                    utils.openCoordinates(raceLoaded.circuit.location.lat,raceLoaded.circuit.location.lng);
+                }
+            }
+        });
+    }
+
     @ViewById(R.id.home_current_circuit_layout)
-    void setOneView(RelativeLayout layout) {
+    void setOneView(ConstraintLayout layout) {
         circuitImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +201,7 @@ public class CurrentCircuitTask {
 
                 String countryEn = raceLoaded.circuit.location.country;
                 String countryLocale = localeUtils.getLocaleCountryName(countryEn);
-                circuitLocation = countryLocale + ", " + raceLoaded.circuit.location.locality;
+                circuitLocation = countryLocale + ", " + raceLoaded.circuit.location.locality + "\n" + raceLoaded.circuit.name;
                 circuitInfoLink = raceLoaded.circuit.url;
                 flagImage = imageUtils.getFlagForCountryCode(localeUtils.getCountryCode(countryEn));
                 circuitId = raceLoaded.circuit.circuitRef;

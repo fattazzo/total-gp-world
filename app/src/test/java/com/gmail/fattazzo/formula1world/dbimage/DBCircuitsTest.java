@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -62,5 +64,19 @@ public class DBCircuitsTest {
         assertEquals("Wrong circuit loaded", "Red Bull Ring", circuitRedBullRing.toF1Circuit().name);
         assertEquals("Wrong circuit loaded", "Austria", circuitRedBullRing.toF1Circuit().location.country);
         System.out.println("Circuit 'red_bull_ring' OK");
+    }
+
+    @Test
+    public void testAll() {
+        List<Circuit> circuits = new Select().from(Circuit.class).execute();
+
+        for (Circuit circuit : circuits) {
+            assertNotNull("Null name for circuit " + circuit.circuitRef, circuit.name);
+            assertTrue("Wrong latitude for circuit " + circuit.name,circuit.lat != 0);
+            assertTrue("Wrong longitude for circuit " + circuit.name,circuit.lng != 0);
+            assertNotNull("Null location for circuit " + circuit.name, circuit.location);
+            System.out.println("Circuit " + circuit.name + " ok");
+        }
+
     }
 }

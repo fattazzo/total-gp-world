@@ -26,7 +26,6 @@
         android:id="@+id/current_circuit_country_flag"
         android:layout_width="85dp"
         android:layout_height="55dp"
-        android:layout_marginLeft="5dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
         android:scaleType="fitCenter"
@@ -39,8 +38,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/current_circuit_country_flag"
         app:layout_constraintBottom_toBottomOf="@+id/current_circuit_country_flag"
@@ -56,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/current_circuit_country_flag"
         android:layout_below="@+id/current_circuit_location"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/current_circuit_country_flag"
         android:background="@null"
@@ -67,7 +66,8 @@
         app:layout_constraintTop_toBottomOf="@+id/current_circuit_name"
         app:srcCompat="@drawable/ic_info_black_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/current_circuit_location"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        tools:ignore="ContentDescription" />
 
     <ImageButton
         android:id="@+id/current_circuit_coord_location_button"
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/current_circuit_country_flag"
         android:layout_below="@+id/current_circuit_location"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/current_circuit_country_flag"
         android:background="@null"
@@ -86,14 +86,15 @@
         app:layout_constraintTop_toBottomOf="@+id/current_circuit_name"
         app:srcCompat="@drawable/ic_location_on_black_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/current_circuit_location"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        tools:ignore="ContentDescription" />
 
     <RelativeLayout
         android:id="@+id/current_circuit_left_layout"
         android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="?attr/bgBackgroundInverted"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -143,7 +144,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical"/>
 
         <ImageView
             android:id="@+id/current_circuit_image"
@@ -160,7 +161,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="0dp"
+        android:layout_marginEnd="0dp"
         android:layout_marginTop="0dp"
         android:src="@android:drawable/ic_menu_zoom"
         app:layout_constraintRight_toRightOf="@+id/linearLayout3"
@@ -174,8 +175,8 @@
         android:layout_above="@+id/current_circuit_time"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="0dp"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/current_circuit_time"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -187,7 +188,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="1dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />

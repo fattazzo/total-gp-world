@@ -1,10 +1,12 @@
 package com.gmail.fattazzo.formula1world.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.google.gson.Gson;
@@ -64,11 +66,21 @@ public class Utils {
         return StringUtils.replaceOnce(link, "en.wikipedia.org", Locale.getDefault().getLanguage() + ".wikipedia.org");
     }
 
-    public void openCoordinates(@Nullable float latitude, @Nullable float longitude) {
-            String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+    public void openCoordinates(float latitude, float longitude) {
+        String uri = String.format(Locale.ENGLISH, "https://www.google.com/maps/search/?api=1&query=%f,%f", latitude, longitude);
+
+        try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setPackage("com.google.android.apps.maps");
             context.startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            try {
+                openLink(uri);
+            } catch (ActivityNotFoundException innerEx) {
+                Toast.makeText(context, "Please install a maps application", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     /**

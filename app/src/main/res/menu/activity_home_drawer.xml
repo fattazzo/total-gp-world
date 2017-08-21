@@ -32,12 +32,12 @@
             <group>
                 <item
                     android:id="@+id/nav_collaborate"
-                    android:icon="@drawable/collaborate_24"
+                    android:icon="@drawable/collaborate"
                     android:title="@string/collaborate" />
 
                 <item
                     android:id="@+id/nav_about"
-                    android:icon="@android:drawable/ic_dialog_info"
+                    android:icon="@drawable/info"
                     android:title="@string/about" />
             </group>
         </menu>

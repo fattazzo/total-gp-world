@@ -47,4 +47,9 @@
         <item>Positions</item>
     </string-array>
 
+    <string-array name="statistics_drivers_entry">
+        <item>Select one…</item>
+        <item>Wins</item>
+    </string-array>
+
 </resources>

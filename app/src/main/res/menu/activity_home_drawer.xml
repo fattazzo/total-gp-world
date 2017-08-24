@@ -27,6 +27,19 @@
         android:icon="@drawable/menu_news"
         android:title="@string/news" />
 
+    <item
+        android:id="@+id/nav_statistics"
+        android:title="@string/statistics">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/nav_stats_drivers"
+                    android:icon="@drawable/menu_helmet"
+                    android:title="@string/drivers" />
+            </group>
+        </menu>
+    </item>
+
     <item android:title="@string/other">
         <menu>
             <group>

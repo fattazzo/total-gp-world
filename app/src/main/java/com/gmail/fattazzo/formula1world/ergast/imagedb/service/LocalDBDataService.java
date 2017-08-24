@@ -393,10 +393,10 @@ public class LocalDBDataService implements IDataService {
             Constructor dbConstructor = new Select("constr.*").distinct().from(Constructor.class).as("constr")
                     .innerJoin(DriverConstructor.class).as("dc").on("constr.Id = dc.constructorId")
                     .innerJoin(Driver.class).as("driver").on("driver.Id = dc.driverId")
-                    .where("dc.year = ?",ergast.getSeason())
-                    .where("driver.driverRef = ?",driver.driverRef)
+                    .where("dc.year = ?", ergast.getSeason())
+                    .where("driver.driverRef = ?", driver.driverRef)
                     .executeSingle();
-            if(dbConstructor != null) {
+            if (dbConstructor != null) {
                 constructor = dbConstructor.toF1Constructor();
             }
         } catch (Exception e) {

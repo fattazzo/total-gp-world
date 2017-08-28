@@ -1,6 +1,7 @@
 package com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.positions;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -170,7 +171,7 @@ public class RaceStatPositionsFragment extends Fragment {
         try {
             for (Map.Entry<F1Driver, List<F1LapTime>> driverEntry : laps.entrySet()) {
                 LineDataSet dataSet = buildDataSet(driverEntry.getValue(), driverEntry.getKey());
-                if(positions_chart == null) {
+                if (positions_chart == null) {
                     return;
                 }
                 if (positions_chart.getLineData() == null) {
@@ -179,10 +180,10 @@ public class RaceStatPositionsFragment extends Fragment {
                     positions_chart.getLineData().addDataSet(dataSet);
                 }
             }
-            positions_chart.getLineData().notifyDataChanged();
+            //positions_chart.getLineData().notifyDataChanged();
 
             positions_chart.notifyDataSetChanged();
-            positions_chart.animateX(1000,Easing.EasingOption.EaseInSine);
+            positions_chart.animateX(1000, Easing.EasingOption.EaseInSine);
         } finally {
             if (refresh_progressBar != null) {
                 refresh_progressBar.setVisibility(View.INVISIBLE);
@@ -194,19 +195,33 @@ public class RaceStatPositionsFragment extends Fragment {
     void remove_button() {
         DriverSpinnerModel driverSelected = (DriverSpinnerModel) drivers_spinner.getSelectedItem();
 
-        if (driverSelected.getDriver().driverRef.equals("___")) {
-            positions_chart.clear();
-        } else {
-            ILineDataSet dataSetByLabel = positions_chart.getLineData() != null ? positions_chart.getLineData().getDataSetByLabel(driverSelected.getDriver().getFullName(), false) : null;
-            if (dataSetByLabel != null) {
-                positions_chart.getLineData().removeDataSet(dataSetByLabel);
+        try {
+            positions_chart.setMarker(null);
 
-                positions_chart.getLineData().notifyDataChanged();
+            if (driverSelected.getDriver().driverRef.equals("___")) {
+                positions_chart.clear();
+            } else {
+                ILineDataSet dataSetByLabel = positions_chart.getLineData() != null ? positions_chart.getLineData().getDataSetByLabel(driverSelected.getDriver().getFullName(), false) : null;
+                if (dataSetByLabel != null) {
 
-                positions_chart.notifyDataSetChanged();
-                positions_chart.animateX(1000,Easing.EasingOption.EaseInSine);
+                    positions_chart.getLineData().removeDataSet(dataSetByLabel);
+
+                    positions_chart.getLineData().notifyDataChanged();
+
+                    positions_chart.notifyDataSetChanged();
+                }
             }
+        } finally {
+            positions_chart.animateX(1000, Easing.EasingOption.EaseInSine);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    positions_chart.setMarker(new F1MarkerEntryDataView(getContext(), null, getResources().getString(R.string.detail_driver_position)));
+                }
+            }, 2000);
+
         }
+
     }
 
     @NonNull

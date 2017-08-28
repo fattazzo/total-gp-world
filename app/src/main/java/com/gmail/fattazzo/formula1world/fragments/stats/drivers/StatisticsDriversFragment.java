@@ -1,6 +1,8 @@
 package com.gmail.fattazzo.formula1world.fragments.stats.drivers;
 
 import android.support.v4.app.Fragment;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
@@ -51,10 +53,19 @@ public class StatisticsDriversFragment extends Fragment {
         int year = cal.get(Calendar.YEAR);
         seasonsRangeBar.setTickEnd(year);
         seasonsRangeBar.setTickStart(1950);
+        seasonsRangeBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    statsSpinner(true,statsSpinner.getSelectedItemPosition());
+                }
+                return false;
+            }
+        });
 
         String[] arraySpinner = getResources().getStringArray(R.array.statistics_drivers_entry);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_spinner_item, arraySpinner);
+                R.layout.f1_simple_item, arraySpinner);
         statsSpinner.setAdapter(adapter);
     }
 

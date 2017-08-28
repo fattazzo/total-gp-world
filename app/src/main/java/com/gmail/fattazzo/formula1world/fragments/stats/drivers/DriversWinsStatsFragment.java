@@ -10,6 +10,7 @@ import com.gmail.fattazzo.formula1world.fragments.stats.AbstractStatsChartFragme
 
 import org.androidannotations.annotations.EFragment;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -30,5 +31,11 @@ public class DriversWinsStatsFragment extends AbstractStatsChartFragment {
     @Override
     protected IValueFormatter getChartValueFormatter() {
         return new DefaultValueFormatter(0);
+    }
+
+    @NonNull
+    @Override
+    protected DecimalFormat getListValueFormat() {
+        return new DecimalFormat("0");
     }
 }

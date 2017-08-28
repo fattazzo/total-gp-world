@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 
@@ -28,6 +29,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -62,55 +64,67 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
     @ViewById
     protected Switch percentageSwitch;
 
+    @ViewById
+    protected ListView dataListView;
+
     @AfterViews
     protected void initViews() {
         configureChart();
 
-        percentageSwitch.setOnCheckedChangeListener(this);
+        if (percentageSwitch != null) {
+            percentageSwitch.setOnCheckedChangeListener(this);
+        }
+
+        dataListView.setAdapter(new StatsDataListAdapter(getActivity(), new ArrayList<StatsData>(), getListValueFormat()));
 
         bindData();
     }
 
     private void configureChart() {
-        chart.getDescription().setEnabled(false);
+        if (chart != null) {
+            chart.getDescription().setEnabled(false);
 
-        SpannableString text = new SpannableString("Stagioni\n" + seasonStart + " - " + seasonEnd);
-        chart.setCenterText(text);
-        chart.setCenterTextColor(themeUtils.getThemeTextColor(getContext()));
+            SpannableString text = new SpannableString(getString(R.string.seasons) + "\n" + seasonStart + " - " + seasonEnd);
+            chart.setCenterText(text);
+            chart.setCenterTextColor(themeUtils.getThemeTextColor(getContext()));
+            chart.setCenterTextSize(themeUtils.getThemeTextSize(getContext(),R.dimen.font_size_medium));
 
-        chart.setDrawHoleEnabled(true);
-        chart.setHoleColor(Color.TRANSPARENT);
+            chart.setDrawHoleEnabled(true);
+            chart.setHoleColor(Color.TRANSPARENT);
 
-        chart.setHoleRadius(58f);
-        chart.setTransparentCircleRadius(58f);
+            chart.setHoleRadius(58f);
+            chart.setTransparentCircleRadius(58f);
 
-        chart.setDrawCenterText(true);
+            chart.setDrawCenterText(true);
 
-        chart.setRotationEnabled(false);
-        chart.setHighlightPerTapEnabled(true);
+            chart.setRotationEnabled(false);
+            chart.setHighlightPerTapEnabled(true);
 
-        chart.setMaxAngle(180f);
-        chart.setRotationAngle(180f);
-        chart.setCenterTextOffset(0, -40);
+            chart.setMaxAngle(180f);
+            chart.setRotationAngle(180f);
+            chart.setCenterTextOffset(0, -40);
 
-        chart.setEntryLabelColor(themeUtils.getThemeTextColor(getContext()));
-        chart.setDrawEntryLabels(false);
+            chart.setEntryLabelColor(themeUtils.getThemeTextColor(getContext()));
+            chart.setDrawEntryLabels(false);
 
-        Legend l = chart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(0f);
-        l.setYOffset(0f);
-        l.setTextColor(themeUtils.getThemeTextColor(getContext()));
-        l.setEnabled(true);
+            Legend l = chart.getLegend();
+            l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+            l.setOrientation(Legend.LegendOrientation.VERTICAL);
+            l.setDrawInside(false);
+            l.setXEntrySpace(7f);
+            l.setYEntrySpace(0f);
+            l.setYOffset(0f);
+            l.setTextColor(themeUtils.getThemeTextColor(getContext()));
+            l.setTextSize(themeUtils.getThemeTextSize(getContext(),R.dimen.font_size_small));
+            l.setEnabled(true);
+
+            chart.clear();
+        }
     }
 
-    private void setChartData(List<StatsData> statsData) {
-
-        ArrayList<PieEntry> values = new ArrayList<PieEntry>();
+    private void setChartData(final List<StatsData> statsData) {
+        ArrayList<PieEntry> values = new ArrayList<>();
 
         int entryNr = 0;
         for (StatsData stsdata : statsData) {
@@ -137,8 +151,16 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
         chart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
     }
 
-    private void bindData() {
+    private void setListData(final List<StatsData> data) {
+        DecimalFormat valueFormat = getListValueFormat();
+        StatsDataListAdapter adapter = new StatsDataListAdapter(getActivity(), data, valueFormat);
+        dataListView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    void bindData() {
         List<StatsData> data = loadData();
+
         Collections.sort(data, new Comparator<StatsData>() {
             @Override
             public int compare(StatsData o1, StatsData o2) {
@@ -146,7 +168,10 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
             }
         });
 
-        setChartData(data);
+        if (chart != null) {
+            setChartData(data);
+        }
+        setListData(data);
     }
 
     private void applyChartValueFormatter() {
@@ -160,6 +185,7 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         applyChartValueFormatter();
+        chart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
     }
 
     protected abstract
@@ -169,4 +195,8 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
     protected abstract
     @NonNull
     IValueFormatter getChartValueFormatter();
+
+    protected abstract
+    @NonNull
+    DecimalFormat getListValueFormat();
 }

@@ -123,7 +123,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
                 recycler_view.setLayoutManager(layoutManager);
                 recycler_view.setAdapter(new NewsExpandableRecyclerAdapter(result));
-            } else if(list_view != null) {
+            } else if (list_view != null) {
                 list_view.setAdapter(new NewsListAdapter(getActivity(), result));
             }
         } finally {
@@ -144,7 +144,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @ItemClick
     public void list_view(int position) {
-        News news = (News)(list_view.getAdapter()).getItem(position);
+        News news = (News) (list_view.getAdapter()).getItem(position);
 
         String localeDateString;
         try {
@@ -162,7 +162,9 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Click
     public void news_open_button(View view) {
-        utils.openLink(view.getTag().toString());
+        if (view != null && view.getTag() != null) {
+            utils.openLink(view.getTag().toString());
+        }
     }
 
     @Click
@@ -171,12 +173,12 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 .setTopColorRes(R.color.colorPrimaryDark)
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setTitle(R.string.news_language_info_title)
-                .setMessage(Html.fromHtml(getString(R.string.news_language_info_message,Locale.getDefault().getLanguage().toUpperCase(),Locale.getDefault().getDisplayLanguage())))
+                .setMessage(Html.fromHtml(getString(R.string.news_language_info_message, Locale.getDefault().getLanguage().toUpperCase(), Locale.getDefault().getDisplayLanguage())))
                 .setPositiveButton(android.R.string.ok, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String issueTitle = getString(R.string.news_report_title,Locale.getDefault().getLanguage().toUpperCase(),Locale.getDefault().getDisplayLanguage());
-                        IssueReporter.openReportIssue(getActivity(),issueTitle,"",false);
+                        String issueTitle = getString(R.string.news_report_title, Locale.getDefault().getLanguage().toUpperCase(), Locale.getDefault().getDisplayLanguage());
+                        IssueReporter.openReportIssue(getActivity(), issueTitle, "", false);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)

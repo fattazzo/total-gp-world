@@ -50,6 +50,7 @@
     <string-array name="statistics_drivers_entry">
         <item>Select one…</item>
         <item>Wins</item>
+        <item>Wins (Nationality)</item>
     </string-array>
 
 </resources>

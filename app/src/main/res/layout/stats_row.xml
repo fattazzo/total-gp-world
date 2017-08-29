@@ -16,18 +16,33 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="20dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="centerInside"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/textCenter"
+        app:layout_constraintLeft_toRightOf="@+id/textLeft"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        app:srcCompat="@drawable/ergast" />
+
     <TextView
         android:id="@+id/textCenter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
         android:textAppearance="@style/TextAppearance.Medium"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/textLeft"
         app:layout_constraintRight_toLeftOf="@+id/textRight"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/textRight"

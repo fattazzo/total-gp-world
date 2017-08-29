@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
+import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -23,16 +24,19 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsData;
 import com.gmail.fattazzo.formula1world.service.StatisticsService;
 import com.gmail.fattazzo.formula1world.utils.ThemeUtils;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,6 +71,8 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
     @ViewById
     protected ListView dataListView;
 
+    private Date lastData;
+
     @AfterViews
     protected void initViews() {
         configureChart();
@@ -75,19 +81,25 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
             percentageSwitch.setOnCheckedChangeListener(this);
         }
 
-        dataListView.setAdapter(new StatsDataListAdapter(getActivity(), new ArrayList<StatsData>(), getListValueFormat()));
+        dataListView.setAdapter(createListAdapter(new ArrayList<StatsData>(), getListValueFormat()));
 
         bindData();
+    }
+
+    @AfterInject
+    protected void afterInjenct() {
+        lastData = statisticsService.getLastRaceData();
     }
 
     private void configureChart() {
         if (chart != null) {
             chart.getDescription().setEnabled(false);
 
-            SpannableString text = new SpannableString(getString(R.string.seasons) + "\n" + seasonStart + " - " + seasonEnd);
+            DateFormat outFormat = android.text.format.DateFormat.getDateFormat(getContext());
+            SpannableString text = new SpannableString(getString(R.string.seasons) + "\n" + seasonStart + " - " + seasonEnd + "\n* " + getString(R.string.until) + " " + outFormat.format(lastData));
             chart.setCenterText(text);
             chart.setCenterTextColor(themeUtils.getThemeTextColor(getContext()));
-            chart.setCenterTextSize(themeUtils.getThemeTextSize(getContext(),R.dimen.font_size_medium));
+            chart.setCenterTextSize(themeUtils.getThemeTextSize(getContext(), R.dimen.font_size_medium));
 
             chart.setDrawHoleEnabled(true);
             chart.setHoleColor(Color.TRANSPARENT);
@@ -116,7 +128,7 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
             l.setYEntrySpace(0f);
             l.setYOffset(0f);
             l.setTextColor(themeUtils.getThemeTextColor(getContext()));
-            l.setTextSize(themeUtils.getThemeTextSize(getContext(),R.dimen.font_size_small));
+            l.setTextSize(themeUtils.getThemeTextSize(getContext(), R.dimen.font_size_small));
             l.setEnabled(true);
 
             chart.clear();
@@ -153,7 +165,7 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
 
     private void setListData(final List<StatsData> data) {
         DecimalFormat valueFormat = getListValueFormat();
-        StatsDataListAdapter adapter = new StatsDataListAdapter(getActivity(), data, valueFormat);
+        BaseAdapter adapter = createListAdapter(data, valueFormat);
         dataListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -186,6 +198,10 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         applyChartValueFormatter();
         chart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+    }
+
+    protected BaseAdapter createListAdapter(List<StatsData> data, DecimalFormat valueFormat) {
+        return new StatsDataListAdapter(getActivity(), data, valueFormat);
     }
 
     protected abstract

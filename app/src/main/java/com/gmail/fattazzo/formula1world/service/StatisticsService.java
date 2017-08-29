@@ -34,7 +34,13 @@ public class StatisticsService {
 
     public
     @NonNull
-    List<StatsData> loadWins(int seasonStart, int seasonEnd) {
+    List<StatsData> loadDriversWins(int seasonStart, int seasonEnd) {
         return localDBStatsDriversService.loadWins(seasonStart, seasonEnd);
+    }
+
+    public
+    @NonNull
+    List<StatsData> loadDriversWinsNationality(int seasonStart, int seasonEnd) {
+        return localDBStatsDriversService.loadWinsNationality(seasonStart,seasonEnd);
     }
 }

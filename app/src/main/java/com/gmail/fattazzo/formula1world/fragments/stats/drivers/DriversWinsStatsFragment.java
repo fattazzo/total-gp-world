@@ -24,7 +24,7 @@ public class DriversWinsStatsFragment extends AbstractStatsChartFragment {
     @NonNull
     @Override
     public List<StatsData> loadData() {
-        return statisticsService.loadWins(seasonStart, seasonEnd);
+        return statisticsService.loadDriversWins(seasonStart, seasonEnd);
     }
 
     @NonNull

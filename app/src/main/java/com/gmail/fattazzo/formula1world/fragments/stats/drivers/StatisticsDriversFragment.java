@@ -21,6 +21,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.Calendar;
 
+import static com.dspot.declex.Action.$DriversNationalityWinsStatsFragment;
 import static com.dspot.declex.Action.$DriversWinsStatsFragment;
 import static com.dspot.declex.Action.$HomeFragment;
 
@@ -76,6 +77,9 @@ public class StatisticsDriversFragment extends Fragment {
         switch (position) {
             case 1:
                 $DriversWinsStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(R.id.statistics_container);
+                break;
+            case 2:
+                $DriversNationalityWinsStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(R.id.statistics_container);
                 break;
             default:
                 statistics_container.removeAllViews();

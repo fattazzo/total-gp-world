@@ -30,6 +30,7 @@
     <string-array name="statistics_drivers_entry">
         <item>Seleziona una statistica…</item>
         <item>Vittorie</item>
+        <item>Vittorie (Nazionalità)</item>
     </string-array>
 
 </resources>

@@ -180,8 +180,6 @@ public class RaceStatPositionsFragment extends Fragment {
                     positions_chart.getLineData().addDataSet(dataSet);
                 }
             }
-            //positions_chart.getLineData().notifyDataChanged();
-
             positions_chart.notifyDataSetChanged();
             positions_chart.animateX(1000, Easing.EasingOption.EaseInSine);
         } finally {
@@ -203,25 +201,21 @@ public class RaceStatPositionsFragment extends Fragment {
             } else {
                 ILineDataSet dataSetByLabel = positions_chart.getLineData() != null ? positions_chart.getLineData().getDataSetByLabel(driverSelected.getDriver().getFullName(), false) : null;
                 if (dataSetByLabel != null) {
-
                     positions_chart.getLineData().removeDataSet(dataSetByLabel);
-
                     positions_chart.getLineData().notifyDataChanged();
-
                     positions_chart.notifyDataSetChanged();
                 }
             }
         } finally {
             positions_chart.animateX(1000, Easing.EasingOption.EaseInSine);
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     positions_chart.setMarker(new F1MarkerEntryDataView(getContext(), null, getResources().getString(R.string.detail_driver_position)));
                 }
             }, 2000);
-
         }
-
     }
 
     @NonNull

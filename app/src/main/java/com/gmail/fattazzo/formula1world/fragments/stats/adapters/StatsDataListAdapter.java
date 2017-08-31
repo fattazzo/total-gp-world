@@ -1,4 +1,4 @@
-package com.gmail.fattazzo.formula1world.fragments.stats;
+package com.gmail.fattazzo.formula1world.fragments.stats.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,14 +15,14 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsData;
 import java.text.DecimalFormat;
 import java.util.List;
 
-class StatsDataListAdapter extends BaseAdapter {
+public class StatsDataListAdapter extends BaseAdapter {
 
     private List<StatsData> data;
     private LayoutInflater mInflater;
 
     private DecimalFormat valueFormat;
 
-    StatsDataListAdapter(@NonNull Context context, @NonNull List<StatsData> data, DecimalFormat valueFormat) {
+    public StatsDataListAdapter(@NonNull Context context, @NonNull List<StatsData> data, DecimalFormat valueFormat) {
         this.data = data;
         this.valueFormat = valueFormat;
 

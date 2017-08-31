@@ -18,8 +18,6 @@ import java.util.List;
 @EBean(scope = EBean.Scope.Singleton)
 public class LocalDBStatsDriversService {
 
-    private static final String TAG = LocalDBStatsDriversService.class.getSimpleName();
-
     public
     @NonNull
     List<StatsData> loadWins(int seasonStart, int seasonEnd) {
@@ -74,5 +72,43 @@ public class LocalDBStatsDriversService {
         }
 
         return wins;
+    }
+
+    public
+    @NonNull
+    List<StatsData> loadPodiums(int seasonStart, int seasonEnd) {
+        List<StatsData> podiums;
+
+        String sql = "SELECT dr.forename || ' ' || dr.surname as label, " +
+                "COUNT(res.Id) as value, " +
+                "sum(case when res.position = 1 then 1 else 0 end) as value2, " +
+                "sum(case when res.position = 2 then 1 else 0 end) as value3, " +
+                "sum(case when res.position = 3 then 1 else 0 end) as value4 " +
+                "FROM results res " +
+                "inner join drivers dr on res.driverId = dr.Id " +
+                "inner join races race on race.Id = res.raceId " +
+                "where race.year >= " + seasonStart + " and race.year <= " + seasonEnd +
+                " and res.position <= 3 " +
+                "group by dr.Id " +
+                "order by COUNT(res.Id) desc, sum(case when res.position = 1 then 1 else 0 end) desc," +
+                "       sum(case when res.position = 2 then 1 else 0 end) desc," +
+                "       sum(case when res.position = 3 then 1 else 0 end) desc ";
+
+        try (Cursor c = ActiveAndroid.getDatabase().rawQuery(sql, null)) {
+            podiums = new ArrayList<>();
+            while (c.moveToNext()) {
+                String label = c.getString(c.getColumnIndex("label"));
+                int value = c.getInt(c.getColumnIndex("value"));
+                int value2 = c.getInt(c.getColumnIndex("value2"));
+                int value3 = c.getInt(c.getColumnIndex("value3"));
+                int value4 = c.getInt(c.getColumnIndex("value4"));
+
+                podiums.add(new StatsData(value, value2, value3, value4, label));
+            }
+        } catch (Exception e) {
+            podiums = new ArrayList<>();
+        }
+
+        return podiums;
     }
 }

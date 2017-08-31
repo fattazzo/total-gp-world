@@ -10,7 +10,7 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsData;
 import com.gmail.fattazzo.formula1world.fragments.stats.AbstractStatsChartFragment;
-import com.gmail.fattazzo.formula1world.fragments.stats.StatsDataImageLabelListAdapter;
+import com.gmail.fattazzo.formula1world.fragments.stats.adapters.StatsDataImageLabelListAdapter;
 import com.gmail.fattazzo.formula1world.utils.CountryNationality;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
 import com.gmail.fattazzo.formula1world.utils.Utils;

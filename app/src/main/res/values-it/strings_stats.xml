@@ -3,4 +3,10 @@
     <string name="stat_wins">Vittorie</string>
 
     <string name="until">fino a</string>
+
+    <string name="stats_pos">Pos</string>
+    <string name="stats_total">Tot</string>
+    <string name="stats_first">1°</string>
+    <string name="stats_second">2°</string>
+    <string name="stats_third">3°</string>
 </resources>

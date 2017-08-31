@@ -1,4 +1,4 @@
-package com.gmail.fattazzo.formula1world.fragments.stats;
+package com.gmail.fattazzo.formula1world.fragments.stats.adapters;
 
 import android.app.Activity;
 import android.content.Context;

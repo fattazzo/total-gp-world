@@ -2,8 +2,11 @@ package com.gmail.fattazzo.formula1world.fragments.stats;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
+import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -21,6 +24,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsData;
+import com.gmail.fattazzo.formula1world.fragments.stats.adapters.StatsDataListAdapter;
 import com.gmail.fattazzo.formula1world.service.StatisticsService;
 import com.gmail.fattazzo.formula1world.utils.ThemeUtils;
 
@@ -34,8 +38,6 @@ import org.androidannotations.annotations.ViewById;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -70,6 +72,8 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
 
     @ViewById
     protected ListView dataListView;
+    @ViewById
+    protected RelativeLayout headerListView;
 
     private Date lastData;
 
@@ -82,6 +86,14 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
         }
 
         dataListView.setAdapter(createListAdapter(new ArrayList<StatsData>(), getListValueFormat()));
+
+        headerListView.removeAllViews();
+        View headerView = getHeaderListView();
+        if (headerView != null) {
+            headerListView.addView(headerView, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+            headerListView.invalidate();
+            headerListView.forceLayout();
+        }
 
         bindData();
     }
@@ -96,7 +108,10 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
             chart.getDescription().setEnabled(false);
 
             DateFormat outFormat = android.text.format.DateFormat.getDateFormat(getContext());
-            SpannableString text = new SpannableString(getString(R.string.seasons) + "\n" + seasonStart + " - " + seasonEnd + "\n* " + getString(R.string.until) + " " + outFormat.format(lastData));
+            String seasonsTxt = getString(R.string.seasons) + "\n" + seasonStart + " - " + seasonEnd;
+            SpannableString text = new SpannableString(seasonsTxt + "\n*" + getString(R.string.until) + " " + outFormat.format(lastData));
+            text.setSpan(new RelativeSizeSpan(1.0f), 0, seasonsTxt.length(), 0);
+            text.setSpan(new RelativeSizeSpan(0.65f), seasonsTxt.length(), text.length(), 0);
             chart.setCenterText(text);
             chart.setCenterTextColor(themeUtils.getThemeTextColor(getContext()));
             chart.setCenterTextSize(themeUtils.getThemeTextSize(getContext(), R.dimen.font_size_medium));
@@ -114,7 +129,7 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
 
             chart.setMaxAngle(180f);
             chart.setRotationAngle(180f);
-            chart.setCenterTextOffset(0, -40);
+            chart.setCenterTextOffset(0, -45);
 
             chart.setEntryLabelColor(themeUtils.getThemeTextColor(getContext()));
             chart.setDrawEntryLabels(false);
@@ -173,13 +188,6 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
     void bindData() {
         List<StatsData> data = loadData();
 
-        Collections.sort(data, new Comparator<StatsData>() {
-            @Override
-            public int compare(StatsData o1, StatsData o2) {
-                return o1.getValue() < o2.getValue() ? 1 : o1.getValue() > o2.getValue() ? -1 : 0;
-            }
-        });
-
         if (chart != null) {
             setChartData(data);
         }
@@ -202,6 +210,12 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
 
     protected BaseAdapter createListAdapter(List<StatsData> data, DecimalFormat valueFormat) {
         return new StatsDataListAdapter(getActivity(), data, valueFormat);
+    }
+
+    protected
+    @Nullable
+    View getHeaderListView() {
+        return null;
     }
 
     protected abstract

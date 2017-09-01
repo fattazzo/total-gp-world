@@ -31,6 +31,7 @@ import com.gmail.fattazzo.formula1world.fragments.current.races.CurrentRacesFrag
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragmentActionHolder_;
 import com.gmail.fattazzo.formula1world.fragments.news.NewsFragment;
+import com.gmail.fattazzo.formula1world.fragments.stats.constructors.StatisticsConstructorsFragment;
 import com.gmail.fattazzo.formula1world.fragments.stats.drivers.StatisticsDriversFragment;
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
@@ -51,6 +52,7 @@ import static com.dspot.declex.Action.$CurrentConstructorsFragment;
 import static com.dspot.declex.Action.$CurrentDriversFragment;
 import static com.dspot.declex.Action.$CurrentRacesFragment;
 import static com.dspot.declex.Action.$NewsFragment;
+import static com.dspot.declex.Action.$StatisticsConstructorsFragment;
 import static com.dspot.declex.Action.$StatisticsDriversFragment;
 
 @EActivity(R.layout.activity_home)
@@ -227,6 +229,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_stats_drivers:
                 $StatisticsDriversFragment(StatisticsDriversFragment.TAG);
+                break;
+            case R.id.nav_stats_constructors:
+                $StatisticsConstructorsFragment(StatisticsConstructorsFragment.TAG);
                 break;
             case R.id.nav_about:
                 $AboutActivity();

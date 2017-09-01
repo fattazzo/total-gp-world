@@ -54,4 +54,19 @@
         <item>Podiums</item>
     </string-array>
 
+    <string-array name="statistics_constructors_entry">
+        <item>Select one…</item>
+        <item>Wins</item>
+        <item>Wins (Nationality)</item>
+        <item>Podiums</item>
+    </string-array>
+
+    <string-array name="statistics_season_entry">
+        <item>Select one…</item>
+        <item>Driver wins</item>
+        <item>Constructors wins</item>
+        <item>Driver podiums</item>
+        <item>Constructors podiums</item>
+    </string-array>
+
 </resources>

@@ -34,4 +34,19 @@
         <item>Podi</item>
     </string-array>
 
+    <string-array name="statistics_constructors_entry">
+        <item>Seleziona una statistica…</item>
+        <item>Vittorie</item>
+        <item>Vittorie (Nazionalità)</item>
+        <item>Podi</item>
+    </string-array>
+
+    <string-array name="statistics_season_entry">
+        <item>Select one…</item>
+        <item>Vittorie piloti</item>
+        <item>Vittorie costruttori</item>
+        <item>Podi piloti</item>
+        <item>Podi costruttori</item>
+    </string-array>
+
 </resources>

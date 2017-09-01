@@ -40,6 +40,10 @@
                     android:id="@+id/nav_stats_constructors"
                     android:icon="@drawable/menu_car"
                     android:title="@string/constructors" />
+                <item
+                    android:id="@+id/nav_stats_season"
+                    android:icon="@drawable/finish_flag"
+                    android:title="@string/season" />
             </group>
         </menu>
     </item>

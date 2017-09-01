@@ -1,4 +1,4 @@
-package com.gmail.fattazzo.formula1world.fragments.stats.constructors;
+package com.gmail.fattazzo.formula1world.fragments.stats.season;
 
 import android.support.v4.app.Fragment;
 import android.view.MotionEvent;
@@ -21,9 +21,10 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.Calendar;
 
-import static com.dspot.declex.Action.$ConstructorsNationalityWinsStatsFragment;
 import static com.dspot.declex.Action.$ConstructorsPodiumsStatsFragment;
 import static com.dspot.declex.Action.$ConstructorsWinsStatsFragment;
+import static com.dspot.declex.Action.$DriversPodiumsStatsFragment;
+import static com.dspot.declex.Action.$DriversWinsStatsFragment;
 import static com.dspot.declex.Action.$HomeFragment;
 
 /**
@@ -32,9 +33,9 @@ import static com.dspot.declex.Action.$HomeFragment;
  *         date: 21/08/17
  */
 @EFragment(R.layout.fragment_statistics)
-public class StatisticsConstructorsFragment extends Fragment {
+public class StatisticsSeasonFragment extends Fragment {
 
-    public static final String TAG = StatisticsConstructorsFragment.class.getSimpleName();
+    public static final String TAG = StatisticsSeasonFragment.class.getSimpleName();
 
     @ViewById
     RangeBar seasonsRangeBar;
@@ -55,17 +56,18 @@ public class StatisticsConstructorsFragment extends Fragment {
         int year = cal.get(Calendar.YEAR);
         seasonsRangeBar.setTickEnd(year);
         seasonsRangeBar.setTickStart(1950);
+        seasonsRangeBar.setRangeBarEnabled(false);
         seasonsRangeBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    statsSpinner(true,statsSpinner.getSelectedItemPosition());
+                    statsSpinner(true, statsSpinner.getSelectedItemPosition());
                 }
                 return false;
             }
         });
 
-        String[] arraySpinner = getResources().getStringArray(R.array.statistics_constructors_entry);
+        String[] arraySpinner = getResources().getStringArray(R.array.statistics_season_entry);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.f1_simple_item, arraySpinner);
         statsSpinner.setAdapter(adapter);
@@ -73,17 +75,19 @@ public class StatisticsConstructorsFragment extends Fragment {
 
     @ItemSelect
     public void statsSpinner(boolean selected, int position) {
-        Integer seasonStart = Integer.valueOf(seasonsRangeBar.getLeftPinValue());
-        Integer seasonEnd = Integer.valueOf(seasonsRangeBar.getRightPinValue());
+        Integer season = Integer.valueOf(seasonsRangeBar.getRightPinValue());
         switch (position) {
             case 1:
-                $ConstructorsWinsStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(R.id.statistics_container);
+                $DriversWinsStatsFragment().seasonStart(season).seasonEnd(season).container(R.id.statistics_container);
                 break;
             case 2:
-                $ConstructorsNationalityWinsStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(R.id.statistics_container);
+                $ConstructorsWinsStatsFragment().seasonStart(season).seasonEnd(season).container(R.id.statistics_container);
                 break;
             case 3:
-                $ConstructorsPodiumsStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(R.id.statistics_container);
+                $DriversPodiumsStatsFragment().seasonStart(season).seasonEnd(season).container(R.id.statistics_container);
+                break;
+            case 4:
+                $ConstructorsPodiumsStatsFragment().seasonStart(season).seasonEnd(season).container(R.id.statistics_container);
                 break;
             default:
                 statistics_container.removeAllViews();

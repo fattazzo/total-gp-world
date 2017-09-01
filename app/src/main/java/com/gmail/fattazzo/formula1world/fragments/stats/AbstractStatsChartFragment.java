@@ -38,6 +38,7 @@ import org.androidannotations.annotations.ViewById;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -107,12 +108,7 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
         if (chart != null) {
             chart.getDescription().setEnabled(false);
 
-            DateFormat outFormat = android.text.format.DateFormat.getDateFormat(getContext());
-            String seasonsTxt = getString(R.string.seasons) + "\n" + seasonStart + " - " + seasonEnd;
-            SpannableString text = new SpannableString(seasonsTxt + "\n*" + getString(R.string.until) + " " + outFormat.format(lastData));
-            text.setSpan(new RelativeSizeSpan(1.0f), 0, seasonsTxt.length(), 0);
-            text.setSpan(new RelativeSizeSpan(0.65f), seasonsTxt.length(), text.length(), 0);
-            chart.setCenterText(text);
+            chart.setCenterText(createChartCenterText());
             chart.setCenterTextColor(themeUtils.getThemeTextColor(getContext()));
             chart.setCenterTextSize(themeUtils.getThemeTextSize(getContext(), R.dimen.font_size_medium));
 
@@ -148,6 +144,26 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
 
             chart.clear();
         }
+    }
+
+    private SpannableString createChartCenterText() {
+        DateFormat outFormat = android.text.format.DateFormat.getDateFormat(getContext());
+        String seasonsTxt;
+        if (seasonStart == seasonEnd) {
+            seasonsTxt = getString(R.string.season) + "\n" + seasonStart;
+        } else {
+            seasonsTxt = getString(R.string.seasons) + "\n" + seasonStart + " - " + seasonEnd;
+        }
+        SpannableString text = new SpannableString(seasonsTxt);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(lastData);
+        if (seasonEnd >= calendar.get(Calendar.YEAR)) {
+            text = new SpannableString(seasonsTxt + "\n*" + getString(R.string.until) + " " + outFormat.format(lastData));
+        }
+        text.setSpan(new RelativeSizeSpan(1.0f), 0, seasonsTxt.length(), 0);
+        text.setSpan(new RelativeSizeSpan(0.65f), seasonsTxt.length(), text.length(), 0);
+        return text;
     }
 
     private void setChartData(final List<StatsData> statsData) {

@@ -40,6 +40,7 @@ import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -220,6 +221,14 @@ public class RaceStatPositionsFragment extends Fragment {
 
     @NonNull
     public LineDataSet buildDataSet(@NonNull List<F1LapTime> results, F1Driver driver) {
+
+        Collections.sort(results, new Comparator<F1LapTime>() {
+            @Override
+            public int compare(F1LapTime o1, F1LapTime o2) {
+                return o1.lap - o2.lap;
+            }
+        });
+
         List<Entry> entries = new ArrayList<>();
         for (F1LapTime lapTime : results) {
             entries.add(new Entry(lapTime.lap, lapTime.position, driver.getFullName()));

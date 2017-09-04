@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -21,11 +23,11 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsData;
 import com.gmail.fattazzo.formula1world.fragments.stats.adapters.StatsDataListAdapter;
 import com.gmail.fattazzo.formula1world.service.StatisticsService;
+import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1world.utils.ThemeUtils;
 
 import org.androidannotations.annotations.AfterInject;
@@ -58,6 +60,9 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
 
     @Bean
     protected StatisticsService statisticsService;
+
+    @Bean
+    protected ApplicationPreferenceManager preferenceManager;
 
     @Bean
     protected ThemeUtils themeUtils;
@@ -182,7 +187,7 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
         PieDataSet dataSet = new PieDataSet(values, "");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        dataSet.setColors(preferenceManager.getStatisticsChartColorTheme().getColors());
 
         PieData data = new PieData(dataSet);
         data.setValueTextSize(themeUtils.getThemeTextSize(getContext(), R.dimen.font_size_small));
@@ -245,4 +250,10 @@ public abstract class AbstractStatsChartFragment extends Fragment implements Com
     protected abstract
     @NonNull
     DecimalFormat getListValueFormat();
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.statistics, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 }

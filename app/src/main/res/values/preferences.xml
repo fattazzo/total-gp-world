@@ -4,6 +4,7 @@
     <string name="key_appTheme" tools:ignore="MissingTranslation">appTheme</string>
     <string name="key_fragmentTransitionAnimation" tools:ignore="MissingTranslation">fragmentTransitionAnimation</string>
     <string name="key_pagerTransitionAnimation" tools:ignore="MissingTranslation">pagerTransitionAnimation</string>
+    <string name="key_statistics_chart_color_theme" tools:ignore="MissingTranslation">statisticsChartColorTheme</string>
 
     <!-- default values -->
     <string name="default_appTheme" tools:ignore="MissingTranslation">dark</string>

@@ -4,6 +4,7 @@ import com.gmail.fattazzo.formula1world.R;
 
 import org.androidannotations.annotations.sharedpreferences.DefaultInt;
 import org.androidannotations.annotations.sharedpreferences.DefaultRes;
+import org.androidannotations.annotations.sharedpreferences.DefaultString;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
 @SharedPref(value = SharedPref.Scope.APPLICATION_DEFAULT)
@@ -20,4 +21,7 @@ public interface ApplicationPreference {
 
     @DefaultInt(0)
     int lastVersionDBFilesImported();
+
+    @DefaultString("3")
+    String statisticsChartColorTheme();
 }

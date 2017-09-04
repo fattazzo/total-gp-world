@@ -5,4 +5,6 @@
     <string name="app_theme">Tema</string>
     <string name="fragment_transition_animation">Animazione transizione pagine</string>
     <string name="pager_transition_animation">Animazione transizione sezioni</string>
+
+    <string name="charts_color_theme">Tema grafici</string>
 </resources>

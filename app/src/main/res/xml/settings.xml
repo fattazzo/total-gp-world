@@ -28,4 +28,12 @@
             android:summary="%s"
             android:title="@string/pager_transition_animation" />
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/statistics">
+        <com.gmail.fattazzo.formula1world.preference.chartColorThemePicker.ChartColorThemePickerPreference
+            android:defaultValue="3"
+            android:key="@string/key_statistics_chart_color_theme"
+            android:layout="@layout/chart_theme_item_preference"
+            android:title="@string/charts_color_theme" />
+    </PreferenceCategory>
 </PreferenceScreen>

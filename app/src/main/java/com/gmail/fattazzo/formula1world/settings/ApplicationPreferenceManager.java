@@ -10,9 +10,11 @@ import com.ToxicBakery.viewpager.transforms.FlipHorizontalTransformer;
 import com.ToxicBakery.viewpager.transforms.FlipVerticalTransformer;
 import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
 import com.gmail.fattazzo.formula1world.R;
+import com.gmail.fattazzo.formula1world.preference.chartColorThemePicker.ChartColorTheme;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author fattazzo
@@ -146,5 +148,21 @@ public class ApplicationPreferenceManager {
         }
 
         return transformer;
+    }
+
+    public
+    @NonNull
+    ChartColorTheme getStatisticsChartColorTheme() {
+        String idxPrefs = StringUtils.defaultString(prefs.statisticsChartColorTheme().get(), "3");
+
+        ChartColorTheme theme;
+        try {
+            int idx = Integer.parseInt(idxPrefs);
+            theme = ChartColorTheme.values()[idx];
+        } catch (Exception e) {
+            theme = ChartColorTheme.COLORFUL;
+        }
+
+        return theme;
     }
 }

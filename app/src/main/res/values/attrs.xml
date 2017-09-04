@@ -31,4 +31,8 @@
         <attr name="arc_bottom_text" format="string"/>
         <attr name="arc_bottom_text_size" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="attrs_icon">
+        <attr name="iconFile" format="string" />
+    </declare-styleable>
 </resources>

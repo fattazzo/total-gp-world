@@ -56,4 +56,7 @@
     <string name="statistics">Statistiche</string>
 
     <string name="bug_report_user_request">Descrivi la tua richiesta o problema prima di questo testo.Per favore non rimuovere le informazioni che trovi di seguito, serviranno per risolvere il tuo problema al meglio.</string>
+
+    <string name="no_db_available_title">Ops… database interno non presente</string>
+    <string name="no_db_available_message">Per qualche motivo il database interno non è stato caricato. Questo significa che alcune funzionalità non saranno disponibili. Se non è ancora stato fatto, invia la segnalazione che ti è apparsa durante l\'avvio dell\'applicazione così da porter risolvere al più presto il problema. Grazie!</string>
 </resources>

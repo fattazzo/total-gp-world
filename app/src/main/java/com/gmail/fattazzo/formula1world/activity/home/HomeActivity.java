@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.service.LocalDBDataService;
 import com.gmail.fattazzo.formula1world.fragments.collaborate.CollaborateFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment;
@@ -36,6 +38,7 @@ import com.gmail.fattazzo.formula1world.fragments.stats.drivers.StatisticsDriver
 import com.gmail.fattazzo.formula1world.fragments.stats.season.StatisticsSeasonFragment;
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -77,6 +80,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Bean
     DataService dataService;
 
+    @Bean
+    LocalDBDataService localDBDataService;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(preferenceManager.getAppTheme());
@@ -84,6 +90,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
+            if (localDBDataService.loadSeason(1950) == null) {
+                new LovelyStandardDialog(this)
+                        .setTopColorRes(R.color.colorPrimaryDark)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle(R.string.no_db_available_title)
+                        .setMessage(Html.fromHtml(getString(R.string.no_db_available_message)))
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
+            }
+
             Log.d(TAG, "Clear cache");
             dataService.clearCache();
             // Instanzio il fragment se savedInstanceState == null altrimenti (ad es. girando il dispositivo)

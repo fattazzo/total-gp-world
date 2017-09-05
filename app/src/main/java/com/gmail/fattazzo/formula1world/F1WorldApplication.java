@@ -70,7 +70,7 @@ public class F1WorldApplication extends Application {
                         fout.write(buffer, 0, count);
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             IssueReporter.openReportIssue(this,"Error on application initialization " + DateFormatUtils.format(Calendar.getInstance(),"dd/MM/yyyy hh:MM:ss"), ExceptionUtils.getStackTrace(e),true);
             e.printStackTrace();
         }

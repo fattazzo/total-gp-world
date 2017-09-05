@@ -18,19 +18,9 @@ package com.gmail.fattazzo.formula1world;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.app.Application;
 import com.activeandroid.util.ReflectionUtils;
-import com.gmail.fattazzo.formula1world.utils.IssueReporter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Calendar;
-import java.util.zip.ZipInputStream;
 
 public class F1WorldApplication extends Application {
 
@@ -43,8 +33,6 @@ public class F1WorldApplication extends Application {
 
         deleteDatabase(aaName);
 
-        copydatabase(aaName);
-
         ActiveAndroid.initialize(this);
 
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
@@ -53,26 +41,5 @@ public class F1WorldApplication extends Application {
                 .defaultDisplayImageOptions(defaultOptions)
                 .build();
         ImageLoader.getInstance().init(config);
-    }
-
-    public void copydatabase(String dbName) {
-
-        String path = this.getDatabasePath(dbName).getParent();
-        File targetDirectory = new File(path);
-
-        try (ZipInputStream zis = new ZipInputStream(new BufferedInputStream(this.getAssets().open("f1db.zip")))) {
-            int count;
-            byte[] buffer = new byte[8192];
-            while ((zis.getNextEntry()) != null) {
-                File file = new File(targetDirectory, dbName);
-                try (FileOutputStream fout = new FileOutputStream(file)) {
-                    while ((count = zis.read(buffer)) != -1)
-                        fout.write(buffer, 0, count);
-                }
-            }
-        } catch (final Exception e) {
-            IssueReporter.openReportIssue(this,"Error on application initialization " + DateFormatUtils.format(Calendar.getInstance(),"dd/MM/yyyy hh:MM:ss"), ExceptionUtils.getStackTrace(e),true);
-            e.printStackTrace();
-        }
     }
 }

@@ -55,7 +55,4 @@
     <string name="statistics">Statistics</string>
     
     <string name="bug_report_user_request">Describe your request or problem before this text.\nPlease do not remove the information below, they will serve to solve your problem at best.</string>
-
-    <string name="no_db_available_title">Ops… internal database not found</string>
-    <string name="no_db_available_message">For some reason, the internal database has not been loaded. This means that some features will not be available. If it has not been done yet, send the report that appeared to you during the startup of the application so that you can resolve the issue as soon as possible. Thank you!</string>
 </resources>

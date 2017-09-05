@@ -39,19 +39,11 @@ task copyAssetsTestFiles(type: Copy, dependsOn: 'cleanTestResources') {
     into 'src/test/resources/assets'
 }
 
-task unzipTestDB(type: Copy, dependsOn: 'copyAssetsTestFiles') {
-    def zipFile = file('src/main/assets/f1db.zip')
-    def outputDir = file("src/test/resources/assets")
+preBuild.dependsOn copyAssetsTestFiles
+preBuild.mustRunAfter copyAssetsTestFiles
 
-    from zipTree(zipFile)
-    into outputDir
-}
-
-preBuild.dependsOn unzipTestDB
-preBuild.mustRunAfter unzipTestDB
-
-clean.dependsOn unzipTestDB
-clean.mustRunAfter unzipTestDB
+clean.dependsOn copyAssetsTestFiles
+clean.mustRunAfter copyAssetsTestFiles
 // -----------------------------------------------------------------------
 
 dependencies {

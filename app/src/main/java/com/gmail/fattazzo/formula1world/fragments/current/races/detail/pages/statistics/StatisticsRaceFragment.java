@@ -2,20 +2,20 @@ package com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.st
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.fragments.ITitledFragment;
+import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.pitstops.RaceStatPitStopFragment_;
+import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.positions.RaceStatPositionsFragment_;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.ViewById;
-
-import static com.dspot.declex.Action.$RaceStatPitStopFragment;
-import static com.dspot.declex.Action.$RaceStatPositionsFragment;
 
 /**
  * @author fattazzo
@@ -49,12 +49,13 @@ public class StatisticsRaceFragment extends Fragment implements ITitledFragment 
 
     @ItemSelect
     public void statistics_spinner(boolean selected, int position) {
+        FragmentManager fm = getFragmentManager();
         switch (position) {
             case 1:
-                $RaceStatPitStopFragment().race(race).container(R.id.race_statistics_container);
+                fm.beginTransaction().replace(R.id.race_statistics_container,RaceStatPitStopFragment_.builder().race(race).build()).commit();
                 break;
             case 2:
-                $RaceStatPositionsFragment().race(race).container(R.id.race_statistics_container);
+                fm.beginTransaction().replace(R.id.race_statistics_container, RaceStatPositionsFragment_.builder().race(race).build()).commit();
                 break;
             default:
                 race_statistics_container.removeAllViews();

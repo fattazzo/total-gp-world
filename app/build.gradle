@@ -29,17 +29,30 @@ android {
     }
 }
 
-task copyFiles(type: Copy) {
+// Align test resources folder ------------------------------------------
+task cleanTestResources(type: Delete) {
+    delete 'src/test/resources/assets'
+}
+
+task copyAssetsTestFiles(type: Copy, dependsOn: 'cleanTestResources') {
     from 'src/main/assets'
     into 'src/test/resources/assets'
 }
 
-project.afterEvaluate {
-    preBuild.dependsOn copyFiles
+task unzipTestDB(type: Copy, dependsOn: 'copyAssetsTestFiles') {
+    def zipFile = file('src/main/assets/f1db.zip')
+    def outputDir = file("src/test/resources/assets")
+
+    from zipTree(zipFile)
+    into outputDir
 }
 
-clean.dependsOn copyFiles
-clean.mustRunAfter copyFiles
+preBuild.dependsOn unzipTestDB
+preBuild.mustRunAfter unzipTestDB
+
+clean.dependsOn unzipTestDB
+clean.mustRunAfter unzipTestDB
+// -----------------------------------------------------------------------
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -74,7 +87,7 @@ dependencies {
     //------------------ TEST --------------------------------
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.3.2"
-    testCompile ("com.android.support.test:runner:0.5") {
+    testCompile("com.android.support.test:runner:0.5") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 

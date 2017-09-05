@@ -1,18 +1,13 @@
 package com.gmail.fattazzo.formula1world.dbimage;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Cache;
 import com.activeandroid.query.Select;
-import com.activeandroid.util.ReflectionUtils;
 import com.gmail.fattazzo.formula1world.CustomRobolectricRunner;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorColors;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorStandings;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.List;
 
@@ -27,18 +22,7 @@ import static org.junit.Assert.assertTrue;
  *         date: 16/06/17
  */
 @RunWith(CustomRobolectricRunner.class)
-public class DBConstructorsTest {
-
-    @Before
-    public void initDB() {
-        Cache.clear();
-        ActiveAndroid.dispose();
-
-        String aaName = ReflectionUtils.getMetaData(RuntimeEnvironment.application, "AA_DB_NAME");
-
-        RuntimeEnvironment.application.deleteDatabase(aaName);
-        ActiveAndroid.initialize(RuntimeEnvironment.application);
-    }
+public class DBConstructorsTest extends BaseDBTest {
 
     @Test
     public void testConstructorColors() {

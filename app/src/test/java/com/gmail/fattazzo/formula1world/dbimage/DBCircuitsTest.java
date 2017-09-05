@@ -1,16 +1,11 @@
 package com.gmail.fattazzo.formula1world.dbimage;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Cache;
 import com.activeandroid.query.Select;
-import com.activeandroid.util.ReflectionUtils;
 import com.gmail.fattazzo.formula1world.CustomRobolectricRunner;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Circuit;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.List;
 
@@ -25,18 +20,7 @@ import static org.junit.Assert.assertTrue;
  *         date: 16/06/17
  */
 @RunWith(CustomRobolectricRunner.class)
-public class DBCircuitsTest {
-
-    @Before
-    public void initDB() {
-        Cache.clear();
-        ActiveAndroid.dispose();
-
-        String aaName = ReflectionUtils.getMetaData(RuntimeEnvironment.application, "AA_DB_NAME");
-
-        RuntimeEnvironment.application.deleteDatabase(aaName);
-        ActiveAndroid.initialize(RuntimeEnvironment.application);
-    }
+public class DBCircuitsTest extends BaseDBTest {
 
     @Test
     public void testCount() {
@@ -69,11 +53,13 @@ public class DBCircuitsTest {
     @Test
     public void testAll() {
         List<Circuit> circuits = new Select().from(Circuit.class).execute();
+        assertNotNull("No circuits loaded", circuits);
+        assertNotEquals("0 circuits found", 0, circuits.size());
 
         for (Circuit circuit : circuits) {
             assertNotNull("Null name for circuit " + circuit.circuitRef, circuit.name);
-            assertTrue("Wrong latitude for circuit " + circuit.name,circuit.lat != 0);
-            assertTrue("Wrong longitude for circuit " + circuit.name,circuit.lng != 0);
+            assertTrue("Wrong latitude for circuit " + circuit.name, circuit.lat != 0);
+            assertTrue("Wrong longitude for circuit " + circuit.name, circuit.lng != 0);
             assertNotNull("Null location for circuit " + circuit.name, circuit.location);
             System.out.println("Circuit " + circuit.name + " ok");
         }

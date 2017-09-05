@@ -2,19 +2,14 @@ package com.gmail.fattazzo.formula1world.dbimage;
 
 import android.util.SparseIntArray;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Cache;
 import com.activeandroid.query.Select;
-import com.activeandroid.util.ReflectionUtils;
 import com.gmail.fattazzo.formula1world.CustomRobolectricRunner;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverConstructor;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverStandings;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RuntimeEnvironment;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -27,18 +22,7 @@ import static org.junit.Assert.assertTrue;
  *         date: 16/06/17
  */
 @RunWith(CustomRobolectricRunner.class)
-public class DBDriversTest {
-
-    @Before
-    public void initDB() {
-        Cache.clear();
-        ActiveAndroid.dispose();
-
-        String aaName = ReflectionUtils.getMetaData(RuntimeEnvironment.application, "AA_DB_NAME");
-
-        RuntimeEnvironment.application.deleteDatabase(aaName);
-        ActiveAndroid.initialize(RuntimeEnvironment.application);
-    }
+public class DBDriversTest extends BaseDBTest {
 
     @Test
     public void testDrivers() {

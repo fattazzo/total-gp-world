@@ -172,6 +172,9 @@ public class DataService implements IDataService {
         List<F1Driver> drivers = dataCache.getDrivers();
         if (CollectionUtils.isEmpty(drivers)) {
             drivers = localDBDataService.loadDrivers();
+            if(CollectionUtils.isEmpty(drivers)) {
+                drivers = onlineDataService.loadDrivers();
+            }
             dataCache.setDrivers(drivers);
         }
         return drivers;
@@ -183,6 +186,9 @@ public class DataService implements IDataService {
         List<F1Constructor> constructors = dataCache.getConstructors();
         if (CollectionUtils.isEmpty(constructors)) {
             constructors = localDBDataService.loadConstructors();
+            if (CollectionUtils.isEmpty(constructors)) {
+                constructors = onlineDataService.loadConstructors();
+            }
             dataCache.setConstructors(constructors);
         }
         return constructors;
@@ -277,6 +283,9 @@ public class DataService implements IDataService {
         List<F1Race> races = dataCache.getRaces();
         if (CollectionUtils.isEmpty(races)) {
             races = localDBDataService.loadRaces();
+            if (CollectionUtils.isEmpty(races)) {
+                races = onlineDataService.loadRaces();
+            }
             dataCache.setRaces(races);
         }
         return races;

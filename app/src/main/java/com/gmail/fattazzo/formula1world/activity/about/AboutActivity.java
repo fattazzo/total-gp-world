@@ -89,12 +89,12 @@ public class AboutActivity extends Activity {
 
     @Click(R.id.project_source)
     void openProjectSourceAction() {
-        utils.openLink("https://github.com/fattazzo/formula-1-world");
+        utils.openLink("https://github.com/fattazzo/total-gp-world");
     }
 
     @Click(R.id.project_wiki)
     void openProjectWikiAction() {
-        utils.openLink("https://github.com/fattazzo/formula-1-world/wiki");
+        utils.openLink("https://github.com/fattazzo/total-gp-world/wiki");
     }
 
     // ---------- Attribution ------------------------

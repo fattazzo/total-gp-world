@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -84,6 +85,35 @@ public class Matchers {
             @Override
             public boolean matchesSafely(View view) {
                 return matcher.matches(view) && currentIndex++ == index;
+            }
+        };
+    }
+
+    public static Matcher<View> withChildViewCount(final int count, final Matcher<View> childMatcher) {
+        return new BoundedMatcher<View, ViewGroup>(ViewGroup.class) {
+            @Override
+            protected boolean matchesSafely(ViewGroup viewGroup) {
+                int matchCount = 0;
+                if(childMatcher == null) {
+                    matchCount = viewGroup.getChildCount();
+                } else {
+                    for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                        if (childMatcher.matches(viewGroup.getChildAt(i))) {
+                            matchCount++;
+                        }
+                    }
+                }
+
+                return matchCount == count;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("ViewGroup with child-count=" + count);
+                if(childMatcher != null) {
+                    description.appendText(" and ");
+                    childMatcher.describeTo(description);
+                }
             }
         };
     }

@@ -122,7 +122,7 @@ public class HomeFragmentTest extends BaseTest {
 
         onWebView(withId(R.id.season_wv))
                 .withElement(findElement(Locator.ID, "section_0"))
-                .check(webMatches(getText(), containsString("2016 Formula One season")));
+                .check(webMatches(getText(), containsString("2016 FIA Formula One World Championship")));
 
         selectSeason(2015);
 
@@ -131,6 +131,6 @@ public class HomeFragmentTest extends BaseTest {
 
         onWebView(withId(R.id.season_wv))
                 .withElement(findElement(Locator.ID, "section_0"))
-                .check(webMatches(getText(), containsString("2015 Formula One season")));
+                .check(webMatches(getText(), containsString("2015 FIA Formula One World Championship")));
     }
 }

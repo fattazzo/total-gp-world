@@ -57,7 +57,7 @@ public class RaceResultsItemView extends TableRow {
         gridView.setText(String.valueOf(result.grid));
         String time = "-";
         if (result.time != null) {
-            time = StringUtils.defaultString(result.time.time);
+            time = StringUtils.defaultString(result.time.time,"-");
         }
         timeView.setText(time);
         statusView.setText(result.status);

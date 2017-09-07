@@ -1,21 +1,38 @@
 package com.gmail.fattazzo.formula1world.fragments.current.drivers;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.NavigationViewActions;
 import android.view.Gravity;
 
 import com.gmail.fattazzo.formula1world.BaseTest;
 import com.gmail.fattazzo.formula1world.R;
+import com.gmail.fattazzo.formula1world.domain.F1Driver;
+import com.gmail.fattazzo.formula1world.ergast.Ergast;
+import com.gmail.fattazzo.formula1world.ergast.Ergast_;
+import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverDateOfBirthComparator;
+import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNameComparator;
+import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNationalityComparator;
+import com.gmail.fattazzo.formula1world.fragments.current.drivers.comparator.DriverNumberComparator;
 import com.gmail.fattazzo.formula1world.matchers.Matchers;
+import com.gmail.fattazzo.formula1world.service.DataService;
+import com.gmail.fattazzo.formula1world.service.DataService_;
+import com.gmail.fattazzo.formula1world.utils.CountryNationality;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils;
 import com.gmail.fattazzo.formula1world.utils.ImageUtils_;
+import com.gmail.fattazzo.formula1world.utils.Utils;
+import com.gmail.fattazzo.formula1world.utils.Utils_;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
@@ -30,54 +47,89 @@ import static org.hamcrest.Matchers.anything;
  */
 public class CurrentDriversFragmentTest extends BaseTest {
 
-    private String[] driversName = new String[]{"Carlos Sainz","Daniel Ricciardo","Daniil Kvyat","Esteban Gutiérrez","Esteban Ocon","Felipe Massa","Felipe Nasr","Fernando Alonso",
-            "Jenson Button","Jolyon Palmer","Kevin Magnussen","Kimi Räikkönen","Lewis Hamilton","Marcus Ericsson","Max Verstappen","Nico Hülkenberg","Nico Rosberg",
-            "Pascal Wehrlein","Rio Haryanto","Romain Grosjean","Sebastian Vettel","Sergio Pérez","Stoffel Vandoorne","Valtteri Bottas",};
-    private String[] driversColor = new String[]{"#0000ff","#00007d","#0000ff","#6c0000","#92c0ff","#ffffff","#006dff","#635f60","#635f60","#ffd800","#ffd800",
-            "#c30000","#00cfba","#006dff","#0000ff","#00007d","#3e1700","#00cfba","#92c0ff","#92c0ff","#6c0000","#c30000","#3e1700","#635f60","#ffffff",};
-    private String[] driversNumber = new String[]{"55","3","26","21","31","19","12","14","22","30","20","7","44","9","33","27","6","94","88","8","5","11","2","77",};
-    private String[] driversState = new String[]{"ES","AU","RU","MX","FR","BR","BR","ES","GB","GB","DK","FI","GB","SE","NL","DE","DE","DE","ID","FR","DE","MX","BE","FI",};
-
     @Test
     public void testDriversData() {
 
-        selectSeason(2016);
+        for (int season = 2015; season <= 2016; season++) {
+            Ergast ergast = Ergast_.getInstance_(getContext());
+            ergast.setSeason(season);
+            DataService dataService = DataService_.getInstance_(getContext());
+            List<F1Driver> drivers = new ArrayList<>();
+            drivers.addAll(dataService.loadDrivers());
+            Collections.sort(drivers, new DriverNameComparator());
 
-        onView(withId(R.id.drawer_layout)).check(matches(isClosed(Gravity.START))).perform(open());
+            selectSeason(season);
+            onView(withId(R.id.drawer_layout)).check(matches(isClosed(Gravity.START))).perform(open());
+            onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_current_season_driver));
 
-        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_current_season_driver));
+            onView(withId(R.id.list_view)).check(ViewAssertions.matches(Matchers.withListSize(drivers.size())));
+            System.out.println("Drivers count: " + drivers.size() + ", OK");
 
-        // test 24 drivers
-        onView(withId(R.id.list_view)).check(ViewAssertions.matches(Matchers.withListSize(24)));
-        System.out.println("Drivers count: 24, OK");
+            ImageUtils imageUtils = ImageUtils_.getInstance_(getContext());
+            Utils utils = Utils_.getInstance_(getContext());
 
-        ImageUtils imageUtils = ImageUtils_.getInstance_(getContext());
-        for (int i = 0; i < 11; i++) {
-            onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.driver_item_name)).check(matches(withText(driversName[i])));
-            onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.driver_color)).check(matches(Matchers.withBgColor(Color.parseColor(driversColor[i]))));
-            onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.driver_item_number)).check(matches(withText(driversNumber[i])));
+            int pos = 0;
+            for (F1Driver driver : drivers) {
+                onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.driver_item_name)).check(matches(withText(driver.getFullName())));
 
-            Bitmap bitmap = imageUtils.getFlagForCountryCode(driversState[i]);
-            onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.driver_item_flag)).check(matches(Matchers.withDrawableName(bitmap, driversState[i])));
-            System.out.println(driversName[i] + " OK");
+                int color = dataService.loadDriverColor(driver);
+                onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.driver_color)).check(matches(Matchers.withBgColor(color)));
+
+                onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.driver_item_number)).check(matches(withText(String.valueOf(driver.number))));
+
+                CountryNationality countryNationality = utils.getCountryNationality(driver.nationality);
+                if (countryNationality != null) {
+                    Bitmap bitmap = imageUtils.getFlagForCountryCode(countryNationality.getAlpha2Code());
+                    onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.driver_item_flag)).check(matches(Matchers.withDrawableName(bitmap, countryNationality.getAlpha2Code())));
+                }
+                pos++;
+            }
         }
     }
 
     @Test
-    public void testDriversAlphaOrder() {
+    public void testDriversOrders() {
+        for (int season = 2010; season <= 2016; season++) {
+            Ergast ergast = Ergast_.getInstance_(getContext());
+            ergast.setSeason(season);
+            DataService dataService = DataService_.getInstance_(getContext());
+            List<F1Driver> drivers = new ArrayList<>();
+            drivers.addAll(dataService.loadDrivers());
 
-        selectSeason(2016);
+            selectSeason(season);
+            onView(withId(R.id.drawer_layout)).check(matches(isClosed(Gravity.START))).perform(open());
+            onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_current_season_driver));
 
-        onView(withId(R.id.drawer_layout)).check(matches(isClosed(Gravity.START))).perform(open());
+            testDriversOrder(drivers, new DriverDateOfBirthComparator());
+            testDriversOrder(drivers, new DriverNameComparator());
+            testDriversOrder(drivers, new DriverNationalityComparator());
+            testDriversOrder(drivers, new DriverNumberComparator());
+        }
+    }
 
-        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_current_season_driver));
+    private void testDriversOrder(List<F1Driver> drivers, Comparator<F1Driver> comparator) {
+
+        Collections.sort(drivers, comparator);
+
+        onView(withId(R.id.drivers_menu)).perform(click());
+        if (comparator instanceof DriverDateOfBirthComparator) {
+            onView(withText(R.string.sort_drivers_by_date_of_birth)).perform(click());
+        } else if (comparator instanceof DriverNameComparator) {
+            onView(withText(R.string.sort_drivers_by_name)).perform(click());
+        } else if (comparator instanceof DriverNationalityComparator) {
+            onView(withText(R.string.sort_drivers_by_nationality)).perform(click());
+        } else if (comparator instanceof DriverNumberComparator) {
+            onView(withText(R.string.sort_drivers_by_number)).perform(click());
+        }
 
         System.out.println("Test alpha order");
-        for (int i = 0; i < 11; i++) {
+        int pos = 0;
+        for (F1Driver driver : drivers) {
             onData(anything())
-                    .inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.driver_item_name))
-                    .check(matches(withText(driversName[i])));
-            System.out.println(driversName[i] + " OK");
+                    .inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.driver_item_name))
+                    .check(matches(withText(driver.getFullName())));
+            System.out.println(driver.getFullName() + " OK");
+            pos++;
         }
         System.out.println("Alpha order OK");
     }

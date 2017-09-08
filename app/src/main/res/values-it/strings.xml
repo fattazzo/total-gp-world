@@ -27,6 +27,7 @@
     <string name="pitStops">Pit stops</string>
     <string name="lapTimes">Tempi sul giro</string>
     <string name="drivers">Piloti</string>
+    <string name="rounds">Rounds</string>
     <string name="constructors">Costruttori</string>
     <string name="driverStandings">Classifica piloti</string>
     <string name="constructorStandings">Classifica costruttori</string>
@@ -56,4 +57,14 @@
     <string name="statistics">Statistiche</string>
 
     <string name="bug_report_user_request">Descrivi la tua richiesta o problema prima di questo testo.Per favore non rimuovere le informazioni che trovi di seguito, serviranno per risolvere il tuo problema al meglio.</string>
+
+    <string name="winningDrivers">Piloti vincenti</string>
+    <string name="winningConstructors">Costruttori vincenti</string>
+
+    <string name="podiumDrivers">Piloti a podio</string>
+    <string name="podiumConstructors">Costruttori a podio</string>
+
+    <string name="winningDriverPoints">Punti pilota vincente</string>
+    <string name="pointsAssigned">Punti assegnati</string>
+    <string name="racesCompleted">Gare completate</string>
 </resources>

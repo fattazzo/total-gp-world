@@ -26,6 +26,7 @@
     <string name="pitStops">Pit stops</string>
     <string name="lapTimes">Lap times</string>
     <string name="drivers">Drivers</string>
+    <string name="rounds">Rounds</string>
     <string name="constructors">Constructors</string>
     <string name="driverStandings">Driver standings</string>
     <string name="constructorStandings">Constructor standings</string>
@@ -55,4 +56,14 @@
     <string name="statistics">Statistics</string>
     
     <string name="bug_report_user_request">Describe your request or problem before this text.\nPlease do not remove the information below, they will serve to solve your problem at best.</string>
+
+    <string name="winningDrivers">Winning drivers</string>
+    <string name="winningConstructors">Winning constructors</string>
+
+    <string name="podiumDrivers">Podium drivers</string>
+    <string name="podiumConstructors">Podium constructors</string>
+
+    <string name="winningDriverPoints">Winning driver points</string>
+    <string name="pointsAssigned">Points assigned</string>
+    <string name="racesCompleted">Races Completed</string>
 </resources>

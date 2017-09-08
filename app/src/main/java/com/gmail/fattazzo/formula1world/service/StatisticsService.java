@@ -4,8 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.LocalDBStatsConstructorsService;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.LocalDBStatsDriversService;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.LocalDBStatsSeasonService;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.LocalDBStatsService;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsData;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsSeasonComparisonData;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -29,6 +31,9 @@ public class StatisticsService {
 
     @Bean
     LocalDBStatsConstructorsService localDBStatsConstructorsService;
+
+    @Bean
+    LocalDBStatsSeasonService localDBStatsSeasonService;
 
     public
     @NonNull
@@ -70,5 +75,11 @@ public class StatisticsService {
     @NonNull
     List<StatsData> loadConstructorsPodiums(int seasonStart, int seasonEnd) {
         return localDBStatsConstructorsService.loadPodiums(seasonStart, seasonEnd);
+    }
+
+    public
+    @NonNull
+    StatsSeasonComparisonData loadSeasonComparison(int season) {
+        return localDBStatsSeasonService.loadComparison(season);
     }
 }

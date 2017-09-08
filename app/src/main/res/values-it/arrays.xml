@@ -43,6 +43,7 @@
 
     <string-array name="statistics_season_entry">
         <item>Select one…</item>
+        <item>Confronto</item>
         <item>Vittorie piloti</item>
         <item>Vittorie costruttori</item>
         <item>Podi piloti</item>

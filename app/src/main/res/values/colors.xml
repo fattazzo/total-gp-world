@@ -31,4 +31,8 @@
 
     <color name="even_row_dark">#00ffffff</color>
     <color name="odd_row_dark">#BE404040</color>
+
+    <color name="green">#23e739</color>
+    <color name="red">#ff0000</color>
+    <color name="gray">#b1b0b0</color>
 </resources>

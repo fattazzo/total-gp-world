@@ -14,6 +14,7 @@ import static com.dspot.declex.Action.$ConstructorsWinsStatsFragment;
 import static com.dspot.declex.Action.$DriversPodiumsStatsFragment;
 import static com.dspot.declex.Action.$DriversWinsStatsFragment;
 import static com.dspot.declex.Action.$HomeFragment;
+import static com.dspot.declex.Action.$SeasonComparisonStatsFragment;
 
 /**
  * @author fattazzo
@@ -29,15 +30,18 @@ public class StatisticsSeasonFragment extends AbstractStatisticsFragment {
     public void showStat(int index, Integer seasonStart, Integer seasonEnd, int containerResId, FrameLayout container) {
         switch (index) {
             case 1:
-                $DriversWinsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                $SeasonComparisonStatsFragment().season(seasonEnd).container(containerResId);
                 break;
             case 2:
-                $ConstructorsWinsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                $DriversWinsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
                 break;
             case 3:
-                $DriversPodiumsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                $ConstructorsWinsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
                 break;
             case 4:
+                $DriversPodiumsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                break;
+            case 5:
                 $ConstructorsPodiumsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
                 break;
             default:

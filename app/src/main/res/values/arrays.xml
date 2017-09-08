@@ -63,6 +63,7 @@
 
     <string-array name="statistics_season_entry">
         <item>Select one…</item>
+        <item>Comparison</item>
         <item>Driver wins</item>
         <item>Constructors wins</item>
         <item>Driver podiums</item>

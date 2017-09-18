@@ -111,4 +111,30 @@ public class LocalDBStatsConstructorsService {
 
         return podiums;
     }
+
+    public
+    @NonNull
+    List<StatsData> loadNumbers(int seasonStart, int seasonEnd) {
+        List<StatsData> podiums;
+
+        String sql = "select count(constructor) as value,\"year\" as label " +
+                "from(select distinct constructorId as constructor,\"year\" as \"year\" from driversConstructors " +
+                "     where \"year\" >= ? and \"year\" <= ?) " +
+                "group by \"year\" " +
+                "order by \"year\" asc";
+
+        try (Cursor c = ActiveAndroid.getDatabase().rawQuery(sql, new String[]{String.valueOf(seasonStart), String.valueOf(seasonEnd)})) {
+            podiums = new ArrayList<>();
+            while (c.moveToNext()) {
+                String label = c.getString(c.getColumnIndex("label"));
+                int value = c.getInt(c.getColumnIndex("value"));
+
+                podiums.add(new StatsData(value, label));
+            }
+        } catch (Exception e) {
+            podiums = new ArrayList<>();
+        }
+
+        return podiums;
+    }
 }

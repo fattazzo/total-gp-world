@@ -10,6 +10,7 @@ import com.gmail.fattazzo.formula1world.fragments.stats.AbstractStatisticsFragme
 import org.androidannotations.annotations.EFragment;
 
 import static com.dspot.declex.Action.$DriversNationalityWinsStatsFragment;
+import static com.dspot.declex.Action.$DriversNumbersStatsFragment;
 import static com.dspot.declex.Action.$DriversPodiumsStatsFragment;
 import static com.dspot.declex.Action.$DriversWinsStatsFragment;
 import static com.dspot.declex.Action.$HomeFragment;
@@ -35,6 +36,9 @@ public class StatisticsDriversFragment extends AbstractStatisticsFragment {
                 break;
             case 3:
                 $DriversPodiumsStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(containerResId);
+                break;
+            case 4:
+                $DriversNumbersStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(containerResId);
                 break;
             default:
                 container.removeAllViews();

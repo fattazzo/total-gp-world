@@ -52,6 +52,7 @@
         <item>Wins</item>
         <item>Wins (Nationality)</item>
         <item>Podiums</item>
+        <item>Number of drivers</item>
     </string-array>
 
     <string-array name="statistics_constructors_entry">
@@ -59,6 +60,7 @@
         <item>Wins</item>
         <item>Wins (Nationality)</item>
         <item>Podiums</item>
+        <item>Number of constructors</item>
     </string-array>
 
     <string-array name="statistics_season_entry">

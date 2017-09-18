@@ -32,6 +32,7 @@
         <item>Vittorie</item>
         <item>Vittorie (Nazionalità)</item>
         <item>Podi</item>
+        <item>Numero piloti</item>
     </string-array>
 
     <string-array name="statistics_constructors_entry">
@@ -39,6 +40,7 @@
         <item>Vittorie</item>
         <item>Vittorie (Nazionalità)</item>
         <item>Podi</item>
+        <item>Numero costruttori</item>
     </string-array>
 
     <string-array name="statistics_season_entry">

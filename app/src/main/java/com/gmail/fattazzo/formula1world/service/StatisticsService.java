@@ -61,6 +61,12 @@ public class StatisticsService {
 
     public
     @NonNull
+    List<StatsData> loadDriversNumbers(int seasonStart, int seasonEnd) {
+        return localDBStatsDriversService.loadNumbers(seasonStart, seasonEnd);
+    }
+
+    public
+    @NonNull
     List<StatsData> loadConstructorsWins(int seasonStart, int seasonEnd) {
         return localDBStatsConstructorsService.loadWins(seasonStart, seasonEnd);
     }
@@ -75,6 +81,12 @@ public class StatisticsService {
     @NonNull
     List<StatsData> loadConstructorsPodiums(int seasonStart, int seasonEnd) {
         return localDBStatsConstructorsService.loadPodiums(seasonStart, seasonEnd);
+    }
+
+    public
+    @NonNull
+    List<StatsData> loadConstructorsNumbers(int seasonStart, int seasonEnd) {
+        return localDBStatsConstructorsService.loadNumbers(seasonStart, seasonEnd);
     }
 
     public

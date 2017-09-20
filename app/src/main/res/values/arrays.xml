@@ -45,6 +45,7 @@
         <item>Select one…</item>
         <item>Pit stops</item>
         <item>Positions</item>
+        <item>Laps time</item>
     </string-array>
 
     <string-array name="statistics_drivers_entry">

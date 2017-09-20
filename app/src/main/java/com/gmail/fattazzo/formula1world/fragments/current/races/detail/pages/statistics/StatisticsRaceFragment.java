@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
 import com.gmail.fattazzo.formula1world.fragments.ITitledFragment;
+import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.lapstime.RaceStatLapsTimeFragment_;
 import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.pitstops.RaceStatPitStopFragment_;
 import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.positions.RaceStatPositionsFragment_;
 
@@ -56,6 +57,9 @@ public class StatisticsRaceFragment extends Fragment implements ITitledFragment 
                 break;
             case 2:
                 fm.beginTransaction().replace(R.id.race_statistics_container, RaceStatPositionsFragment_.builder().race(race).build()).commit();
+                break;
+            case 3:
+                fm.beginTransaction().replace(R.id.race_statistics_container, RaceStatLapsTimeFragment_.builder().race(race).build()).commit();
                 break;
             default:
                 race_statistics_container.removeAllViews();

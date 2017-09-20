@@ -25,6 +25,7 @@
         <item>Select one…</item>
         <item>Pit stops</item>
         <item>Posizioni</item>
+        <item>Tempi sul giro</item>
     </string-array>
 
     <string-array name="statistics_drivers_entry">

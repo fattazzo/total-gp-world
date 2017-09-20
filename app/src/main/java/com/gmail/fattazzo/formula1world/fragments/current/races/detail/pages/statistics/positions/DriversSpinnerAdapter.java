@@ -80,7 +80,7 @@ public class DriversSpinnerAdapter extends BaseAdapter {
         drivers.clear();
     }
 
-    List<DriverSpinnerModel> getItems() {
+    public List<DriverSpinnerModel> getItems() {
         return drivers;
     }
 }

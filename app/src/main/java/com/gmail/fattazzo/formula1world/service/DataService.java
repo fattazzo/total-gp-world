@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 
+import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Constructor;
 import com.gmail.fattazzo.formula1world.domain.F1ConstructorStandings;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
@@ -384,7 +386,7 @@ public class DataService implements IDataService {
             }
         }
 
-        return ObjectUtils.defaultIfNull(color, android.R.color.transparent);
+        return ObjectUtils.defaultIfNull(color, ContextCompat.getColor(context,R.color.background_color_dark));
     }
 
     public boolean hasLocalLapsData(F1Race race) {

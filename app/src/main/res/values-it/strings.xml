@@ -34,6 +34,7 @@
     <string name="stop">Pit #</string>
     <string name="lap">Giro</string>
     <string name="time">Ora</string>
+    <string name="time2">Tempo</string>
     <string name="duration">Durata</string>
     <string name="constructorColors">Colori team</string>
 

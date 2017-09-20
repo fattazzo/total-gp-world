@@ -33,6 +33,7 @@
     <string name="stop">Stop</string>
     <string name="lap">Lap</string>
     <string name="time">Time</string>
+    <string name="time2">Time</string>
     <string name="duration">Duration</string>
     <string name="constructorColors">Team colors</string>
 

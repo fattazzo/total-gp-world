@@ -7,8 +7,10 @@ import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
+import com.gmail.fattazzo.formula1world.utils.ThemeUtils;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 import org.apache.commons.lang3.ObjectUtils;
@@ -21,6 +23,9 @@ import org.apache.commons.lang3.StringUtils;
  */
 @EViewGroup(R.layout.race_results_progress_row2)
 public class ResultsRaceItemView extends TableRow {
+
+    @Bean
+    ThemeUtils themeUtils;
 
     @ViewById(R.id.race_results_driver)
     TextView driverView;
@@ -74,18 +79,6 @@ public class ResultsRaceItemView extends TableRow {
             pointsView.setText(String.valueOf(points.intValue()));
         }
 
-        setBackgroundColor(rowNumber % 2 == 0 ? getThemeEvenRowColor() : getThemeOddRowColor());
-    }
-
-    private int getThemeEvenRowColor() {
-        final TypedValue value = new TypedValue();
-        getContext().getTheme().resolveAttribute(R.attr.evenRowColor, value, true);
-        return value.data;
-    }
-
-    private int getThemeOddRowColor() {
-        final TypedValue value = new TypedValue();
-        getContext().getTheme().resolveAttribute(R.attr.oddRowColor, value, true);
-        return value.data;
+        setBackgroundColor(rowNumber % 2 == 0 ? themeUtils.getThemeEvenRowColor(getContext()) : themeUtils.getThemeOddRowColor(getContext()));
     }
 }

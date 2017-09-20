@@ -1,4 +1,4 @@
-package com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.positions;
+package com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.lapstime;
 
 import android.support.annotation.NonNull;
 
@@ -10,7 +10,7 @@ import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1LapTime;
 import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.AbstractRaceLapTimeFragment;
-import com.gmail.fattazzo.formula1world.view.chart.marker.F1MarkerEntryDataView;
+import com.gmail.fattazzo.formula1world.view.chart.marker.F1MarkerLapTimeView;
 
 import org.androidannotations.annotations.EFragment;
 
@@ -22,10 +22,10 @@ import java.util.List;
 /**
  * @author fattazzo
  *         <p/>
- *         date: 11/07/17
+ *         date: 18/09/17
  */
 @EFragment(R.layout.fragment_race_stat_chart_drivers)
-public class RaceStatPositionsFragment extends AbstractRaceLapTimeFragment {
+public class RaceStatLapsTimeFragment extends AbstractRaceLapTimeFragment {
 
     @Override
     @NonNull
@@ -40,7 +40,8 @@ public class RaceStatPositionsFragment extends AbstractRaceLapTimeFragment {
 
         List<Entry> entries = new ArrayList<>();
         for (F1LapTime lapTime : results) {
-            entries.add(new Entry(lapTime.lap, lapTime.position, driver.getFullName()));
+            lapTime.driver = driver;
+            entries.add(new Entry(lapTime.lap, lapTime.milliseconds, lapTime));
         }
 
         LineDataSet dataSet = new LineDataSet(entries, driver.getFullName());
@@ -48,7 +49,7 @@ public class RaceStatPositionsFragment extends AbstractRaceLapTimeFragment {
         int color = dataService.loadDriverColor(driver);
         dataSet.setColor(color);
         dataSet.setDrawCircleHole(false);
-        dataSet.setDrawCircles(false);
+        dataSet.setDrawCircles(true);
         dataSet.setDrawValues(false);
 
         if (color == themeUtils.getThemeBGColor(getContext())) {
@@ -79,16 +80,16 @@ public class RaceStatPositionsFragment extends AbstractRaceLapTimeFragment {
         chart.getAxisLeft().setTextColor(textColor);
         chart.getAxisLeft().setTextSize(textSize);
         chart.getAxisLeft().setAxisLineColor(textColor);
-        chart.getAxisLeft().setGranularity(1.0f);
+        chart.getAxisLeft().setGranularity(1f);
         chart.getAxisLeft().setGranularityEnabled(true);
         chart.getAxisLeft().setDrawGridLines(false);
-        chart.getAxisLeft().setInverted(true);
+        chart.getAxisLeft().setDrawLabels(false);
 
         chart.getLegend().setEnabled(false);
 
         chart.getAxisRight().setEnabled(false);
 
-        F1MarkerEntryDataView marker = new F1MarkerEntryDataView(getContext(), null, getResources().getString(R.string.detail_driver_position));
+        F1MarkerLapTimeView marker = new F1MarkerLapTimeView(getContext());
         chart.setMarker(marker);
     }
 
@@ -98,7 +99,7 @@ public class RaceStatPositionsFragment extends AbstractRaceLapTimeFragment {
             @Override
             public int compare(F1LapTime o1, F1LapTime o2) {
                 if (o1.lap - o2.lap == 0) {
-                    return o1.position - o2.position;
+                    return o1.milliseconds - o2.milliseconds;
                 } else {
                     return o1.lap - o2.lap;
                 }

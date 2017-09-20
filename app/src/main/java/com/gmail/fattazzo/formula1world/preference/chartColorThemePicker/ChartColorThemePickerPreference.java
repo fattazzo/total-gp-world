@@ -2,6 +2,7 @@ package com.gmail.fattazzo.formula1world.preference.chartColorThemePicker;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -35,6 +36,8 @@ public class ChartColorThemePickerPreference extends ListPreference {
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
+
+        //view.setPadding(context.getResources().getDimension(android.R.attr.listPreferredItemPaddingLeft),0,0,0);
 
         ChartColorTheme[] themes = ChartColorTheme.values();
         selectedTheme = themes[currentIndex];

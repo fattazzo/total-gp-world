@@ -1,3 +1,9 @@
+![](https://img.shields.io/badge/Android-5+-red.svg?style=flat)
+![](https://img.shields.io/badge/JUnit%20test-passing-green.svg?style=flat)
+![](https://img.shields.io/badge/UI%20tests-passing-green.svg?style=flat)
+[![GitHub release](https://img.shields.io/github/tag/fattazzo/total-gp-world.svg)](https://github.com/fattazzo/total-gp-world/releases)
+[![GitHub issues](https://img.shields.io/github/issues/fattazzo/total-gp-world.svg)](https://github.com/fattazzo/total-gp-world/issues)
+
 With Total GP world you will have all the information you need, results, rankings, updated timetables and comparisons from the season 1950 to the present.
 
 [![paypal-donate-button.png](https://bitbucket.org/repo/A7orjK/images/4010477437-paypal-donate-button.png)](https://www.paypal.me/GianlucaFattarsi)

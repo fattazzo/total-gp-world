@@ -2,6 +2,7 @@ package com.gmail.fattazzo.formula1world.fragments.current.drivers.detail;
 
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.NavigationViewActions;
+import android.support.test.espresso.web.webdriver.Locator;
 import android.view.Gravity;
 
 import com.gmail.fattazzo.formula1world.BaseTest;
@@ -24,6 +25,7 @@ import java.util.List;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -33,9 +35,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.web.assertion.WebViewAssertions.webMatches;
+import static android.support.test.espresso.web.model.Atoms.getCurrentUrl;
+import static android.support.test.espresso.web.sugar.Web.onWebView;
+import static android.support.test.espresso.web.webdriver.DriverAtoms.findElement;
+import static android.support.test.espresso.web.webdriver.DriverAtoms.getText;
 import static com.gmail.fattazzo.formula1world.matchers.Matchers.withChildViewCount;
 import static com.gmail.fattazzo.formula1world.matchers.Matchers.withIndex;
 import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.containsString;
 
 /**
  * @author fattazzo
@@ -45,9 +53,23 @@ import static org.hamcrest.Matchers.anything;
 public class DetailDriverFragmentTest extends BaseTest {
 
     @Test
-    public void test2016Progress() {
-        for (int i=2010; i<=2016; i++) {
+    public void testProgressFrom2010() {
+        for (int i=2010; i<=getLastAvailableSeason(); i++) {
             testSeasonProgress(i);
+        }
+    }
+
+    @Test
+    public void testRankingFrom2010() {
+        for (int i=2010; i<=getLastAvailableSeason(); i++) {
+            testSeasonRanking(i);
+        }
+    }
+
+    @Test
+    public void testInfoFrom2010() {
+        for (int i=2010; i<=getLastAvailableSeason(); i++) {
+            testSeasonInfo(i);
         }
     }
 
@@ -86,6 +108,23 @@ public class DetailDriverFragmentTest extends BaseTest {
             }
             onView(withIndex(withId(R.id.race_results_time), pos)).check(matches(withText(time)));
             onView(withIndex(withId(R.id.race_results_status), pos)).check(matches(withText(result.status)));
+
+            pos++;
+        }
+        onView(withId(R.id.swipe_refresh_layout)).perform(swipeDown());
+
+        pos=0;
+        for (F1Result result:vettelResults) {
+            onView(withIndex(withId(R.id.race_results_position), pos)).check(matches(withText(result.positionText)));
+            onView(withIndex(withId(R.id.race_results_laps), pos)).check(matches(withText(String.valueOf(result.laps))));
+            onView(withIndex(withId(R.id.race_results_grid), pos)).check(matches(withText(String.valueOf(result.grid))));
+            String time = "-";
+            if (result.time != null) {
+                time = StringUtils.defaultString(result.time.time,"-");
+            }
+            onView(withIndex(withId(R.id.race_results_time), pos)).check(matches(withText(time)));
+            onView(withIndex(withId(R.id.race_results_status), pos)).check(matches(withText(result.status)));
+
             pos++;
         }
 
@@ -99,6 +138,8 @@ public class DetailDriverFragmentTest extends BaseTest {
 
         onView(withId(R.id.view_pager)).perform(swipeRight());
         onView(withId(R.id.view_pager)).perform(swipeRight());
+
+        onView(withId(R.id.view_pager)).check(matches(hasDescendant(withText(getContext().getString(R.string.detail_driver_season_progress_tab_title)))));
     }
 
     private void testSeasonProgress(int season) {
@@ -130,6 +171,60 @@ public class DetailDriverFragmentTest extends BaseTest {
                 onView(withIndex(withId(R.id.race_results_status), pos)).check(matches(withText(result.status)));
                 pos++;
             }
+            onView(isRoot()).perform(ViewActions.pressBack());
+        }
+    }
+
+    private void testSeasonRanking(int season) {
+        selectSeason(season);
+
+        onView(withId(R.id.drawer_layout)).check(matches(isClosed(Gravity.START))).perform(open());
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_current_season_driver));
+
+        Ergast ergast = Ergast_.getInstance_(getContext());
+        ergast.setSeason(season);
+        DataService dataService = DataService_.getInstance_(getContext());
+        List<F1Driver> drivers = dataService.loadDrivers();
+        Collections.sort(drivers,new DriverNameComparator());
+
+        for (int i=0; i<=drivers.size()-1; i++) {
+            onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.driver_item_name)).perform(click());
+
+            onView(withId(R.id.view_pager)).perform(swipeLeft());
+            onView(withId(R.id.view_pager)).check(matches(hasDescendant(withText(getContext().getString(R.string.detail_driver_ranking_tab_title)))));
+
+            onView(withId(R.id.textView2)).check(matches(withText(getContext().getString(R.string.detail_driver_positions_chart))));
+            onView(withId(R.id.textView3)).check(matches(withText(getContext().getString(R.string.detail_driver_points_chart))));
+
+            onView(isRoot()).perform(ViewActions.pressBack());
+        }
+    }
+
+    private void testSeasonInfo(int season) {
+        selectSeason(season);
+
+        onView(withId(R.id.drawer_layout)).check(matches(isClosed(Gravity.START))).perform(open());
+        onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_current_season_driver));
+
+        Ergast ergast = Ergast_.getInstance_(getContext());
+        ergast.setSeason(season);
+        DataService dataService = DataService_.getInstance_(getContext());
+        List<F1Driver> drivers = dataService.loadDrivers();
+        Collections.sort(drivers,new DriverNameComparator());
+
+        for (int i=0; i<=drivers.size()-1; i++) {
+            onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.driver_item_name)).perform(click());
+
+            onView(withId(R.id.view_pager)).perform(swipeLeft());
+            onView(withId(R.id.view_pager)).perform(swipeLeft());
+            onView(withId(R.id.view_pager)).check(matches(hasDescendant(withText(getContext().getString(R.string.info_fragment_title)))));
+
+            onWebView(withId(R.id.webview)).check(webMatches(getCurrentUrl(), containsString(StringUtils.substringAfterLast(drivers.get(i).familyName," "))));
+            onWebView(withId(R.id.webview)).check(webMatches(getCurrentUrl(), containsString(StringUtils.substringAfterLast(drivers.get(i).givenName," "))));
+
+            //onWebView(withId(R.id.webview)).withElement(findElement(Locator.ID, "firstHeading")).check(webMatches(getText(), containsString(drivers.get(i).familyName)));
+            //onWebView(withId(R.id.webview)).withElement(findElement(Locator.ID, "firstHeading")).check(webMatches(getText(), containsString(drivers.get(i).givenName)));
+
             onView(isRoot()).perform(ViewActions.pressBack());
         }
     }

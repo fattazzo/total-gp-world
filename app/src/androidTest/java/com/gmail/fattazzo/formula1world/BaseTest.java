@@ -13,11 +13,15 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity_;
+import com.gmail.fattazzo.formula1world.service.DataService;
+import com.gmail.fattazzo.formula1world.service.DataService_;
 
 import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -112,6 +116,12 @@ public class BaseTest {
                 return ViewMatchers.isAssignableFrom(NumberPicker.class);
             }
         };
+    }
+
+    protected int getLastAvailableSeason() {
+        DataService dataService = DataService_.getInstance_(getContext());
+        List<Integer> seasons = dataService.getAvailableSeasons();
+        return seasons.get(0);
     }
 
     public enum AppMenu {HOME, BOLL_PROB, BOLL_LOCALE, BOLL_SINTETICO, STAZIONI, NEVE_VALANGHE, RADAR, WEBCAM, IMPOSTAZIONI, GUIDA, ABOUT}

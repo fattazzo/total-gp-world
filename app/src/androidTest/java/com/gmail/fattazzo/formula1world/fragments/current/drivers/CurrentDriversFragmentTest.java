@@ -48,9 +48,9 @@ import static org.hamcrest.Matchers.anything;
 public class CurrentDriversFragmentTest extends BaseTest {
 
     @Test
-    public void testDriversData() {
+    public void testDriversDataFrom2010() {
 
-        for (int season = 2015; season <= 2016; season++) {
+        for (int season = 2010; season <= getLastAvailableSeason(); season++) {
             Ergast ergast = Ergast_.getInstance_(getContext());
             ergast.setSeason(season);
             DataService dataService = DataService_.getInstance_(getContext());
@@ -88,8 +88,8 @@ public class CurrentDriversFragmentTest extends BaseTest {
     }
 
     @Test
-    public void testDriversOrders() {
-        for (int season = 2010; season <= 2016; season++) {
+    public void testDriversOrdersFrom2010() {
+        for (int season = 2010; season <= getLastAvailableSeason(); season++) {
             Ergast ergast = Ergast_.getInstance_(getContext());
             ergast.setSeason(season);
             DataService dataService = DataService_.getInstance_(getContext());

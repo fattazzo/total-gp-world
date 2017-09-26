@@ -5,6 +5,7 @@
     <string name="app_theme">Theme</string>
     <string name="fragment_transition_animation">Transition animation section</string>
     <string name="pager_transition_animation">Transition animation pager</string>
+    <string name="news_language">Language</string>
 
     <string name="charts_color_theme">Charts theme</string>
 </resources>

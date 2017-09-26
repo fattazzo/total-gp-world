@@ -24,4 +24,7 @@ public interface ApplicationPreference {
 
     @DefaultString("3")
     String statisticsChartColorTheme();
+
+    @DefaultString("")
+    String newsLanguage();
 }

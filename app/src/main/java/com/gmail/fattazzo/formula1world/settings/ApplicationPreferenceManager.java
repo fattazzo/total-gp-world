@@ -16,6 +16,8 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Locale;
+
 /**
  * @author fattazzo
  *         <p/>
@@ -164,5 +166,16 @@ public class ApplicationPreferenceManager {
         }
 
         return theme;
+    }
+
+    public String newsLanguage() {
+
+        String newsLanguage = prefs.newsLanguage().get();
+
+        if(StringUtils.isBlank(newsLanguage)) {
+            newsLanguage = Locale.getDefault().getLanguage();
+        }
+
+        return newsLanguage;
     }
 }

@@ -29,6 +29,15 @@
             android:title="@string/pager_transition_animation" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/news">
+        <ListPreference
+            android:entries="@array/news_language_entry"
+            android:entryValues="@array/news_language_code"
+            android:key="@string/key_newsLanguage"
+            android:summary="%s"
+            android:title="@string/news_language" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/statistics">
         <com.gmail.fattazzo.formula1world.preference.chartColorThemePicker.ChartColorThemePickerPreference
             android:defaultValue="3"

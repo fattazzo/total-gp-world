@@ -53,4 +53,9 @@
         <item>Podi costruttori</item>
     </string-array>
 
+    <string-array name="news_language_entry">
+        <item>Inglese</item>
+        <item>Italiano</item>
+    </string-array>
+
 </resources>

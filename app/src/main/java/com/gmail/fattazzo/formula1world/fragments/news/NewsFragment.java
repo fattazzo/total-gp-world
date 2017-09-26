@@ -1,5 +1,6 @@
 package com.gmail.fattazzo.formula1world.fragments.news;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,9 +15,12 @@ import android.widget.TextView;
 
 import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
+import com.gmail.fattazzo.formula1world.activity.home.HomeActivity;
+import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_;
 import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
 import com.gmail.fattazzo.formula1world.news.objects.News;
 import com.gmail.fattazzo.formula1world.service.NewsService;
+import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1world.utils.IssueReporter;
 import com.gmail.fattazzo.formula1world.utils.Utils;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
@@ -27,6 +31,8 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
@@ -34,20 +40,23 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.dspot.declex.Action.$HomeFragment;
+import static com.dspot.declex.Action.$SettingsActivity;
+import static com.gmail.fattazzo.formula1world.activity.home.HomeActivity.PREF_ACTIVITY_RESULT;
 
 /**
  * @author fattazzo
  *         <p/>
  *         date: 20/07/17
  */
+@OptionsMenu(R.menu.news)
 @EFragment(R.layout.fragment_news)
 public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = NewsFragment.class.getSimpleName();
-
+    @Bean
+    protected ApplicationPreferenceManager preferenceManager;
     @Bean
     NewsService newsService;
-
     @Bean
     Utils utils;
 
@@ -75,11 +84,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     void init() {
         swipe_refresh_layout.setOnRefreshListener(this);
 
-        if (recycler_view != null) {
-            loadNewsRecyclerView();
-        } else {
-            loadNewsListView();
-        }
+        onRefresh();
     }
 
     // ----------- Recycler View ----------------------------------------------------------------
@@ -88,7 +93,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         List<News> result = null;
         try {
             startLoad();
-            String language = Locale.getDefault().getLanguage();
+            String language = preferenceManager.newsLanguage();
             result = newsService.loadNews(language);
         } finally {
             updateUI(result);
@@ -101,7 +106,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         List<News> result = null;
         try {
             startLoad();
-            String language = Locale.getDefault().getLanguage();
+            String language = preferenceManager.newsLanguage();
             result = newsService.loadNews(language);
         } finally {
             updateUI(result);
@@ -183,6 +188,19 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show();
+    }
+
+    @OptionsItem
+    protected void action_settings() {
+        $SettingsActivity().withResult(HomeActivity.PREF_ACTIVITY_RESULT);
+    }
+
+    void $onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == HomeActivity.PREF_ACTIVITY_RESULT) {
+            onRefresh();
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Event

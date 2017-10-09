@@ -46,7 +46,7 @@ public class DBDriversTest extends BaseDBTest {
     @Test
     public void testDriverConstructors() {
         int totalDrivers = new Select().from(DriverConstructor.class).where("year <= ?", 2017).count();
-        assertEquals("DriverConstructor count not match", 3395, totalDrivers);
+        assertEquals("DriverConstructor count not match", 3396, totalDrivers);
         System.out.println(totalDrivers + " DriverConstructor found");
 
         SparseIntArray driversNr = new SparseIntArray();
@@ -67,7 +67,7 @@ public class DBDriversTest extends BaseDBTest {
         driversNr.put(2014, 24);
         driversNr.put(2015, 22);
         driversNr.put(2016, 26);
-        driversNr.put(2017, 23);
+        driversNr.put(2017, 24);
         for (int i = 2000; i <= 2017; i++) {
             int yearDrivers = new Select().from(DriverConstructor.class).where("year = ?", i).count();
             assertEquals("DriverConstructor count not match for year " + String.valueOf(i), driversNr.get(i), yearDrivers);

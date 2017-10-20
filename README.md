@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/Android-5+-red.svg?style=flat)
 [![JUnit test](https://img.shields.io/badge/JUnit%20test-passing-green.svg?style=flat)](https://cdn.rawgit.com/fattazzo/total-gp-world/de647aff/test/Test%20Results%20-%20Junit_test.html)
-[![UI test](https://img.shields.io/badge/UI%20tests-passing-green.svg?style=flat)](https://cdn.rawgit.com/fattazzo/total-gp-world/de647aff/test/Test%20Results%20-%20UI_test.html)
+[![UI test](https://img.shields.io/badge/UI%20tests-passing-green.svg?style=flat)](https://cdn.rawgit.com/fattazzo/total-gp-world/ecc55c4a/test/Test%20Results%20-%20UI_test.html)
 [![GitHub release](https://img.shields.io/github/tag/fattazzo/total-gp-world.svg)](https://github.com/fattazzo/total-gp-world/releases)
 [![GitHub issues](https://img.shields.io/github/issues/fattazzo/total-gp-world.svg)](https://github.com/fattazzo/total-gp-world/issues)
 

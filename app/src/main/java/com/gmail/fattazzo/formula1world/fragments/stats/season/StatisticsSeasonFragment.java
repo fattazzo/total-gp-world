@@ -15,6 +15,8 @@ import static com.dspot.declex.Action.$DriversPodiumsStatsFragment;
 import static com.dspot.declex.Action.$DriversWinsStatsFragment;
 import static com.dspot.declex.Action.$HomeFragment;
 import static com.dspot.declex.Action.$SeasonComparisonStatsFragment;
+import static com.dspot.declex.Action.$SeasonConstructorsCircuitsStatsFragment;
+import static com.dspot.declex.Action.$SeasonDriversCircuitsStatsFragment;
 
 /**
  * @author fattazzo
@@ -43,6 +45,12 @@ public class StatisticsSeasonFragment extends AbstractStatisticsFragment {
                 break;
             case 5:
                 $ConstructorsPodiumsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                break;
+            case 6:
+                $SeasonDriversCircuitsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                break;
+            case 7:
+                $SeasonConstructorsCircuitsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
                 break;
             default:
                 container.removeAllViews();

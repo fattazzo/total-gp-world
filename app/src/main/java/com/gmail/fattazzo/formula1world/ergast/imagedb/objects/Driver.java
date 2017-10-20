@@ -30,16 +30,16 @@ public class Driver extends Model implements Serializable {
     public String forename;
 
     @Column
-    String surname;
+    public String surname;
 
     @Column
-    String dob;
+    public String dob;
 
     @Column
     String url;
 
     @Column
-    String nationality;
+    public String nationality;
 
     @Override
     public String toString() {

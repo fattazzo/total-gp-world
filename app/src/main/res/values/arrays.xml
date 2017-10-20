@@ -71,6 +71,8 @@
         <item>Constructors wins</item>
         <item>Driver podiums</item>
         <item>Constructors podiums</item>
+        <item>Circuits: drivers wins</item>
+        <item>Circuits: constructors wins</item>
     </string-array>
 
     <string-array name="news_language_entry">

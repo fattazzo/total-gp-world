@@ -51,6 +51,8 @@
         <item>Vittorie costruttori</item>
         <item>Podi piloti</item>
         <item>Podi costruttori</item>
+        <item>Circuiti: vittorie piloti</item>
+        <item>Circuiti: vittorie costruttori</item>
     </string-array>
 
     <string-array name="news_language_entry">

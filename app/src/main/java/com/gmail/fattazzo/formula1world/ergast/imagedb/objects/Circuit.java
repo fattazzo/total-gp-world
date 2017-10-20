@@ -36,7 +36,7 @@ public class Circuit extends Model {
     public String location;
 
     @Column
-    String country;
+    public String country;
 
     public F1Circuit toF1Circuit() {
         F1Circuit f1Circuit = new F1Circuit();

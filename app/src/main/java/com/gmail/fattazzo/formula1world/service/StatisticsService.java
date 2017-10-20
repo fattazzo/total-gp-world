@@ -2,10 +2,12 @@ package com.gmail.fattazzo.formula1world.service;
 
 import android.support.annotation.NonNull;
 
+import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.LocalDBStatsCircuitsService;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.LocalDBStatsConstructorsService;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.LocalDBStatsDriversService;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.LocalDBStatsSeasonService;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.LocalDBStatsService;
+import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsCircuitsData;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsData;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsSeasonComparisonData;
 
@@ -34,6 +36,9 @@ public class StatisticsService {
 
     @Bean
     LocalDBStatsSeasonService localDBStatsSeasonService;
+
+    @Bean
+    LocalDBStatsCircuitsService localDBStatsCircuitsService;
 
     public
     @NonNull
@@ -93,5 +98,17 @@ public class StatisticsService {
     @NonNull
     StatsSeasonComparisonData loadSeasonComparison(int season) {
         return localDBStatsSeasonService.loadComparison(season);
+    }
+
+    public
+    @NonNull
+    List<StatsCircuitsData> loadCircuitsCount(int seasonStart, int seasonEnd) {
+        return localDBStatsCircuitsService.loadCount(seasonStart, seasonEnd);
+    }
+
+    public
+    @NonNull
+    List<StatsCircuitsData> loadCircuitsWinner(int season, StatsCircuitsData.Type type) {
+        return localDBStatsCircuitsService.loadWinner(season, type);
     }
 }

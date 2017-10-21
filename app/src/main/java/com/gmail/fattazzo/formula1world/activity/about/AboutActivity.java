@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
 import com.gmail.fattazzo.formula1world.utils.Utils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -18,8 +16,6 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-
-import static com.dspot.declex.Action.$HomeFragment;
 
 /**
  * @author fattazzo
@@ -118,10 +114,5 @@ public class AboutActivity extends Activity {
     @Click(R.id.faq_title)
     void toggleFaqPanel() {
         faq_container.setVisibility(faq_container.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
-    }
-
-    @Event
-    void onBackPressedEvent() {
-        $HomeFragment(HomeFragment.TAG);
     }
 }

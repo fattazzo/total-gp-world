@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsCircuitsData;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
 import com.gmail.fattazzo.formula1world.fragments.stats.adapters.StatsCircuitsDataListAdapter;
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.service.StatisticsService;
@@ -34,7 +35,7 @@ import java.util.List;
  *         date: 09/10/17
  */
 @EFragment(R.layout.fragment_stats_circuits)
-public abstract class AbstractStatsCircuitsFragment extends Fragment {
+public abstract class AbstractStatsCircuitsFragment extends BaseFragment {
 
     @FragmentArg
     public int seasonStart;

@@ -1,8 +1,6 @@
 package com.gmail.fattazzo.formula1world.fragments.news;
 
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +11,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
 import com.gmail.fattazzo.formula1world.news.objects.News;
 import com.gmail.fattazzo.formula1world.service.NewsService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
@@ -31,6 +28,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
@@ -39,10 +37,6 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 import java.util.Locale;
 
-import static com.dspot.declex.Action.$HomeFragment;
-import static com.dspot.declex.Action.$SettingsActivity;
-import static com.gmail.fattazzo.formula1world.activity.home.HomeActivity.PREF_ACTIVITY_RESULT;
-
 /**
  * @author fattazzo
  *         <p/>
@@ -50,7 +44,7 @@ import static com.gmail.fattazzo.formula1world.activity.home.HomeActivity.PREF_A
  */
 @OptionsMenu(R.menu.news)
 @EFragment(R.layout.fragment_news)
-public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = NewsFragment.class.getSimpleName();
     @Bean
@@ -192,19 +186,11 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @OptionsItem
     protected void action_settings() {
-        $SettingsActivity().withResult(HomeActivity.PREF_ACTIVITY_RESULT);
+        SettingsActivity_.intent(getContext()).startForResult(HomeActivity.PREF_ACTIVITY_RESULT);
     }
 
-    void $onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == HomeActivity.PREF_ACTIVITY_RESULT) {
-            onRefresh();
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    @Event
-    void onBackPressedEvent() {
-        $HomeFragment(HomeFragment.TAG);
+    @OnActivityResult(HomeActivity.PREF_ACTIVITY_RESULT)
+    void onPrefActivityResult() {
+        onRefresh();
     }
 }

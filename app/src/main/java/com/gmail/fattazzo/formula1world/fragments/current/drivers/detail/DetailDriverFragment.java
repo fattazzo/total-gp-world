@@ -1,25 +1,23 @@
 package com.gmail.fattazzo.formula1world.fragments.current.drivers.detail;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
+import com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment_;
+import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment_;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
+import com.gmail.fattazzo.formula1world.utils.FragmentUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
-
-import static com.dspot.declex.Action.$CurrentDriversFragment;
-import static com.dspot.declex.Action.$HomeFragment;
 
 
 /**
@@ -28,7 +26,7 @@ import static com.dspot.declex.Action.$HomeFragment;
  *         date: 19/04/17
  */
 @EFragment(R.layout.view_pager_fragment)
-public class DetailDriverFragment extends Fragment {
+public class DetailDriverFragment extends BaseFragment {
 
     public static final String TAG = DetailDriverFragment.class.getSimpleName();
 
@@ -50,7 +48,7 @@ public class DetailDriverFragment extends Fragment {
     void init() {
         driverNameView.setText(driver.getFullName());
 
-        adapterViewPager = new DetailDriverPagerAdapter(getChildFragmentManager(),getActivity(),driver);
+        adapterViewPager = new DetailDriverPagerAdapter(getChildFragmentManager(), getActivity(), driver);
         vpPager.setAdapter(adapterViewPager);
         vpPager.setPageTransformer(true, preferenceManager.getPagerTansactionAnimation());
 
@@ -62,14 +60,14 @@ public class DetailDriverFragment extends Fragment {
 
     }
 
-    @Event
-    void onBackPressedEvent() {
+    @Override
+    public void backPressed() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        if(fragmentManager.findFragmentByTag(CurrentDriversFragment.TAG) != null) {
-            $HomeFragment(HomeFragment.TAG);
+        if (fragmentManager.findFragmentByTag(CurrentDriversFragment.TAG) != null) {
+            FragmentUtils.replace(getActivity(), new HomeFragment_());
         } else {
-            $CurrentDriversFragment(CurrentDriversFragment.TAG);
+            FragmentUtils.replace(getActivity(), new CurrentDriversFragment_());
         }
     }
 }

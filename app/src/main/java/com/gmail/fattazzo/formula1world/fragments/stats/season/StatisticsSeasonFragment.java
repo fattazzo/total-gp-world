@@ -2,21 +2,15 @@ package com.gmail.fattazzo.formula1world.fragments.stats.season;
 
 import android.widget.FrameLayout;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
 import com.gmail.fattazzo.formula1world.fragments.stats.AbstractStatisticsFragment;
+import com.gmail.fattazzo.formula1world.fragments.stats.constructors.ConstructorsPodiumsStatsFragment_;
+import com.gmail.fattazzo.formula1world.fragments.stats.constructors.ConstructorsWinsStatsFragment_;
+import com.gmail.fattazzo.formula1world.fragments.stats.drivers.DriversPodiumsStatsFragment_;
+import com.gmail.fattazzo.formula1world.fragments.stats.drivers.DriversWinsStatsFragment_;
+import com.gmail.fattazzo.formula1world.utils.FragmentUtils;
 
 import org.androidannotations.annotations.EFragment;
-
-import static com.dspot.declex.Action.$ConstructorsPodiumsStatsFragment;
-import static com.dspot.declex.Action.$ConstructorsWinsStatsFragment;
-import static com.dspot.declex.Action.$DriversPodiumsStatsFragment;
-import static com.dspot.declex.Action.$DriversWinsStatsFragment;
-import static com.dspot.declex.Action.$HomeFragment;
-import static com.dspot.declex.Action.$SeasonComparisonStatsFragment;
-import static com.dspot.declex.Action.$SeasonConstructorsCircuitsStatsFragment;
-import static com.dspot.declex.Action.$SeasonDriversCircuitsStatsFragment;
 
 /**
  * @author fattazzo
@@ -32,25 +26,25 @@ public class StatisticsSeasonFragment extends AbstractStatisticsFragment {
     public void showStat(int index, Integer seasonStart, Integer seasonEnd, int containerResId, FrameLayout container) {
         switch (index) {
             case 1:
-                $SeasonComparisonStatsFragment().season(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), SeasonComparisonStatsFragment_.builder().season(seasonEnd).build(), containerResId);
                 break;
             case 2:
-                $DriversWinsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), DriversWinsStatsFragment_.builder().seasonStart(seasonEnd).seasonEnd(seasonEnd).build(), containerResId);
                 break;
             case 3:
-                $ConstructorsWinsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), ConstructorsWinsStatsFragment_.builder().seasonStart(seasonEnd).seasonEnd(seasonEnd).build(), containerResId);
                 break;
             case 4:
-                $DriversPodiumsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), DriversPodiumsStatsFragment_.builder().seasonStart(seasonEnd).seasonEnd(seasonEnd).build(), containerResId);
                 break;
             case 5:
-                $ConstructorsPodiumsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), ConstructorsPodiumsStatsFragment_.builder().seasonStart(seasonEnd).seasonEnd(seasonEnd).build(), containerResId);
                 break;
             case 6:
-                $SeasonDriversCircuitsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), SeasonDriversCircuitsStatsFragment_.builder().seasonStart(seasonEnd).seasonEnd(seasonEnd).build(), containerResId);
                 break;
             case 7:
-                $SeasonConstructorsCircuitsStatsFragment().seasonStart(seasonEnd).seasonEnd(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), SeasonConstructorsCircuitsStatsFragment_.builder().seasonStart(seasonEnd).seasonEnd(seasonEnd).build(), containerResId);
                 break;
             default:
                 container.removeAllViews();
@@ -66,10 +60,5 @@ public class StatisticsSeasonFragment extends AbstractStatisticsFragment {
     @Override
     public int getStatsListResId() {
         return R.array.statistics_season_entry;
-    }
-
-    @Event
-    void onBackPressedEvent() {
-        $HomeFragment(HomeFragment.TAG);
     }
 }

@@ -25,6 +25,7 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsData;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
 import com.gmail.fattazzo.formula1world.fragments.stats.adapters.StatsDataListAdapter;
 import com.gmail.fattazzo.formula1world.service.StatisticsService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
@@ -50,7 +51,7 @@ import java.util.List;
  *         date: 24/08/17
  */
 @EFragment(R.layout.fragment_stats_chart)
-public abstract class AbstractStatsChartFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
+public abstract class AbstractStatsChartFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener {
 
     @FragmentArg
     public int seasonStart;

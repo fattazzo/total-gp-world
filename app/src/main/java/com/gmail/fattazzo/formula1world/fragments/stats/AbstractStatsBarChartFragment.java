@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsData;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
 import com.gmail.fattazzo.formula1world.service.StatisticsService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1world.utils.ThemeUtils;
@@ -40,7 +41,7 @@ import java.util.List;
  *         date: 24/08/17
  */
 @EFragment(R.layout.fragment_stats_barchart)
-public abstract class AbstractStatsBarChartFragment extends Fragment {
+public abstract class AbstractStatsBarChartFragment extends BaseFragment {
 
     @FragmentArg
     public int seasonStart;

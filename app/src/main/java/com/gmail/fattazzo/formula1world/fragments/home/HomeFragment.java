@@ -1,11 +1,11 @@
 package com.gmail.fattazzo.formula1world.fragments.home;
 
-import android.support.v4.app.Fragment;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
 import com.gmail.fattazzo.formula1world.fragments.home.circuit.CurrentCircuitTask;
 import com.gmail.fattazzo.formula1world.fragments.home.constructorstandings.CurrentConstructorStandingsTask;
 import com.gmail.fattazzo.formula1world.fragments.home.driverstandings.CurrentDriverStandingsTask;
@@ -13,6 +13,7 @@ import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
 import com.gmail.fattazzo.formula1world.utils.IssueReporter;
 import com.gmail.fattazzo.formula1world.utils.Utils;
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -29,7 +30,7 @@ import static com.gmail.fattazzo.formula1world.activity.home.HomeActivity.PREF_A
  */
 @OptionsMenu(R.menu.home)
 @EFragment(R.layout.content_home)
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
 
@@ -67,9 +68,21 @@ public class HomeFragment extends Fragment {
         currentConstructorStandingsTask.loadCurrentStandings(true);
     }
 
-    @Event
-    void onBackPressedEvent() {
-        getActivity().finish();
+    @Override
+    public void backPressed() {
+        new LovelyStandardDialog(getActivity())
+                .setTopColorRes(R.color.colorPrimaryDark)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setTitle(R.string.app_name)
+                .setMessage(R.string.app_exit_comfirmation)
+                .setPositiveButton(android.R.string.ok, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getActivity().finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     @Override
@@ -81,7 +94,7 @@ public class HomeFragment extends Fragment {
                 SettingsActivity_.intent(getContext()).startForResult(PREF_ACTIVITY_RESULT);
                 return true;
             case R.id.action_report_bug:
-                IssueReporter.openReportIssue(getActivity(),null,null,true);
+                IssueReporter.openReportIssue(getActivity(), null, null, true);
                 return true;
         }
         return super.onOptionsItemSelected(item);

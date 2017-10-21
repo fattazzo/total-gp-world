@@ -1,17 +1,16 @@
 package com.gmail.fattazzo.formula1world.fragments.current.constructors;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Constructor;
-import com.gmail.fattazzo.formula1world.fragments.current.constructors.detail.DetailConstructorFragment;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
+import com.gmail.fattazzo.formula1world.fragments.current.constructors.detail.DetailConstructorFragment_;
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
+import com.gmail.fattazzo.formula1world.utils.FragmentUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -23,16 +22,13 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-import static com.dspot.declex.Action.$DetailConstructorFragment;
-import static com.dspot.declex.Action.$HomeFragment;
-
 /**
  * @author fattazzo
  *         <p/>
  *         date: 26/05/17
  */
 @EFragment(R.layout.fragment_swipe_listview)
-public class CurrentConstructorsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CurrentConstructorsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = CurrentConstructorsFragment.class.getSimpleName();
 
@@ -98,21 +94,19 @@ public class CurrentConstructorsFragment extends Fragment implements SwipeRefres
     public void itemClicked(int position) {
         F1Constructor constructor = constructorsListAdapter.getItem(position);
 
+        int container;
         if (detailsConstructorFragmentContainer == null) {
-            $DetailConstructorFragment(DetailConstructorFragment.TAG).constructor(constructor);
+            container = R.id.container;
         } else {
-            $DetailConstructorFragment(DetailConstructorFragment.TAG).constructor(constructor).container(R.id.details_fragment_container).add();
+            container = R.id.details_fragment_container;
         }
+
+        FragmentUtils.replace(getActivity(), DetailConstructorFragment_.builder().constructor(constructor).build(), container);
     }
 
     @Override
     public void onRefresh() {
         dataService.clearConstructorsCache();
         loadConstructors();
-    }
-
-    @Event
-    void onBackPressedEvent() {
-        $HomeFragment(HomeFragment.TAG);
     }
 }

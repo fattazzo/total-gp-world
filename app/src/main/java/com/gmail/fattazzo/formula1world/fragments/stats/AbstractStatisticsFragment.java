@@ -1,6 +1,5 @@
 package com.gmail.fattazzo.formula1world.fragments.stats;
 
-import android.support.v4.app.Fragment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,6 +9,7 @@ import android.widget.Spinner;
 import com.appyvet.rangebar.RangeBar;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
 import com.gmail.fattazzo.formula1world.service.StatisticsService;
 
 import org.androidannotations.annotations.AfterViews;
@@ -31,7 +31,7 @@ import static com.gmail.fattazzo.formula1world.activity.home.HomeActivity.PREF_A
  */
 @OptionsMenu(R.menu.statistics)
 @EFragment(R.layout.fragment_statistics)
-public abstract class AbstractStatisticsFragment extends Fragment {
+public abstract class AbstractStatisticsFragment extends BaseFragment {
 
     @ViewById
     protected RangeBar seasonsRangeBar;
@@ -50,7 +50,7 @@ public abstract class AbstractStatisticsFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
         cal.setTime(statisticsService.getLastRaceData());
         int year = cal.get(Calendar.YEAR);
-        if(year == 1950) {
+        if (year == 1950) {
             year = Calendar.getInstance().get(Calendar.YEAR);
         }
         seasonsRangeBar.setTickEnd(year);
@@ -77,7 +77,7 @@ public abstract class AbstractStatisticsFragment extends Fragment {
         Integer seasonStart = Integer.valueOf(seasonsRangeBar.getLeftPinValue());
         Integer seasonEnd = Integer.valueOf(seasonsRangeBar.getRightPinValue());
 
-        showStat(position, seasonStart, seasonEnd, R.id.statistics_container,statistics_container);
+        showStat(position, seasonStart, seasonEnd, R.id.statistics_container, statistics_container);
     }
 
     public abstract void showStat(int index, Integer seasonStart, Integer seasonEnd, int containerResId, FrameLayout container);

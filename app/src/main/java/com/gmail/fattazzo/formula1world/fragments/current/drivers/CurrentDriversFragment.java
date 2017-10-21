@@ -1,17 +1,16 @@
 package com.gmail.fattazzo.formula1world.fragments.current.drivers;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
-import com.gmail.fattazzo.formula1world.fragments.current.drivers.detail.DetailDriverFragment;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
+import com.gmail.fattazzo.formula1world.fragments.current.drivers.detail.DetailDriverFragment_;
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
+import com.gmail.fattazzo.formula1world.utils.FragmentUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -25,9 +24,6 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-import static com.dspot.declex.Action.$DetailDriverFragment;
-import static com.dspot.declex.Action.$HomeFragment;
-
 /**
  * @author fattazzo
  *         <p/>
@@ -35,7 +31,7 @@ import static com.dspot.declex.Action.$HomeFragment;
  */
 @OptionsMenu(R.menu.drivers)
 @EFragment(R.layout.fragment_swipe_listview)
-public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CurrentDriversFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = CurrentDriversFragment.class.getSimpleName();
 
@@ -103,11 +99,13 @@ public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayo
     public void itemClicked(int position) {
         F1Driver driver = driversListAdapter.getItem(position);
 
+        int container;
         if (detailsDriverFragmentContainer == null) {
-            $DetailDriverFragment(DetailDriverFragment.TAG).driver(driver);
+            container = R.id.container;
         } else {
-            $DetailDriverFragment(DetailDriverFragment.TAG).driver(driver).container(R.id.details_fragment_container).add();
+            container = R.id.details_fragment_container;
         }
+        FragmentUtils.replace(getActivity(), DetailDriverFragment_.builder().driver(driver).build(), container);
     }
 
     // ----------------------------FILTERS ------------------------------------
@@ -144,10 +142,5 @@ public class CurrentDriversFragment extends Fragment implements SwipeRefreshLayo
     public void onRefresh() {
         dataService.clearDriversCache();
         loadDrivers();
-    }
-
-    @Event
-    void onBackPressedEvent() {
-        $HomeFragment(HomeFragment.TAG);
     }
 }

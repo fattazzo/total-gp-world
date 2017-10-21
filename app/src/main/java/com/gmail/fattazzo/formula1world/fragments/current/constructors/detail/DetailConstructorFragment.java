@@ -1,25 +1,23 @@
 package com.gmail.fattazzo.formula1world.fragments.current.constructors.detail;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Constructor;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
+import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment_;
+import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment_;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
+import com.gmail.fattazzo.formula1world.utils.FragmentUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
-
-import static com.dspot.declex.Action.$CurrentConstructorsFragment;
-import static com.dspot.declex.Action.$HomeFragment;
 
 
 /**
@@ -28,7 +26,7 @@ import static com.dspot.declex.Action.$HomeFragment;
  *         date: 19/04/17
  */
 @EFragment(R.layout.view_pager_fragment)
-public class DetailConstructorFragment extends Fragment {
+public class DetailConstructorFragment extends BaseFragment {
 
     public static final String TAG = DetailConstructorFragment.class.getSimpleName();
 
@@ -50,7 +48,7 @@ public class DetailConstructorFragment extends Fragment {
     void init() {
         constructorNameView.setText(constructor.name);
 
-        adapterViewPager = new DetailConstructorPagerAdapter(getChildFragmentManager(),getActivity(),constructor);
+        adapterViewPager = new DetailConstructorPagerAdapter(getChildFragmentManager(), getActivity(), constructor);
         vpPager.setAdapter(adapterViewPager);
         vpPager.setPageTransformer(true, preferenceManager.getPagerTansactionAnimation());
 
@@ -62,14 +60,14 @@ public class DetailConstructorFragment extends Fragment {
 
     }
 
-    @Event
-    void onBackPressedEvent() {
+    @Override
+    public void backPressed() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        if(fragmentManager.findFragmentByTag(CurrentConstructorsFragment.TAG) != null) {
-            $HomeFragment(HomeFragment.TAG);
+        if (fragmentManager.findFragmentByTag(CurrentConstructorsFragment.TAG) != null) {
+            FragmentUtils.replace(getActivity(), new HomeFragment_());
         } else {
-            $CurrentConstructorsFragment(CurrentConstructorsFragment.TAG);
+            FragmentUtils.replace(getActivity(), new CurrentConstructorsFragment_());
         }
     }
 }

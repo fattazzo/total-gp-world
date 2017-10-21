@@ -1,17 +1,18 @@
 package com.gmail.fattazzo.formula1world.fragments.current.races.detail;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
 import com.gmail.fattazzo.formula1world.fragments.current.races.CurrentRacesFragment;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
+import com.gmail.fattazzo.formula1world.fragments.current.races.CurrentRacesFragment_;
+import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment_;
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
+import com.gmail.fattazzo.formula1world.utils.FragmentUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -22,9 +23,6 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.apache.commons.collections4.CollectionUtils;
 
-import static com.dspot.declex.Action.$CurrentRacesFragment;
-import static com.dspot.declex.Action.$HomeFragment;
-
 
 /**
  * @author fattazzo
@@ -32,7 +30,7 @@ import static com.dspot.declex.Action.$HomeFragment;
  *         date: 19/04/17
  */
 @EFragment(R.layout.view_pager_fragment)
-public class DetailRaceFragment extends Fragment {
+public class DetailRaceFragment extends BaseFragment {
 
     public static final String TAG = DetailRaceFragment.class.getSimpleName();
 
@@ -86,19 +84,19 @@ public class DetailRaceFragment extends Fragment {
 
     @UiThread
     void initPagerAdapter() {
-        adapterViewPager = new DetailRacePagerAdapter(this.getChildFragmentManager(), getActivity(), race, hasResults,hasQualifications);
+        adapterViewPager = new DetailRacePagerAdapter(this.getChildFragmentManager(), getActivity(), race, hasResults, hasQualifications);
         vpPager.setAdapter(adapterViewPager);
         vpPager.forceLayout();
     }
 
-    @Event
-    void onBackPressedEvent() {
+    @Override
+    public void backPressed() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         if (fragmentManager.findFragmentByTag(CurrentRacesFragment.TAG) != null) {
-            $HomeFragment(HomeFragment.TAG);
+            FragmentUtils.replace(getActivity(), new HomeFragment_());
         } else {
-            $CurrentRacesFragment(CurrentRacesFragment.TAG);
+            FragmentUtils.replace(getActivity(), new CurrentRacesFragment_());
         }
     }
 }

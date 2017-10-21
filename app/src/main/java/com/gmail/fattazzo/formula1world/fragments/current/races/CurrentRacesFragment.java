@@ -1,16 +1,15 @@
 package com.gmail.fattazzo.formula1world.fragments.current.races;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.domain.F1Race;
-import com.gmail.fattazzo.formula1world.fragments.current.races.detail.DetailRaceFragment;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
+import com.gmail.fattazzo.formula1world.fragments.current.races.detail.DetailRaceFragment_;
 import com.gmail.fattazzo.formula1world.service.DataService;
+import com.gmail.fattazzo.formula1world.utils.FragmentUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -22,16 +21,13 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-import static com.dspot.declex.Action.$DetailRaceFragment;
-import static com.dspot.declex.Action.$HomeFragment;
-
 /**
  * @author fattazzo
  *         <p/>
  *         date: 26/05/17
  */
 @EFragment(R.layout.fragment_swipe_listview)
-public class CurrentRacesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CurrentRacesFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = CurrentRacesFragment.class.getSimpleName();
 
@@ -94,21 +90,20 @@ public class CurrentRacesFragment extends Fragment implements SwipeRefreshLayout
     public void itemClicked(int position) {
         F1Race race = racesListAdapter.getItem(position);
 
+        int container;
         if (detailsRaceFragmentContainer == null) {
-            $DetailRaceFragment(DetailRaceFragment.TAG).race(race);
+            container = R.id.container;
         } else {
-            $DetailRaceFragment(DetailRaceFragment.TAG).race(race).container(R.id.details_fragment_container).add();
+            container = R.id.details_fragment_container;
         }
+
+        FragmentUtils.replace(getActivity(), DetailRaceFragment_.builder().race(race).build(), container);
+
     }
 
     @Override
     public void onRefresh() {
         dataService.clearRacesCache();
         loadRaces();
-    }
-
-    @Event
-    void onBackPressedEvent() {
-        $HomeFragment(HomeFragment.TAG);
     }
 }

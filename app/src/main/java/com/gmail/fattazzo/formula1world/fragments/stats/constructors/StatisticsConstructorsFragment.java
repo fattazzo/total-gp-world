@@ -2,18 +2,11 @@ package com.gmail.fattazzo.formula1world.fragments.stats.constructors;
 
 import android.widget.FrameLayout;
 
-import com.dspot.declex.api.eventbus.Event;
 import com.gmail.fattazzo.formula1world.R;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
 import com.gmail.fattazzo.formula1world.fragments.stats.AbstractStatisticsFragment;
+import com.gmail.fattazzo.formula1world.utils.FragmentUtils;
 
 import org.androidannotations.annotations.EFragment;
-
-import static com.dspot.declex.Action.$ConstructorsNationalityWinsStatsFragment;
-import static com.dspot.declex.Action.$ConstructorsNumbersStatsFragment;
-import static com.dspot.declex.Action.$ConstructorsPodiumsStatsFragment;
-import static com.dspot.declex.Action.$ConstructorsWinsStatsFragment;
-import static com.dspot.declex.Action.$HomeFragment;
 
 /**
  * @author fattazzo
@@ -39,25 +32,20 @@ public class StatisticsConstructorsFragment extends AbstractStatisticsFragment {
     public void showStat(int index, Integer seasonStart, Integer seasonEnd, int containerResId, FrameLayout container) {
         switch (index) {
             case 1:
-                $ConstructorsWinsStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), ConstructorsWinsStatsFragment_.builder().seasonStart(seasonStart).seasonEnd(seasonEnd).build(), containerResId);
                 break;
             case 2:
-                $ConstructorsNationalityWinsStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), ConstructorsNationalityWinsStatsFragment_.builder().seasonStart(seasonStart).seasonEnd(seasonEnd).build(), containerResId);
                 break;
             case 3:
-                $ConstructorsPodiumsStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), ConstructorsPodiumsStatsFragment_.builder().seasonStart(seasonStart).seasonEnd(seasonEnd).build(), containerResId);
                 break;
             case 4:
-                $ConstructorsNumbersStatsFragment().seasonStart(seasonStart).seasonEnd(seasonEnd).container(containerResId);
+                FragmentUtils.replace(getActivity(), ConstructorsNumbersStatsFragment_.builder().seasonStart(seasonStart).seasonEnd(seasonEnd).build(), containerResId);
                 break;
             default:
                 container.removeAllViews();
                 break;
         }
-    }
-
-    @Event
-    void onBackPressedEvent() {
-        $HomeFragment(HomeFragment.TAG);
     }
 }

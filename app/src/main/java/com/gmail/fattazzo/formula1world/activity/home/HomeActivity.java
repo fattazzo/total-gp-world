@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,41 +23,33 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.gmail.fattazzo.formula1world.R;
+import com.gmail.fattazzo.formula1world.activity.about.AboutActivity_;
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.LocalDBDataService;
-import com.gmail.fattazzo.formula1world.fragments.collaborate.CollaborateFragment;
-import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment;
-import com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment;
-import com.gmail.fattazzo.formula1world.fragments.current.races.CurrentRacesFragment;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment;
-import com.gmail.fattazzo.formula1world.fragments.home.HomeFragmentActionHolder_;
-import com.gmail.fattazzo.formula1world.fragments.news.NewsFragment;
-import com.gmail.fattazzo.formula1world.fragments.stats.constructors.StatisticsConstructorsFragment;
-import com.gmail.fattazzo.formula1world.fragments.stats.drivers.StatisticsDriversFragment;
-import com.gmail.fattazzo.formula1world.fragments.stats.season.StatisticsSeasonFragment;
+import com.gmail.fattazzo.formula1world.fragments.BaseFragment;
+import com.gmail.fattazzo.formula1world.fragments.collaborate.CollaborateFragment_;
+import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment_;
+import com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment_;
+import com.gmail.fattazzo.formula1world.fragments.current.races.CurrentRacesFragment_;
+import com.gmail.fattazzo.formula1world.fragments.home.HomeFragment_;
+import com.gmail.fattazzo.formula1world.fragments.news.NewsFragment_;
+import com.gmail.fattazzo.formula1world.fragments.stats.constructors.StatisticsConstructorsFragment_;
+import com.gmail.fattazzo.formula1world.fragments.stats.drivers.StatisticsDriversFragment_;
+import com.gmail.fattazzo.formula1world.fragments.stats.season.StatisticsSeasonFragment_;
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager;
+import com.gmail.fattazzo.formula1world.utils.FragmentUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;
-
-import static com.dspot.declex.Action.$AboutActivity;
-import static com.dspot.declex.Action.$AlertDialog;
-import static com.dspot.declex.Action.$BackPressedEvent;
-import static com.dspot.declex.Action.$CollaborateFragment;
-import static com.dspot.declex.Action.$CurrentConstructorsFragment;
-import static com.dspot.declex.Action.$CurrentDriversFragment;
-import static com.dspot.declex.Action.$CurrentRacesFragment;
-import static com.dspot.declex.Action.$NewsFragment;
-import static com.dspot.declex.Action.$StatisticsConstructorsFragment;
-import static com.dspot.declex.Action.$StatisticsDriversFragment;
-import static com.dspot.declex.Action.$StatisticsSeasonFragment;
 
 @EActivity(R.layout.activity_home)
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -75,6 +68,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @ViewById
     DrawerLayout drawer_layout;
 
+    @ViewById
+    Toolbar toolbar;
+
     @Bean
     DataService dataService;
 
@@ -92,10 +88,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             dataService.clearCache();
             // Instanzio il fragment se savedInstanceState == null altrimenti (ad es. girando il dispositivo)
             // viene rimesso anche se quello attivo è un altro
-            final HomeFragmentActionHolder_ $HomeFragment0 = HomeFragmentActionHolder_.getInstance_(this);
-            $HomeFragment0.init((HomeFragment.TAG));
-            $HomeFragment0.build(null);
-            $HomeFragment0.execute();
+            FragmentUtils.replace(this, HomeFragment_.builder().build());
         }
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
@@ -119,7 +112,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @AfterViews
-    protected void init(Toolbar toolbar) {
+    protected void init() {
 
         setSupportActionBar(toolbar);
 
@@ -176,10 +169,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if (oldSeason != ergast.getSeason()) {
                     dataService.clearCache();
 
-                    final HomeFragmentActionHolder_ $HomeFragment0 = HomeFragmentActionHolder_.getInstance_(HomeActivity.this);
-                    $HomeFragment0.init((HomeFragment.TAG));
-                    $HomeFragment0.build(null);
-                    $HomeFragment0.execute();
+                    FragmentUtils.replace(HomeActivity.this, HomeFragment_.builder().build());
                 }
                 d.dismiss();
             }
@@ -203,47 +193,44 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        if (fragmentManager.findFragmentByTag(HomeFragment.TAG) != null) {
-            $AlertDialog().message(R.string.app_exit_comfirmation)
-                    .positiveButton(R.string.yes).negativeButton(R.string.no);
+        List<Fragment> fragments = fragmentManager.getFragments();
+        Fragment fragment = CollectionUtils.isNotEmpty(fragments) ? ObjectUtils.firstNonNull(fragments.toArray(new Fragment[fragments.size()])) : null;
 
-            if ($AlertDialog.PositiveButtonPressed) {
-                $BackPressedEvent();
-            }
-        } else {
-            $BackPressedEvent();
+        if (fragment != null && fragment instanceof BaseFragment) {
+            ((BaseFragment) fragment).backPressed();
         }
+
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_current_season_driver:
-                $CurrentDriversFragment(CurrentDriversFragment.TAG);
+                FragmentUtils.replace(this, CurrentDriversFragment_.builder().build());
                 break;
             case R.id.nav_current_season_constructor:
-                $CurrentConstructorsFragment(CurrentConstructorsFragment.TAG);
+                FragmentUtils.replace(this, CurrentConstructorsFragment_.builder().build());
                 break;
             case R.id.nav_current_season_race:
-                $CurrentRacesFragment(CurrentRacesFragment.TAG);
+                FragmentUtils.replace(this, CurrentRacesFragment_.builder().build());
                 break;
             case R.id.nav_news:
-                $NewsFragment(NewsFragment.TAG);
+                FragmentUtils.replace(this, NewsFragment_.builder().build());
                 break;
             case R.id.nav_collaborate:
-                $CollaborateFragment(CollaborateFragment.TAG);
+                FragmentUtils.replace(this, CollaborateFragment_.builder().build());
                 break;
             case R.id.nav_stats_drivers:
-                $StatisticsDriversFragment(StatisticsDriversFragment.TAG);
+                FragmentUtils.replace(this, StatisticsDriversFragment_.builder().build());
                 break;
             case R.id.nav_stats_constructors:
-                $StatisticsConstructorsFragment(StatisticsConstructorsFragment.TAG);
+                FragmentUtils.replace(this, StatisticsConstructorsFragment_.builder().build());
                 break;
             case R.id.nav_stats_season:
-                $StatisticsSeasonFragment(StatisticsSeasonFragment.TAG);
+                FragmentUtils.replace(this, StatisticsSeasonFragment_.builder().build());
                 break;
             case R.id.nav_about:
-                $AboutActivity();
+                AboutActivity_.intent(this).start();
                 break;
         }
 

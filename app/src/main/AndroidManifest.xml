@@ -42,7 +42,9 @@
                            com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Qualification,
                            com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Result,
                            com.gmail.fattazzo.formula1world.ergast.imagedb.objects.PitStop,
-                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.LapTime" />
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.LapTime,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorColors,
+                           com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverConstructor" />
 
         <activity
             android:name="com.gmail.fattazzo.formula1world.activity.home.HomeActivity_"

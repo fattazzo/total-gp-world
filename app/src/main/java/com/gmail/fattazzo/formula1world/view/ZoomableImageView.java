@@ -46,17 +46,17 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
     private float normalizedScale;
     //
     // Matrix applied to image. MSCALE_X and MSCALE_Y should always be equal.
-    // MTRANS_X and MTRANS_Y are the other values used. prevMatrix is the matrix
+    // MTRANS_X and MTRANS_Y are the other values used. prevMatrix is the mMatrix
     // saved prior to the screen rotating.
     //
-    private Matrix matrix, prevMatrix;
+    private Matrix mMatrix, prevMatrix;
     private State state;
     private float minScale;
     private float maxScale;
     private float superMinScale;
     private float superMaxScale;
     private float[] m;
-    private Context context;
+    private Context mContext;
     private Fling fling;
     private ScaleType mScaleType;
     private boolean imageRenderedAtLeastOnce;
@@ -75,14 +75,14 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
     private GestureDetector.OnDoubleTapListener doubleTapListener = null;
     private OnTouchListener userTouchListener = null;
     private OnTouchImageViewListener touchImageViewListener = null;
-    public ZoomableImageView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        sharedConstructing(context);
+    public ZoomableImageView(Context mContext, AttributeSet attrs) {
+        super(mContext, attrs);
+        sharedConstructing(mContext);
     }
     /**
      * Costruttore.
      *
-     * @param context context
+     * @param context mContext
      */
     public ZoomableImageView(final Context context) {
         super(context);
@@ -91,7 +91,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
 
     @Override
     public boolean canScrollHorizontally(int direction) {
-        matrix.getValues(m);
+        mMatrix.getValues(m);
         float x = m[Matrix.MTRANS_X];
 
         if (getImageWidth() < viewWidth) {
@@ -123,7 +123,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
 
     /**
      * If the normalizedScale is equal to 1, then the image is made to fit the screen. Otherwise, it is made to fit the
-     * screen according to the dimensions of the previous image matrix. This allows the image to maintain its zoom after
+     * screen according to the dimensions of the previous image mMatrix. This allows the image to maintain its zoom after
      * rotation.
      */
     private void fitImageToView() {
@@ -131,7 +131,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
         if (drawable == null || drawable.getIntrinsicWidth() == 0 || drawable.getIntrinsicHeight() == 0) {
             return;
         }
-        if (matrix == null || prevMatrix == null) {
+        if (mMatrix == null || prevMatrix == null) {
             return;
         }
 
@@ -182,8 +182,8 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
             //
             // Stretch and center image to fit view
             //
-            matrix.setScale(scaleX, scaleY);
-            matrix.postTranslate(redundantXSpace / 2, redundantYSpace / 2);
+            mMatrix.setScale(scaleX, scaleY);
+            mMatrix.postTranslate(redundantXSpace / 2, redundantYSpace / 2);
             normalizedScale = 1;
 
         } else {
@@ -205,7 +205,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
             m[Matrix.MSCALE_Y] = matchViewHeight / drawableHeight * normalizedScale;
 
             //
-            // TransX and TransY from previous matrix
+            // TransX and TransY from previous mMatrix
             //
             float transX = m[Matrix.MTRANS_X];
             float transY = m[Matrix.MTRANS_Y];
@@ -227,12 +227,12 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
                     viewHeight, drawableHeight);
 
             //
-            // Set the matrix to the adjusted scale and translate values.
+            // Set the mMatrix to the adjusted scale and translate values.
             //
-            matrix.setValues(m);
+            mMatrix.setValues(m);
         }
         fixTrans();
-        setImageMatrix(matrix);
+        setImageMatrix(mMatrix);
     }
 
     /**
@@ -243,7 +243,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
      */
     private void fixScaleTrans() {
         fixTrans();
-        matrix.getValues(m);
+        mMatrix.getValues(m);
         if (getImageWidth() < viewWidth) {
             m[Matrix.MTRANS_X] = (viewWidth - getImageWidth()) / 2;
         }
@@ -251,14 +251,14 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
         if (getImageHeight() < viewHeight) {
             m[Matrix.MTRANS_Y] = (viewHeight - getImageHeight()) / 2;
         }
-        matrix.setValues(m);
+        mMatrix.setValues(m);
     }
 
     /**
-     * Performs boundary checking and fixes the image matrix if it is out of bounds.
+     * Performs boundary checking and fixes the image mMatrix if it is out of bounds.
      */
     private void fixTrans() {
-        matrix.getValues(m);
+        mMatrix.getValues(m);
         float transX = m[Matrix.MTRANS_X];
         float transY = m[Matrix.MTRANS_Y];
 
@@ -266,7 +266,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
         float fixTransY = getFixTrans(transY, viewHeight, getImageHeight());
 
         if (fixTransX != 0 || fixTransY != 0) {
-            matrix.postTranslate(fixTransX, fixTransY);
+            mMatrix.postTranslate(fixTransX, fixTransY);
         }
     }
 
@@ -476,7 +476,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
             normalizedScale = bundle.getFloat("saveScale");
-            m = bundle.getFloatArray("matrix");
+            m = bundle.getFloatArray("mMatrix");
             prevMatrix.setValues(m);
             prevMatchViewHeight = bundle.getFloat("matchViewHeight");
             prevMatchViewWidth = bundle.getFloat("matchViewWidth");
@@ -499,8 +499,8 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
         bundle.putFloat("matchViewWidth", matchViewWidth);
         bundle.putInt("viewWidth", viewWidth);
         bundle.putInt("viewHeight", viewHeight);
-        matrix.getValues(m);
-        bundle.putFloatArray("matrix", m);
+        mMatrix.getValues(m);
+        bundle.putFloatArray("mMatrix", m);
         bundle.putBoolean("imageRendered", imageRenderedAtLeastOnce);
         return bundle;
     }
@@ -514,11 +514,11 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
     }
 
     /**
-     * Save the current matrix and view dimensions in the prevMatrix and prevView variables.
+     * Save the current mMatrix and view dimensions in the prevMatrix and prevView variables.
      */
     private void savePreviousImageValues() {
-        if (matrix != null && viewHeight != 0 && viewWidth != 0) {
-            matrix.getValues(m);
+        if (mMatrix != null && viewHeight != 0 && viewWidth != 0) {
+            mMatrix.getValues(m);
             prevMatrix.setValues(m);
             prevMatchViewHeight = matchViewHeight;
             prevMatchViewWidth = matchViewWidth;
@@ -549,7 +549,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
             deltaScale = lowerScale / origScale;
         }
 
-        matrix.postScale((float) deltaScale, (float) deltaScale, focusX, focusY);
+        mMatrix.postScale((float) deltaScale, (float) deltaScale, focusX, focusY);
         fixScaleTrans();
     }
 
@@ -687,12 +687,12 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
         }
         resetZoom();
         scaleImage(scale, viewWidth / 2, viewHeight / 2, true);
-        matrix.getValues(m);
+        mMatrix.getValues(m);
         m[Matrix.MTRANS_X] = -((focusX * getImageWidth()) - (viewWidth * 0.5f));
         m[Matrix.MTRANS_Y] = -((focusY * getImageHeight()) - (viewHeight * 0.5f));
-        matrix.setValues(m);
+        mMatrix.setValues(m);
         fixTrans();
-        setImageMatrix(matrix);
+        setImageMatrix(mMatrix);
     }
 
     /**
@@ -707,10 +707,10 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
 
     private void sharedConstructing(Context context) {
         super.setClickable(true);
-        this.context = context;
+        this.mContext = context;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         mGestureDetector = new GestureDetector(context, new GestureListener());
-        matrix = new Matrix();
+        mMatrix = new Matrix();
         prevMatrix = new Matrix();
         m = new float[9];
         normalizedScale = 1;
@@ -721,7 +721,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
         maxScale = 3;
         superMinScale = SUPER_MIN_MULTIPLIER * minScale;
         superMaxScale = SUPER_MAX_MULTIPLIER * maxScale;
-        setImageMatrix(matrix);
+        setImageMatrix(mMatrix);
         setScaleType(ScaleType.MATRIX);
         setState(State.NONE);
         onDrawReady = false;
@@ -737,7 +737,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
      * @return Coordinates of the point in the view's coordinate system.
      */
     private PointF transformCoordBitmapToTouch(float bx, float by) {
-        matrix.getValues(m);
+        mMatrix.getValues(m);
         float origW = getDrawable().getIntrinsicWidth();
         float origH = getDrawable().getIntrinsicHeight();
         float px = bx / origW;
@@ -758,7 +758,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
      * @return Coordinates of the point touched, in the coordinate system of the original drawable.
      */
     private PointF transformCoordTouchToBitmap(float x, float y, boolean clipToBitmap) {
-        matrix.getValues(m);
+        mMatrix.getValues(m);
         float origW = getDrawable().getIntrinsicWidth();
         float origH = getDrawable().getIntrinsicHeight();
         float transX = m[Matrix.MTRANS_X];
@@ -775,7 +775,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
     }
 
     /**
-     * After rotating, the matrix needs to be translated. This function finds the area of image which was previously
+     * After rotating, the mMatrix needs to be translated. This function finds the area of image which was previously
      * centered and adjusts translations so that is again the center, post-rotation.
      *
      * @param axis          Matrix.MTRANS_X or Matrix.MTRANS_Y
@@ -841,7 +841,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
         /**
          * Costruttore.
          *
-         * @param context context
+         * @param context mContext
          */
         public CompatScroller(final Context context) {
             overScroller = new OverScroller(context);
@@ -936,7 +936,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
             scaleImage(deltaScale, bitmapX, bitmapY, stretchImageToSuper);
             translateImageToCenterTouchPosition(t);
             fixScaleTrans();
-            setImageMatrix(matrix);
+            setImageMatrix(mMatrix);
 
             //
             // OnTouchImageViewListener is set: double tap runnable updates listener
@@ -970,7 +970,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
             float targetX = startTouch.x + t * (endTouch.x - startTouch.x);
             float targetY = startTouch.y + t * (endTouch.y - startTouch.y);
             PointF curr = transformCoordBitmapToTouch(bitmapX, bitmapY);
-            matrix.postTranslate(targetX - curr.x, targetY - curr.y);
+            mMatrix.postTranslate(targetX - curr.x, targetY - curr.y);
         }
     }
 
@@ -987,8 +987,8 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
 
         Fling(final int velocityX, final int velocityY) {
             setState(State.FLING);
-            scroller = new CompatScroller(context);
-            matrix.getValues(m);
+            scroller = new CompatScroller(mContext);
+            mMatrix.getValues(m);
 
             int startX = (int) m[Matrix.MTRANS_X];
             int startY = (int) m[Matrix.MTRANS_Y];
@@ -1045,9 +1045,9 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
                 int transY = newY - currY;
                 currX = newX;
                 currY = newY;
-                matrix.postTranslate(transX, transY);
+                mMatrix.postTranslate(transX, transY);
                 fixTrans();
-                setImageMatrix(matrix);
+                setImageMatrix(mMatrix);
                 compatPostOnAnimation(this);
             }
         }
@@ -1144,7 +1144,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
                             float deltaY = curr.y - last.y;
                             float fixTransX = getFixDragTrans(deltaX, viewWidth, getImageWidth());
                             float fixTransY = getFixDragTrans(deltaY, viewHeight, getImageHeight());
-                            matrix.postTranslate(fixTransX, fixTransY);
+                            mMatrix.postTranslate(fixTransX, fixTransY);
                             fixTrans();
                             last.set(curr.x, curr.y);
                         }
@@ -1157,7 +1157,7 @@ public class ZoomableImageView extends android.support.v7.widget.AppCompatImageV
                 }
             }
 
-            setImageMatrix(matrix);
+            setImageMatrix(mMatrix);
 
             //
             // User-defined OnTouchListener

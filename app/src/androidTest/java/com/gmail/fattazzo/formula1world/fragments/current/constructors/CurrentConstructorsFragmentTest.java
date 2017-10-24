@@ -1,15 +1,14 @@
 package com.gmail.fattazzo.formula1world.fragments.current.constructors;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.NavigationViewActions;
 import android.view.Gravity;
 
 import com.gmail.fattazzo.formula1world.BaseTest;
 import com.gmail.fattazzo.formula1world.R;
+import com.gmail.fattazzo.formula1world.TestConfig;
 import com.gmail.fattazzo.formula1world.domain.F1Constructor;
-import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.ergast.Ergast_;
 import com.gmail.fattazzo.formula1world.matchers.Matchers;
@@ -24,7 +23,6 @@ import com.gmail.fattazzo.formula1world.utils.Utils_;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -44,8 +42,8 @@ import static org.hamcrest.Matchers.anything;
 public class CurrentConstructorsFragmentTest extends BaseTest {
 
     @Test
-    public void testConstructorsFrom2010() {
-        for (int i = 2010; i<= getLastAvailableSeason(); i++) {
+    public void testConstructors() {
+        for (int i = TestConfig.INSTANCE.getStartYear(); i <= getLastAvailableSeason(); i++) {
             testSeason(i);
         }
     }
@@ -69,19 +67,19 @@ public class CurrentConstructorsFragmentTest extends BaseTest {
         ImageUtils imageUtils = ImageUtils_.getInstance_(getContext());
         Utils utils = Utils_.getInstance_(getContext());
 
-        int pos=0;
+        int pos = 0;
         for (F1Constructor constructor : constructors) {
-            onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.constructor_item_name)).check(matches(withText(constructor.name)));
+            onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.constructor_item_name)).check(matches(withText(constructor.getName())));
 
             int color = dataService.loadContructorColor(constructor);
             onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.constructor_color)).check(matches(Matchers.withBgColor(color)));
 
-            CountryNationality countryNationality = utils.getCountryNationality(constructor.nationality);
+            CountryNationality countryNationality = utils.getCountryNationality(constructor.getNationality());
             if (countryNationality != null) {
                 Bitmap bitmap = imageUtils.getFlagForCountryCode(countryNationality.getAlpha2Code());
                 onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.constructor_item_flag)).check(matches(Matchers.withDrawableName(bitmap, countryNationality.getAlpha2Code())));
             }
-            System.out.println(constructor.name + " OK");
+            System.out.println(constructor.getName() + " OK");
 
             pos++;
         }

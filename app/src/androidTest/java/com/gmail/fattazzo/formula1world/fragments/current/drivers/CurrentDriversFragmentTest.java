@@ -7,6 +7,7 @@ import android.view.Gravity;
 
 import com.gmail.fattazzo.formula1world.BaseTest;
 import com.gmail.fattazzo.formula1world.R;
+import com.gmail.fattazzo.formula1world.TestConfig;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
 import com.gmail.fattazzo.formula1world.ergast.Ergast_;
@@ -36,8 +37,12 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.gmail.fattazzo.formula1world.actions.OrientationChangeAction.orientationLandscape;
+import static com.gmail.fattazzo.formula1world.actions.OrientationChangeAction.orientationPortrait;
 import static org.hamcrest.Matchers.anything;
 
 /**
@@ -48,9 +53,9 @@ import static org.hamcrest.Matchers.anything;
 public class CurrentDriversFragmentTest extends BaseTest {
 
     @Test
-    public void testDriversDataFrom2010() {
+    public void testDriversData() {
 
-        for (int season = 2010; season <= getLastAvailableSeason(); season++) {
+        for (int season = TestConfig.INSTANCE.getStartYear(); season <= getLastAvailableSeason(); season++) {
             Ergast ergast = Ergast_.getInstance_(getContext());
             ergast.setSeason(season);
             DataService dataService = DataService_.getInstance_(getContext());
@@ -75,9 +80,9 @@ public class CurrentDriversFragmentTest extends BaseTest {
                 int color = dataService.loadDriverColor(driver);
                 onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.driver_color)).check(matches(Matchers.withBgColor(color)));
 
-                onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.driver_item_number)).check(matches(withText(String.valueOf(driver.number))));
+                onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.driver_item_number)).check(matches(withText(String.valueOf(driver.getNumber()))));
 
-                CountryNationality countryNationality = utils.getCountryNationality(driver.nationality);
+                CountryNationality countryNationality = utils.getCountryNationality(driver.getNationality());
                 if (countryNationality != null) {
                     Bitmap bitmap = imageUtils.getFlagForCountryCode(countryNationality.getAlpha2Code());
                     onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(pos).onChildView(withId(R.id.driver_item_flag)).check(matches(Matchers.withDrawableName(bitmap, countryNationality.getAlpha2Code())));
@@ -88,8 +93,8 @@ public class CurrentDriversFragmentTest extends BaseTest {
     }
 
     @Test
-    public void testDriversOrdersFrom2010() {
-        for (int season = 2010; season <= getLastAvailableSeason(); season++) {
+    public void testDriversOrders() {
+        for (int season = TestConfig.INSTANCE.getStartYear(); season <= getLastAvailableSeason(); season++) {
             Ergast ergast = Ergast_.getInstance_(getContext());
             ergast.setSeason(season);
             DataService dataService = DataService_.getInstance_(getContext());
@@ -100,10 +105,27 @@ public class CurrentDriversFragmentTest extends BaseTest {
             onView(withId(R.id.drawer_layout)).check(matches(isClosed(Gravity.START))).perform(open());
             onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_current_season_driver));
 
+            onView(isRoot()).perform(orientationPortrait());
             testDriversOrder(drivers, new DriverDateOfBirthComparator());
+            onView(isRoot()).perform(orientationLandscape());
+            testDriversOrder(drivers, new DriverDateOfBirthComparator());
+
+            onView(isRoot()).perform(orientationPortrait());
             testDriversOrder(drivers, new DriverNameComparator());
+            onView(isRoot()).perform(orientationLandscape());
+            testDriversOrder(drivers, new DriverNameComparator());
+
+            onView(isRoot()).perform(orientationPortrait());
             testDriversOrder(drivers, new DriverNationalityComparator());
+            onView(isRoot()).perform(orientationLandscape());
+            testDriversOrder(drivers, new DriverNationalityComparator());
+
+            onView(isRoot()).perform(orientationPortrait());
             testDriversOrder(drivers, new DriverNumberComparator());
+            onView(isRoot()).perform(orientationLandscape());
+            testDriversOrder(drivers, new DriverNumberComparator());
+
+            onView(isRoot()).perform(orientationPortrait());
         }
     }
 
@@ -111,7 +133,14 @@ public class CurrentDriversFragmentTest extends BaseTest {
 
         Collections.sort(drivers, comparator);
 
-        onView(withId(R.id.drivers_menu)).perform(click());
+        // Wait for R.string.sort_drivers_by visibility
+        // Change with IdlingResource
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withContentDescription(R.string.sort_drivers_by)).perform(click());
         if (comparator instanceof DriverDateOfBirthComparator) {
             onView(withText(R.string.sort_drivers_by_date_of_birth)).perform(click());
         } else if (comparator instanceof DriverNameComparator) {

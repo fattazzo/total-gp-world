@@ -17,6 +17,8 @@ android {
     }
     sourceSets {
         main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
     buildTypes {
         release {
@@ -34,6 +36,15 @@ android {
     }
 }
 
+afterEvaluate {
+    android.sourceSets.all { sourceSet ->
+        if (!sourceSet.name.startsWith('test') || !sourceSet.name.startsWith('androidTest')) {
+            sourceSet.kotlin.setSrcDirs([])
+        }
+    }
+}
+
+
 // Align test resources folder ------------------------------------------
 task cleanTestResources(type: Delete) {
     delete 'src/test/resources/assets'
@@ -44,12 +55,17 @@ task copyAssetsTestFiles(type: Copy, dependsOn: 'cleanTestResources') {
     into 'src/test/resources/assets'
 }
 
+
 preBuild.dependsOn copyAssetsTestFiles
 preBuild.mustRunAfter copyAssetsTestFiles
 
 clean.dependsOn copyAssetsTestFiles
 clean.mustRunAfter copyAssetsTestFiles
 // -----------------------------------------------------------------------
+
+kapt {
+    correctErrorTypes = true
+}
 
 def AAVersion = "4.3.1"
 
@@ -90,7 +106,7 @@ dependencies {
 
     //------------------ TEST --------------------------------
     testCompile 'junit:junit:4.12'
-    testCompile "org.robolectric:robolectric:3.3.2"
+    testCompile "org.robolectric:robolectric:3.5"
     testCompile("com.android.support.test:runner:0.5") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
@@ -111,6 +127,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-web:2.2.2') {
         exclude module: 'support-annotations'
     }
+
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
 repositories {
     mavenCentral()

@@ -10,6 +10,11 @@
             android:summary="%s"
             android:title="@string/app_theme" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/key_dbImportEnabled"
+            android:title="@string/dbImportEnabled" />
+
         <!--
         <ListPreference
             android:defaultValue="@string/default_fragmentTransitionAnimation"

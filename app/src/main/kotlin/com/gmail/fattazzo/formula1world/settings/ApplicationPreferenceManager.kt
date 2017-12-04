@@ -28,14 +28,11 @@ open class ApplicationPreferenceManager {
     val fragmentTransactionEnterAnimation: Int
         @Deprecated("")
         get() {
-            val anim: Int
-            when (prefs!!.fragmentTransitionAnimation().get()) {
-                "fade" -> anim = android.R.anim.fade_in
-                "slide" -> anim = android.R.anim.slide_in_left
-                else -> anim = -1
+            return when (prefs.fragmentTransitionAnimation().get()) {
+                "fade" -> android.R.anim.fade_in
+                "slide" -> android.R.anim.slide_in_left
+                else -> -1
             }
-
-            return anim
         }
 
     /**
@@ -46,29 +43,26 @@ open class ApplicationPreferenceManager {
     val fragmentTransactionExitAnimation: Int
         @Deprecated("")
         get() {
-            val anim: Int
-            when (prefs!!.fragmentTransitionAnimation().get()) {
-                "fade" -> anim = android.R.anim.fade_out
-                "slide" -> anim = android.R.anim.slide_out_right
-                else -> anim = -1
+            return when (prefs.fragmentTransitionAnimation().get()) {
+                "fade" -> android.R.anim.fade_out
+                "slide" -> android.R.anim.slide_out_right
+                else -> -1
             }
-
-            return anim
         }
 
     /**
      * @return application theme
      */
     val appTheme: Int
-        get() = getAppTheme(prefs!!.appTheme().get())
+        get() = getAppTheme(prefs.appTheme().get())
 
     val isBitmapInvertedForCurrentTheme: Boolean
         get() {
             val theme = appTheme
 
-            when (theme) {
-                R.style.AppTheme -> return true
-                else -> return false
+            return when (theme) {
+                R.style.AppTheme -> true
+                else -> false
             }
         }
 
@@ -79,31 +73,27 @@ open class ApplicationPreferenceManager {
      */
     val pagerTansactionAnimation: ABaseTransformer
         get() {
-            val transformer: ABaseTransformer
-
-            when (prefs!!.pagerTransitionAnimation().get()) {
-                "zoomOutSlide" -> transformer = ZoomOutSlideTransformer()
-                "cubeOut" -> transformer = CubeOutTransformer()
-                "cubeIn" -> transformer = CubeInTransformer()
-                "accordion" -> transformer = AccordionTransformer()
-                "flipHorizontal" -> transformer = FlipHorizontalTransformer()
-                "flipVertical" -> transformer = FlipVerticalTransformer()
-                else -> transformer = ZoomOutSlideTransformer()
+            return when (prefs.pagerTransitionAnimation().get()) {
+                "zoomOutSlide" -> ZoomOutSlideTransformer()
+                "cubeOut" -> CubeOutTransformer()
+                "cubeIn" -> CubeInTransformer()
+                "accordion" -> AccordionTransformer()
+                "flipHorizontal" -> FlipHorizontalTransformer()
+                "flipVertical" -> FlipVerticalTransformer()
+                else -> ZoomOutSlideTransformer()
             }
-
-            return transformer
         }
 
     val statisticsChartColorTheme: ChartColorTheme
         get() {
-            val idxPrefs = StringUtils.defaultString(prefs!!.statisticsChartColorTheme().get(), "3")
+            val idxPrefs = StringUtils.defaultString(prefs.statisticsChartColorTheme().get(), "3")
 
-            var theme: ChartColorTheme
-            try {
+            val theme: ChartColorTheme
+            theme = try {
                 val idx = Integer.parseInt(idxPrefs)
-                theme = ChartColorTheme.values()[idx]
+                ChartColorTheme.values()[idx]
             } catch (e: Exception) {
-                theme = ChartColorTheme.COLORFUL
+                ChartColorTheme.COLORFUL
             }
 
             return theme
@@ -116,18 +106,16 @@ open class ApplicationPreferenceManager {
      * @return theme
      */
     private fun getAppTheme(code: String): Int {
-        val theme: Int
-        when (code) {
-            "dark" -> theme = R.style.AppTheme_Dark
-            "light" -> theme = R.style.AppTheme
-            else -> theme = R.style.AppTheme_Dark
+        return when (code) {
+            "dark" -> R.style.AppTheme_Dark
+            "light" -> R.style.AppTheme
+            else -> R.style.AppTheme_Dark
         }
-        return theme
     }
 
     fun newsLanguage(): String {
 
-        var newsLanguage = prefs!!.newsLanguage().get()
+        var newsLanguage = prefs.newsLanguage().get()
 
         if (StringUtils.isBlank(newsLanguage)) {
             newsLanguage = Locale.getDefault().language
@@ -135,4 +123,10 @@ open class ApplicationPreferenceManager {
 
         return newsLanguage
     }
+
+    // DB Preferences
+
+    fun getLastVersionDBFilesImported(): Int = prefs.lastVersionDBFilesImported().getOr(0)
+
+    fun isDBImportEnabled(): Boolean = prefs.dbImportEnabled().getOr(true)
 }

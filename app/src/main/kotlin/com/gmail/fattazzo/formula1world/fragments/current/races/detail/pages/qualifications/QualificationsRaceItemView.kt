@@ -61,7 +61,7 @@ open class QualificationsRaceItemView(context: Context, private val qualificatio
 
     @AfterViews
     internal fun bind() {
-        var constructor_tv : TextView? = rootView.findViewById(R.id.constructor_tv) as TextView?
+        var constructor_tv : TextView? = rootView.findViewById<TextView?>(R.id.constructor_tv)
         if (qualification.constructor != null && constructor_tv != null) {
             constructor_tv!!.text = qualification.constructor!!.name
         }

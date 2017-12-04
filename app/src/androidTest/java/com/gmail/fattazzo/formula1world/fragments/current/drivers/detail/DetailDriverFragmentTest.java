@@ -2,11 +2,13 @@ package com.gmail.fattazzo.formula1world.fragments.current.drivers.detail;
 
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.NavigationViewActions;
+import android.support.test.filters.LargeTest;
 import android.view.Gravity;
 
 import com.gmail.fattazzo.formula1world.BaseTest;
 import com.gmail.fattazzo.formula1world.R;
 import com.gmail.fattazzo.formula1world.TestConfig;
+import com.gmail.fattazzo.formula1world.actions.WaitAction;
 import com.gmail.fattazzo.formula1world.domain.F1Driver;
 import com.gmail.fattazzo.formula1world.domain.F1Result;
 import com.gmail.fattazzo.formula1world.ergast.Ergast;
@@ -18,6 +20,7 @@ import com.gmail.fattazzo.formula1world.service.DataService_;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,12 +28,11 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
-import static android.support.test.espresso.action.ViewActions.swipeLeft;
-import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -47,25 +49,29 @@ import static org.hamcrest.Matchers.containsString;
  *         <p/>
  *         date: 05/09/17
  */
+@LargeTest
 public class DetailDriverFragmentTest extends BaseTest {
 
     @Test
-    public void testProgress() {
-        for (int i = TestConfig.INSTANCE.getStartYear(); i<=getLastAvailableSeason(); i++) {
+    public void testProgressPortrait() {
+        rotatePortrait();
+        for (int i = TestConfig.getStartYear(); i <= getLastAvailableSeason(); i++) {
             testSeasonProgress(i);
         }
     }
 
     @Test
-    public void testRanking() {
-        for (int i=TestConfig.INSTANCE.getStartYear(); i<=getLastAvailableSeason(); i++) {
+    public void testRankingPortrait() {
+        rotatePortrait();
+        for (int i = TestConfig.getStartYear(); i <= getLastAvailableSeason(); i++) {
             testSeasonRanking(i);
         }
     }
 
     @Test
-    public void testInfo() {
-        for (int i=TestConfig.INSTANCE.getStartYear(); i<=getLastAvailableSeason(); i++) {
+    public void testInfoPortrait() {
+        rotatePortrait();
+        for (int i = TestConfig.getStartYear(); i <= getLastAvailableSeason(); i++) {
             testSeasonInfo(i);
         }
     }
@@ -92,16 +98,16 @@ public class DetailDriverFragmentTest extends BaseTest {
 
         // Progress
         onView(withId(R.id.view_pager)).check(matches(hasDescendant(withText(getContext().getString(R.string.detail_driver_season_progress_tab_title)))));
-        onView(withId(R.id.progress_driver_table_layout)).check(matches(withChildViewCount(vettelResults.size()+1, null)));
+        onView(withId(R.id.progress_driver_table_layout)).check(matches(withChildViewCount(vettelResults.size() + 1, null)));
 
-        int pos=0;
-        for (F1Result result:vettelResults) {
+        int pos = 0;
+        for (F1Result result : vettelResults) {
             onView(withIndex(withId(R.id.race_results_position), pos)).check(matches(withText(result.getPositionText())));
             onView(withIndex(withId(R.id.race_results_laps), pos)).check(matches(withText(String.valueOf(result.getLaps()))));
             onView(withIndex(withId(R.id.race_results_grid), pos)).check(matches(withText(String.valueOf(result.getGrid()))));
             String time = "-";
             if (result.getTime() != null) {
-                time = StringUtils.defaultString(result.getTime().getTime(),"-");
+                time = StringUtils.defaultString(result.getTime().getTime(), "-");
             }
             onView(withIndex(withId(R.id.race_results_time), pos)).check(matches(withText(time)));
             onView(withIndex(withId(R.id.race_results_status), pos)).check(matches(withText(result.getStatus())));
@@ -110,14 +116,14 @@ public class DetailDriverFragmentTest extends BaseTest {
         }
         onView(withId(R.id.swipe_refresh_layout)).perform(swipeDown());
 
-        pos=0;
-        for (F1Result result:vettelResults) {
+        pos = 0;
+        for (F1Result result : vettelResults) {
             onView(withIndex(withId(R.id.race_results_position), pos)).check(matches(withText(result.getPositionText())));
             onView(withIndex(withId(R.id.race_results_laps), pos)).check(matches(withText(String.valueOf(result.getLaps()))));
             onView(withIndex(withId(R.id.race_results_grid), pos)).check(matches(withText(String.valueOf(result.getGrid()))));
             String time = "-";
             if (result.getTime() != null) {
-                time = StringUtils.defaultString(result.getTime().getTime(),"-");
+                time = StringUtils.defaultString(result.getTime().getTime(), "-");
             }
             onView(withIndex(withId(R.id.race_results_time), pos)).check(matches(withText(time)));
             onView(withIndex(withId(R.id.race_results_status), pos)).check(matches(withText(result.getStatus())));
@@ -126,16 +132,14 @@ public class DetailDriverFragmentTest extends BaseTest {
         }
 
         // Classifica
-        onView(withId(R.id.view_pager)).perform(swipeLeft());
+        swipeViewPager(R.id.view_pager, new int[]{R.string.detail_driver_ranking_tab_title});
         onView(withId(R.id.view_pager)).check(matches(hasDescendant(withText(getContext().getString(R.string.detail_driver_ranking_tab_title)))));
 
         // Info
-        onView(withId(R.id.view_pager)).perform(swipeLeft());
+        swipeViewPager(R.id.view_pager, new int[]{R.string.info_fragment_title});
         onView(withId(R.id.view_pager)).check(matches(hasDescendant(withText(getContext().getString(R.string.info_fragment_title)))));
 
-        onView(withId(R.id.view_pager)).perform(swipeRight());
-        onView(withId(R.id.view_pager)).perform(swipeRight());
-
+        swipeViewPager(R.id.view_pager, new int[]{R.string.detail_driver_ranking_tab_title, R.string.detail_driver_season_progress_tab_title});
         onView(withId(R.id.view_pager)).check(matches(hasDescendant(withText(getContext().getString(R.string.detail_driver_season_progress_tab_title)))));
     }
 
@@ -148,27 +152,34 @@ public class DetailDriverFragmentTest extends BaseTest {
         Ergast ergast = Ergast_.getInstance_(getContext());
         ergast.setSeason(season);
         DataService dataService = DataService_.getInstance_(getContext());
-        List<F1Driver> drivers = dataService.loadDrivers();
-        Collections.sort(drivers,new DriverNameComparator());
+        List<F1Driver> drivers = new ArrayList<>();
+        drivers.addAll(dataService.loadDrivers());
+        Collections.sort(drivers, new DriverNameComparator());
 
-        for (int i=0; i<=drivers.size()-1; i++) {
+        for (int i = 0; i <= drivers.size() - 1; i++) {
             onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.driver_item_name)).perform(click());
 
             List<F1Result> driverResults = dataService.loadDriverRacesResult(drivers.get(i));
-            int pos=0;
-            for (F1Result result:driverResults) {
+            int pos = 0;
+            for (F1Result result : driverResults) {
                 onView(withIndex(withId(R.id.race_results_position), pos)).check(matches(withText(result.getPositionText())));
                 onView(withIndex(withId(R.id.race_results_laps), pos)).check(matches(withText(String.valueOf(result.getLaps()))));
                 onView(withIndex(withId(R.id.race_results_grid), pos)).check(matches(withText(String.valueOf(result.getGrid()))));
                 String time = "-";
                 if (result.getTime() != null) {
-                    time = StringUtils.defaultString(result.getTime().getTime(),"-");
+                    time = StringUtils.defaultString(result.getTime().getTime(), "-");
                 }
                 onView(withIndex(withId(R.id.race_results_time), pos)).check(matches(withText(time)));
                 onView(withIndex(withId(R.id.race_results_status), pos)).check(matches(withText(result.getStatus())));
                 pos++;
             }
+
+            try {
+                onView(withId(R.id.details_fragment_container)).check(matches(isDisplayed()));
+            // Large screen display, no need pressBack
+            } catch (Exception e) {
             onView(isRoot()).perform(ViewActions.pressBack());
+            }
         }
     }
 
@@ -181,19 +192,26 @@ public class DetailDriverFragmentTest extends BaseTest {
         Ergast ergast = Ergast_.getInstance_(getContext());
         ergast.setSeason(season);
         DataService dataService = DataService_.getInstance_(getContext());
-        List<F1Driver> drivers = dataService.loadDrivers();
-        Collections.sort(drivers,new DriverNameComparator());
+        List<F1Driver> drivers = new ArrayList<>();
+        drivers.addAll(dataService.loadDrivers());
+        Collections.sort(drivers, new DriverNameComparator());
 
-        for (int i=0; i<=drivers.size()-1; i++) {
+        for (int i = 0; i <= drivers.size() - 1; i++) {
             onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.driver_item_name)).perform(click());
+            WaitAction.waitFor(100);
 
-            onView(withId(R.id.view_pager)).perform(swipeLeft());
+            swipeViewPager(R.id.view_pager, new int[]{R.string.detail_driver_ranking_tab_title});
             onView(withId(R.id.view_pager)).check(matches(hasDescendant(withText(getContext().getString(R.string.detail_driver_ranking_tab_title)))));
 
             onView(withId(R.id.textView2)).check(matches(withText(getContext().getString(R.string.detail_driver_positions_chart))));
             onView(withId(R.id.textView3)).check(matches(withText(getContext().getString(R.string.detail_driver_points_chart))));
 
-            onView(isRoot()).perform(ViewActions.pressBack());
+            try {
+                onView(withId(R.id.details_fragment_container)).check(matches(isDisplayed()));
+                // Large screen display, no need pressBack
+            } catch (Exception e) {
+                onView(isRoot()).perform(ViewActions.pressBack());
+            }
         }
     }
 
@@ -206,23 +224,30 @@ public class DetailDriverFragmentTest extends BaseTest {
         Ergast ergast = Ergast_.getInstance_(getContext());
         ergast.setSeason(season);
         DataService dataService = DataService_.getInstance_(getContext());
-        List<F1Driver> drivers = dataService.loadDrivers();
-        Collections.sort(drivers,new DriverNameComparator());
+        List<F1Driver> drivers = new ArrayList<>();
+        drivers.addAll(dataService.loadDrivers());
+        Collections.sort(drivers, new DriverNameComparator());
 
-        for (int i=0; i<=drivers.size()-1; i++) {
+        for (int i = 0; i <= drivers.size() - 1; i++) {
             onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.driver_item_name)).perform(click());
+            WaitAction.waitFor(100);
 
-            onView(withId(R.id.view_pager)).perform(swipeLeft());
-            onView(withId(R.id.view_pager)).perform(swipeLeft());
+            swipeViewPager(R.id.view_pager, new int[]{R.string.detail_driver_ranking_tab_title, R.string.info_fragment_title});
+
             onView(withId(R.id.view_pager)).check(matches(hasDescendant(withText(getContext().getString(R.string.info_fragment_title)))));
 
-            onWebView(withId(R.id.webview)).check(webMatches(getCurrentUrl(), containsString(StringUtils.substringAfterLast(drivers.get(i).getFamilyName()," "))));
-            onWebView(withId(R.id.webview)).check(webMatches(getCurrentUrl(), containsString(StringUtils.substringAfterLast(drivers.get(i).getGivenName()," "))));
+            onWebView(withId(R.id.webview)).check(webMatches(getCurrentUrl(), containsString(StringUtils.substringAfterLast(drivers.get(i).getFamilyName(), " "))));
+            onWebView(withId(R.id.webview)).check(webMatches(getCurrentUrl(), containsString(StringUtils.substringAfterLast(drivers.get(i).getGivenName(), " "))));
 
             //onWebView(withId(R.id.webview)).withElement(findElement(Locator.ID, "firstHeading")).check(webMatches(getText(), containsString(drivers.get(i).familyName)));
             //onWebView(withId(R.id.webview)).withElement(findElement(Locator.ID, "firstHeading")).check(webMatches(getText(), containsString(drivers.get(i).givenName)));
 
-            onView(isRoot()).perform(ViewActions.pressBack());
+            try {
+                onView(withId(R.id.details_fragment_container)).check(matches(isDisplayed()));
+                // Large screen display, no need pressBack
+            } catch (Exception e) {
+                onView(isRoot()).perform(ViewActions.pressBack());
+            }
         }
     }
 }

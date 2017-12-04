@@ -26,11 +26,12 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
-import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -40,6 +41,7 @@ import static android.support.test.espresso.web.sugar.Web.onWebView;
 import static com.gmail.fattazzo.formula1world.matchers.Matchers.withIndex;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.core.AllOf.allOf;
 
 /**
  * @author fattazzo
@@ -50,14 +52,16 @@ public class DetailConstructorFragmentTest extends BaseTest {
 
     @Test
     public void testProgress() {
-        for (int i = TestConfig.INSTANCE.getStartYear(); i <= getLastAvailableSeason(); i++) {
+        rotatePortrait();
+        for (int i = TestConfig.getStartYear(); i <= getLastAvailableSeason(); i++) {
             testSeasonProgress(i);
         }
     }
 
     @Test
     public void testInfo() {
-        for (int i = TestConfig.INSTANCE.getStartYear(); i <= getLastAvailableSeason(); i++) {
+        rotatePortrait();
+        for (int i = TestConfig.getStartYear(); i <= getLastAvailableSeason(); i++) {
             testSeasonInfo(i);
         }
     }
@@ -103,7 +107,12 @@ public class DetailConstructorFragmentTest extends BaseTest {
             }
             onView(withId(R.id.swipe_refresh_layout)).perform(swipeDown());
 
-            onView(isRoot()).perform(ViewActions.pressBack());
+            try {
+                onView(withId(R.id.details_fragment_container)).check(matches(isDisplayed()));
+                // Large screen display, no need pressBack
+            } catch (Exception e) {
+                onView(isRoot()).perform(ViewActions.pressBack());
+            }
         }
     }
 
@@ -122,7 +131,7 @@ public class DetailConstructorFragmentTest extends BaseTest {
         for (int i = 0; i <= constructors.size() - 1; i++) {
             onData(anything()).inAdapterView(withId(R.id.list_view)).atPosition(i).onChildView(withId(R.id.constructor_item_name)).perform(click());
 
-            onView(withId(R.id.view_pager)).perform(swipeLeft());
+            swipeViewPager(R.id.view_pager,new int[]{R.string.info_fragment_title});
             onView(withId(R.id.view_pager)).check(matches(hasDescendant(withText(getContext().getString(R.string.info_fragment_title)))));
 
             List<String> teamToSkip = new ArrayList<>();
@@ -130,10 +139,15 @@ public class DetailConstructorFragmentTest extends BaseTest {
             teamToSkip.add("Virgin_Racing");
             teamToSkip.add("Williams_Grand_Prix_Engineering");
             teamToSkip.add("Lotus_F1");
-            if(!teamToSkip.contains(StringUtils.substringAfterLast(constructors.get(i).getUrl(),"/")))
-            onWebView(withId(R.id.webview)).check(webMatches(getCurrentUrl(), containsString(StringUtils.substringAfterLast(constructors.get(i).getUrl(),"/"))));
+            if (!teamToSkip.contains(StringUtils.substringAfterLast(constructors.get(i).getUrl(), "/")))
+                onWebView(withId(R.id.webview)).check(webMatches(getCurrentUrl(), containsString(StringUtils.substringAfterLast(constructors.get(i).getUrl(), "/"))));
 
-            onView(isRoot()).perform(ViewActions.pressBack());
+            try {
+                onView(withId(R.id.details_fragment_container)).check(matches(isDisplayed()));
+                // Large screen display, no need pressBack
+            } catch (Exception e) {
+                onView(isRoot()).perform(ViewActions.pressBack());
+            }
         }
     }
 }

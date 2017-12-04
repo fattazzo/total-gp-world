@@ -4,17 +4,11 @@ import com.gmail.fattazzo.formula1world.ergast.json.objects.ConstructorStandings
 import com.gmail.fattazzo.formula1world.ergast.json.objects.DriverStandings
 import com.gmail.fattazzo.formula1world.ergast.json.objects.Qualification
 import com.gmail.fattazzo.formula1world.ergast.json.objects.RaceResult
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-
 import org.apache.commons.lang3.StringUtils
-
-import java.util.ArrayList
-import java.util.regex.Matcher
+import java.util.*
 import java.util.regex.Pattern
 
 class Parser<T>(private var json: String?, private val jsonObjects: Array<String>, private val type: Class<T>) {
@@ -56,7 +50,21 @@ class Parser<T>(private var json: String?, private val jsonObjects: Array<String
     }
 
     private fun fixJson() {
-        json = json!!.replace("\"Location\"", "\"location\"").replace("\"Circuit\"", "\"circuit\"").replace("\"Constructor\"", "\"constructor\"").replace("\"Driver\"", "\"driver\"").replace("\"Time\"", "\"time\"").replace("\"AverageSpeed\"", "\"averageSpeed\"").replace("\"FastestLap\"", "\"fastestLap\"").replace("\"Q1\"", "\"q1\"").replace("\"Q2\"", "\"q2\"").replace("\"Q3\"", "\"q3\"").replace("\"Constructors\"", "\"constructors\"").replace("\"Laps\"", "\"laps\"").replace("\"Timings\"", "\"timings\"").replace("\"PitStops\"", "\"pitStops\"").replace("\"Results\"", "\"results\"")
+        json = json!!.replace("\"Location\"", "\"location\"")
+                .replace("\"Circuit\"", "\"circuit\"")
+                .replace("\"Constructor\"", "\"constructor\"")
+                .replace("\"Driver\"", "\"driver\"")
+                .replace("\"Time\"", "\"time\"")
+                .replace("\"AverageSpeed\"", "\"averageSpeed\"")
+                .replace("\"FastestLap\"", "\"fastestLap\"")
+                .replace("\"Q1\"", "\"q1\"")
+                .replace("\"Q2\"", "\"q2\"")
+                .replace("\"Q3\"", "\"q3\"")
+                .replace("\"Constructors\"", "\"constructors\"")
+                .replace("\"Laps\"", "\"laps\"")
+                .replace("\"Timings\"", "\"timings\"")
+                .replace("\"PitStops\"", "\"pitStops\"")
+                .replace("\"Results\"", "\"results\"")
     }
 
     companion object {

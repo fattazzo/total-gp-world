@@ -26,6 +26,7 @@ local.properties
 proguard/
 
 /app/build
+/app/release
 /app/src/test/resources/assets
 
 # Log Files

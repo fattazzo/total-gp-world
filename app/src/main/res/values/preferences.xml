@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- keys -->
     <string name="key_appTheme" tools:ignore="MissingTranslation">appTheme</string>
+    <string name="key_dbImportEnabled" tools:ignore="MissingTranslation">dbImportEnabled</string>
     <string name="key_fragmentTransitionAnimation" tools:ignore="MissingTranslation">fragmentTransitionAnimation</string>
     <string name="key_pagerTransitionAnimation" tools:ignore="MissingTranslation">pagerTransitionAnimation</string>
     <string name="key_newsLanguage" tools:ignore="MissingTranslation">newsLanguage</string>

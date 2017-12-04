@@ -66,9 +66,7 @@ open class LocalDBDataService : IDataService {
                     .where("races.year = ?", ergast.season)
                     .orderBy("drivers.surname").execute<Driver>()
 
-            for (dbDriver in dbDrivers) {
-                drivers.add(dbDriver.toF1Driver())
-            }
+            dbDrivers.mapTo(drivers) { it.toF1Driver() }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             drivers = ArrayList()
@@ -84,12 +82,10 @@ open class LocalDBDataService : IDataService {
             val dbConstructors = Select("constructors.*").distinct().from(Constructor::class.java)
                     .innerJoin(ConstructorStandings::class.java).on("constructors.Id = constructorStandings.constructorId")
                     .innerJoin(Race::class.java).on("races.Id = constructorStandings.raceId")
-                    .where("races.year = ?", ergast!!.season)
+                    .where("races.year = ?", ergast.season)
                     .orderBy("constructors.name").execute<Constructor>()
 
-            for (dbConstructor in dbConstructors) {
-                constructors.add(dbConstructor.toF1Constructor())
-            }
+            dbConstructors.mapTo(constructors) { it.toF1Constructor() }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             constructors = ArrayList()
@@ -104,12 +100,10 @@ open class LocalDBDataService : IDataService {
             val dbResults = Select("res.*").from(Result::class.java).`as`("res")
                     .innerJoin(Race::class.java).`as`("rac").on("rac.Id = res.raceId")
                     .innerJoin(Driver::class.java).`as`("dr").on("dr.Id = res.driverId")
-                    .where("rac.year = ?", ergast!!.season)
+                    .where("rac.year = ?", ergast.season)
                     .where("dr.driverRef = ?", driver.driverRef!!)
                     .execute<Result>()
-            for (result in dbResults) {
-                results.add(result.toF1Result())
-            }
+            dbResults.mapTo(results) { it.toF1Result() }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             results = ArrayList()
@@ -124,12 +118,10 @@ open class LocalDBDataService : IDataService {
             val dbResults = Select("res.*").from(Result::class.java).`as`("res")
                     .innerJoin(Race::class.java).`as`("rac").on("rac.Id = res.raceId")
                     .innerJoin(Constructor::class.java).`as`("cs").on("cs.Id = res.constructorId")
-                    .where("rac.year = ?", ergast!!.season)
+                    .where("rac.year = ?", ergast.season)
                     .where("cs.constructorRef = ?", constructor.constructorRef!!)
                     .execute<Result>()
-            for (result in dbResults) {
-                results.add(result.toF1Result())
-            }
+            dbResults.mapTo(results) { it.toF1Result() }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             results = ArrayList()
@@ -145,12 +137,10 @@ open class LocalDBDataService : IDataService {
             val dbDriverStandings = Select("drs.*").distinct()
                     .from(DriverStandings::class.java).`as`("drs")
                     .innerJoin(Race::class.java).on("races.Id = drs.raceId")
-                    .where("races.year = ?", ergast!!.season)
+                    .where("races.year = ?", ergast.season)
                     .orderBy("drs.points desc").groupBy("drs.driverId").execute<DriverStandings>()
 
-            for (dbDriverStanding in dbDriverStandings) {
-                f1DriverStandings.add(dbDriverStanding.toF1DriverStandings(ergast!!.season))
-            }
+            dbDriverStandings.mapTo(f1DriverStandings) { it.toF1DriverStandings(ergast.season) }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             f1DriverStandings = ArrayList()
@@ -160,18 +150,18 @@ open class LocalDBDataService : IDataService {
     }
 
     override fun loadDriverLeader(): F1DriverStandings? {
-        var f1DriverStandings: F1DriverStandings?
-        try {
+        val f1DriverStandings: F1DriverStandings?
+        f1DriverStandings = try {
             val dbDriverStandings = Select("drs.*").distinct()
                     .from(DriverStandings::class.java).`as`("drs")
                     .innerJoin(Race::class.java).on("races.Id = drs.raceId")
-                    .where("races.year = ?", ergast!!.season)
+                    .where("races.year = ?", ergast.season)
                     .orderBy("drs.points desc").groupBy("drs.driverId").limit(1).executeSingle<DriverStandings>()
 
-            f1DriverStandings = dbDriverStandings.toF1DriverStandings(ergast!!.season)
+            dbDriverStandings.toF1DriverStandings(ergast.season)
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
-            f1DriverStandings = null
+            null
         }
 
         return f1DriverStandings
@@ -184,12 +174,10 @@ open class LocalDBDataService : IDataService {
             val dbConstructorStandings = Select("cs.*").distinct()
                     .from(ConstructorStandings::class.java).`as`("cs")
                     .innerJoin(Race::class.java).on("races.Id = cs.raceId")
-                    .where("races.year = ?", ergast!!.season)
+                    .where("races.year = ?", ergast.season)
                     .orderBy("cs.points desc").groupBy("cs.constructorId").execute<ConstructorStandings>()
 
-            for (dbConstructorStanding in dbConstructorStandings) {
-                f1ConstructorStandings.add(dbConstructorStanding.toF1ConstructorStandings())
-            }
+            dbConstructorStandings.mapTo(f1ConstructorStandings) { it.toF1ConstructorStandings() }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             f1ConstructorStandings = ArrayList()
@@ -204,12 +192,10 @@ open class LocalDBDataService : IDataService {
         try {
             val dbRaces = Select("race.*")
                     .from(Race::class.java).`as`("race")
-                    .where("race.year = ?", ergast!!.season)
+                    .where("race.year = ?", ergast.season)
                     .orderBy("race.round").execute<Race>()
 
-            for (race in dbRaces) {
-                f1Races.add(race.toF1Race())
-            }
+            dbRaces.mapTo(f1Races) { it.toF1Race() }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             f1Races = ArrayList()
@@ -224,11 +210,9 @@ open class LocalDBDataService : IDataService {
             val dbResults = Select("res.*").from(Result::class.java).`as`("res")
                     .innerJoin(Race::class.java).`as`("rac").on("rac.Id = res.raceId")
                     .where("rac.round = ?", race.round)
-                    .where("rac.year = ?", ergast!!.season)
+                    .where("rac.year = ?", ergast.season)
                     .execute<Result>()
-            for (result in dbResults) {
-                results.add(result.toF1Result())
-            }
+            dbResults.mapTo(results) { it.toF1Result() }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             results = ArrayList()
@@ -243,11 +227,9 @@ open class LocalDBDataService : IDataService {
             val dbResults = Select("qual.*").from(Qualification::class.java).`as`("qual")
                     .innerJoin(Race::class.java).`as`("rac").on("rac.Id = qual.raceId")
                     .where("rac.round = ?", race.round)
-                    .where("rac.year = ?", ergast!!.season)
+                    .where("rac.year = ?", ergast.season)
                     .execute<Qualification>()
-            for (result in dbResults) {
-                results.add(result.toF1Qualification())
-            }
+            dbResults.mapTo(results) { it.toF1Qualification() }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             results = ArrayList()
@@ -264,11 +246,9 @@ open class LocalDBDataService : IDataService {
                     .innerJoin(Race::class.java).`as`("rac").on("rac.Id = pits.raceId")
                     .leftJoin(Driver::class.java).`as`("dr").on("dr.id = pits.driverId")
                     .where("rac.round = ?", race.round)
-                    .where("rac.year = ?", ergast!!.season)
+                    .where("rac.year = ?", ergast.season)
                     .execute<PitStop>()
-            for (result in dbResult) {
-                results.add(result.f1PitStop())
-            }
+            dbResult.mapTo(results) { it.f1PitStop() }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             results = ArrayList()
@@ -286,12 +266,9 @@ open class LocalDBDataService : IDataService {
                     .innerJoin(Driver::class.java).`as`("dr").on("dr.id = laps.driverId")
                     .where("dr.driverRef = ?", driver.driverRef!!)
                     .where("rac.round = ?", race.round)
-                    .where("rac.year = ?", ergast!!.season)
+                    .where("rac.year = ?", ergast.season)
                     .execute<LapTime>()
-            for (lapTime in dbResults) {
-                val f1LapTime = lapTime.toF1LapTime()
-                results.add(f1LapTime)
-            }
+            dbResults.mapTo(results) { it.toF1LapTime() }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             results = ArrayList()
@@ -306,7 +283,7 @@ open class LocalDBDataService : IDataService {
         try {
             val constrColor = Select("cc.*").from(ConstructorColors::class.java).`as`("cc")
                     .innerJoin(Constructor::class.java).`as`("cs").on("cs.Id = cc.constructorId")
-                    .where("cc.year = ?", ergast!!.season)
+                    .where("cc.year = ?", ergast.season)
                     .where("cs.constructorRef = ?", constructor.constructorRef!!)
                     .executeSingle<ConstructorColors>()
             if (constrColor != null) {
@@ -326,7 +303,7 @@ open class LocalDBDataService : IDataService {
         try {
             val constrColor = Select("cc.*").from(ConstructorColors::class.java).`as`("cc")
                     .innerJoin(Driver::class.java).`as`("dr").on("dr.Id = cc.driverId")
-                    .where("cc.year = ?", ergast!!.season)
+                    .where("cc.year = ?", ergast.season)
                     .where("dr.driverRef = ?", driver.driverRef!!)
                     .executeSingle<ConstructorColors>()
             if (constrColor != null) {
@@ -347,7 +324,7 @@ open class LocalDBDataService : IDataService {
             val dbConstructor = Select("constr.*").distinct().from(Constructor::class.java).`as`("constr")
                     .innerJoin(DriverConstructor::class.java).`as`("dc").on("constr.Id = dc.constructorId")
                     .innerJoin(Driver::class.java).`as`("driver").on("driver.Id = dc.driverId")
-                    .where("dc.year = ?", ergast!!.season)
+                    .where("dc.year = ?", ergast.season)
                     .where("driver.driverRef = ?", driver.driverRef!!)
                     .executeSingle<Constructor>()
             if (dbConstructor != null) {
@@ -362,7 +339,7 @@ open class LocalDBDataService : IDataService {
     }
 
     fun hasLocalLapsData(race: F1Race): Boolean {
-        var localData = false
+        var localData: Boolean
 
         val sql = "SELECT COUNT(lapTimes.Id) as lapsData FROM lapTimes " +
                 "inner join races on lapTimes.raceId = races.Id " +
@@ -384,6 +361,11 @@ open class LocalDBDataService : IDataService {
         }
         return localData
     }
+
+    fun lastSeason(): Int? = Select()
+            .from(Season::class.java)
+            .orderBy("Id desc")
+            .limit(1).executeSingle<Season>()?.id?.toInt()
 
     companion object {
 

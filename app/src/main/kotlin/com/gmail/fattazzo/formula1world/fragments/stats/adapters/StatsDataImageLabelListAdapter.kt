@@ -33,10 +33,10 @@ abstract class StatsDataImageLabelListAdapter(context: Context, private val data
             convertView = mInflater.inflate(R.layout.stats_row, null)
 
             holder = ViewHolderItem()
-            holder.textLeft = convertView!!.findViewById(R.id.textLeft) as TextView
-            holder.textCenter = convertView.findViewById(R.id.textCenter) as TextView
-            holder.textRight = convertView.findViewById(R.id.textRight) as TextView
-            holder.imageView = convertView.findViewById(R.id.imageView) as ImageView
+            holder.textLeft = convertView!!.findViewById<TextView>(R.id.textLeft)
+            holder.textCenter = convertView.findViewById<TextView>(R.id.textCenter)
+            holder.textRight = convertView.findViewById<TextView>(R.id.textRight)
+            holder.imageView = convertView.findViewById<ImageView>(R.id.imageView)
 
             convertView.tag = holder
         } else {

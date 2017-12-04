@@ -17,8 +17,8 @@ class F1MarkerLapTimeView(context: Context) : MarkerView(context, R.layout.chart
 
     init {
 
-        tvContent = findViewById(R.id.tvContent) as TextView
-        tvContent2 = findViewById(R.id.tvContent2) as TextView
+        tvContent = findViewById<TextView>(R.id.tvContent)
+        tvContent2 = findViewById<TextView>(R.id.tvContent2)
     }
 
     override fun refreshContent(e: Entry?, highlight: Highlight?) {

@@ -9,12 +9,7 @@ import android.widget.ProgressBar
 
 import com.gmail.fattazzo.formula1world.R
 import com.gmail.fattazzo.formula1world.utils.Utils
-
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.FragmentArg
-import org.androidannotations.annotations.ViewById
+import org.androidannotations.annotations.*
 
 @EFragment(R.layout.fragment_webview_layout)
 open class UrlViewerFragment : Fragment(), ITitledFragment {

@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-
 import com.gmail.fattazzo.formula1world.R
 import com.gmail.fattazzo.formula1world.activity.fullscreen.FullScreenImageActivity_
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity
@@ -21,16 +20,9 @@ import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager
 import com.gmail.fattazzo.formula1world.utils.ImageUtils
 import com.gmail.fattazzo.formula1world.utils.LocaleUtils
 import com.gmail.fattazzo.formula1world.utils.Utils
-
-import org.androidannotations.annotations.Background
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EBean
-import org.androidannotations.annotations.RootContext
-import org.androidannotations.annotations.UiThread
-import org.androidannotations.annotations.ViewById
+import org.androidannotations.annotations.*
 import org.apache.commons.lang3.StringUtils
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 
 @EBean
 open class CurrentCircuitTask {
@@ -130,14 +122,14 @@ open class CurrentCircuitTask {
     open fun loadCurrentSchedule() {
         try {
             start()
-            raceLoaded = dataService!!.loadCurrentSchedule()
+            raceLoaded = dataService.loadCurrentSchedule()
 
-            season = dataService!!.loadSeason(dataService!!.selectedSeasons)
+            season = dataService.loadSeason(dataService.selectedSeasons)
 
             if (StringUtils.isBlank(season!!.description)) {
                 val doc = Jsoup.connect(season!!.url!!.replace("en.wikipedia", "en.m.wikipedia")).get()
                 season!!.description = doc.outerHtml()
-                dataService!!.updateSeason(season!!)
+                dataService.updateSeason(season!!)
             }
         } catch (e: Exception) {
             season!!.description = ""

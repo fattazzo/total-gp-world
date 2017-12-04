@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.gmail.fattazzo.formula1world.R
+import com.gmail.fattazzo.formula1world.config.Config
 import com.gmail.fattazzo.formula1world.domain.F1Driver
 import com.gmail.fattazzo.formula1world.domain.F1Result
 import com.gmail.fattazzo.formula1world.service.DataService
@@ -95,10 +96,10 @@ open class RankingDriverFragment : Fragment() {
     internal open fun loadChartData() {
         try {
             if (positionChart != null && pointsChart != null) {
-                if(raceResults!!.isNotEmpty()) {
+                if (raceResults!!.isNotEmpty()) {
                     chartManager!!.loadPositionsChartData(positionChart!!, raceResults!!)
                 }
-                if(leaderRaceResults!!.isNotEmpty()) {
+                if (leaderRaceResults!!.isNotEmpty()) {
                     chartManager!!.loadPointsChartData(pointsChart!!, raceResults!!, leaderRaceResults!!)
                 }
                 startChatsAnimation()
@@ -119,8 +120,10 @@ open class RankingDriverFragment : Fragment() {
     }
 
     private fun startChatsAnimation() {
-        positionChart!!.animateY(1000, Easing.EasingOption.EaseInOutSine)
-        pointsChart!!.animateY(1000, Easing.EasingOption.EaseInOutSine)
+        val animDuration = if (Config.animationEnabled) 1000 else 0
+
+        positionChart!!.animateY(animDuration, Easing.EasingOption.EaseInOutSine)
+        pointsChart!!.animateY(animDuration, Easing.EasingOption.EaseInOutSine)
     }
 
     companion object {

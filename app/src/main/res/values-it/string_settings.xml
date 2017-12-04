@@ -3,6 +3,7 @@
     <string name="general_pref">Generali</string>
 
     <string name="app_theme">Tema</string>
+    <string name="dbImportEnabled">Download database abilitato</string>
     <string name="fragment_transition_animation">Animazione transizione pagine</string>
     <string name="pager_transition_animation">Animazione transizione sezioni</string>
     <string name="news_language">Lingua</string>

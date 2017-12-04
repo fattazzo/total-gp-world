@@ -73,7 +73,7 @@ open class ProgressConstructorFragment : Fragment(), SwipeRefreshLayout.OnRefres
 
                 for (driverName in resultsMap.keySet()) {
 
-                    val tableLayout = activity.layoutInflater.inflate(R.layout.race_result_progress_table_layout, null).findViewById(R.id.progress_driver_table_layout) as TableLayout
+                    val tableLayout = activity.layoutInflater.inflate(R.layout.race_result_progress_table_layout, null).findViewById<TableLayout>(R.id.progress_driver_table_layout)
 
                     // Title: driver name
                     val driverTextView = TextView(context)

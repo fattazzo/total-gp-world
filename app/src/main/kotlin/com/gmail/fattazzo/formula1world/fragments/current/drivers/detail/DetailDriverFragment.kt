@@ -3,6 +3,7 @@ package com.gmail.fattazzo.formula1world.fragments.current.drivers.detail
 import android.support.v4.view.ViewPager
 import android.widget.TextView
 import com.gmail.fattazzo.formula1world.R
+import com.gmail.fattazzo.formula1world.config.Config
 import com.gmail.fattazzo.formula1world.domain.F1Driver
 import com.gmail.fattazzo.formula1world.fragments.BaseFragment
 import com.gmail.fattazzo.formula1world.fragments.current.drivers.CurrentDriversFragment
@@ -42,7 +43,9 @@ open class DetailDriverFragment : BaseFragment() {
 
         adapterViewPager = DetailDriverPagerAdapter(childFragmentManager, activity, driver!!)
         vpPager!!.adapter = adapterViewPager
-        vpPager!!.setPageTransformer(true, preferenceManager!!.pagerTansactionAnimation)
+        if (Config.animationEnabled) {
+            vpPager!!.setPageTransformer(true, preferenceManager!!.pagerTansactionAnimation)
+        }
 
         vpPager!!.clipToPadding = false
         // set padding manually, the more you set the padding the more you see of prev & next page

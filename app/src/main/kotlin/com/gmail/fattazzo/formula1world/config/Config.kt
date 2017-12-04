@@ -6,9 +6,14 @@ package com.gmail.fattazzo.formula1world.config
  *
  * date: 13/04/17
  */
-object Config {
+class Config {
 
-    val PATH_FLAGS = "flags"
+    companion object {
 
-    val PATH_CIRCUITS = "circuits"
+        val PATH_FLAGS = "flags"
+
+        val PATH_CIRCUITS = "circuits"
+
+        var animationEnabled = true
+    }
 }

@@ -31,9 +31,9 @@ class StatsDataListAdapter(context: Context, private val data: List<StatsData>, 
             convertView = mInflater.inflate(R.layout.stats_row, null)
 
             holder = ViewHolderItem()
-            holder.textLeft = convertView!!.findViewById(R.id.textLeft) as TextView
-            holder.textCenter = convertView.findViewById(R.id.textCenter) as TextView
-            holder.textRight = convertView.findViewById(R.id.textRight) as TextView
+            holder.textLeft = convertView!!.findViewById<TextView>(R.id.textLeft)
+            holder.textCenter = convertView.findViewById<TextView>(R.id.textCenter)
+            holder.textRight = convertView.findViewById<TextView>(R.id.textRight)
 
             convertView.tag = holder
         } else {

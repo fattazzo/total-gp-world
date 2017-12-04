@@ -126,14 +126,14 @@ internal class NewsExpandableRecyclerAdapter(private val newsList: List<News>) :
 
         init {
 
-            news_title = view.findViewById(R.id.news_title) as TextView
-            news_description = view.findViewById(R.id.news_description) as TextView
-            news_date = view.findViewById(R.id.news_date) as TextView
-            news_image = view.findViewById(R.id.news_image) as ImageView
-            news_open_button = view.findViewById(R.id.news_open_button) as Button
+            news_title = view.findViewById<TextView>(R.id.news_title)
+            news_description = view.findViewById<TextView>(R.id.news_description)
+            news_date = view.findViewById<TextView>(R.id.news_date)
+            news_image = view.findViewById<ImageView>(R.id.news_image)
+            news_open_button = view.findViewById<Button>(R.id.news_open_button)
 
-            expandableLayout = view.findViewById(R.id.expandableLayout) as RelativeLayout
-            baseLayout = view.findViewById(R.id.baseLayout) as RelativeLayout
+            expandableLayout = view.findViewById<RelativeLayout>(R.id.expandableLayout)
+            baseLayout = view.findViewById<RelativeLayout>(R.id.baseLayout)
         }
     }
 }

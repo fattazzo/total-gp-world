@@ -1,11 +1,7 @@
 package com.gmail.fattazzo.formula1world.settings
 
 import com.gmail.fattazzo.formula1world.R
-
-import org.androidannotations.annotations.sharedpreferences.DefaultInt
-import org.androidannotations.annotations.sharedpreferences.DefaultRes
-import org.androidannotations.annotations.sharedpreferences.DefaultString
-import org.androidannotations.annotations.sharedpreferences.SharedPref
+import org.androidannotations.annotations.sharedpreferences.*
 
 @SharedPref(value = SharedPref.Scope.APPLICATION_DEFAULT)
 interface ApplicationPreference {
@@ -19,12 +15,16 @@ interface ApplicationPreference {
     @DefaultRes(R.string.default_pagerTransitionAnimation)
     fun pagerTransitionAnimation(): String
 
-    @DefaultInt(0)
-    fun lastVersionDBFilesImported(): Int
-
     @DefaultString("3")
     fun statisticsChartColorTheme(): String
 
     @DefaultString("")
     fun newsLanguage(): String
+
+    // DB Preferences
+    @DefaultInt(0)
+    fun lastVersionDBFilesImported(): Int
+
+    @DefaultBoolean(true)
+    fun dbImportEnabled(): Boolean
 }

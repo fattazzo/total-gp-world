@@ -53,11 +53,11 @@ open class DataService : IDataService {
     private var availableSeasons: MutableList<Int>? = null
 
     private// local db seasons win vs online seasons
-    val dataServiceImpl: IDataService?
+    val dataServiceImpl: IDataService
         get() {
 
             val season = selectedSeasons
-            val dbSeasonFound = localDBDataService!!.loadSeason(season) != null
+            val dbSeasonFound = localDBDataService.loadSeason(season) != null
             return if (dbSeasonFound) {
                 localDBDataService
             } else {
@@ -67,82 +67,81 @@ open class DataService : IDataService {
 
     val selectedSeasons: Int
         get() {
-            var season: Int
-            try {
-                if (ergast!!.season == Ergast.CURRENT_SEASON) {
-                    season = Calendar.getInstance().get(Calendar.YEAR)
+            return try {
+                if (ergast.season == Ergast.CURRENT_SEASON) {
+                    Calendar.getInstance().get(Calendar.YEAR)
                 } else {
-                    season = ergast!!.season
+                    ergast.season
                 }
             } catch (e: Exception) {
-                season = -1
+                -1
             }
-
-            return season
         }
 
     // ------------------- Data Cache Actions -------------------
     fun clearCache() {
-        dataCache!!.clearAll()
+        dataCache.clearAll()
     }
 
     fun clearDriverStandingsCache() {
-        dataCache!!.clearDriverStandings()
+        dataCache.clearDriverStandings()
     }
 
     fun clearConstructorStandingsCache() {
-        dataCache!!.clearConstructorStandings()
+        dataCache.clearConstructorStandings()
     }
 
     fun clearDriversCache() {
-        dataCache!!.clearDrivers()
+        dataCache.clearDrivers()
     }
 
     fun clearConstructorsCache() {
-        dataCache!!.clearConstructors()
+        dataCache.clearConstructors()
     }
 
     fun clearRacesCache() {
-        dataCache!!.clearRaces()
+        dataCache.clearRaces()
     }
 
     fun clearRaceResultsCache(race: F1Race) {
-        dataCache!!.clearRaceResults(race)
+        dataCache.clearRaceResults(race)
     }
 
     fun clearRaceQualifications(race: F1Race) {
-        dataCache!!.clearRaceQualifications(race)
+        dataCache.clearRaceQualifications(race)
     }
 
     fun clearDriverRaceResultsCache(driver: F1Driver) {
-        dataCache!!.clearDriverRaceResults(driver)
+        dataCache.clearDriverRaceResults(driver)
     }
 
     fun clearConstructorRaceResultsCache(constructor: F1Constructor) {
-        dataCache!!.clearConstructorRaceResults(constructor)
+        dataCache.clearConstructorRaceResults(constructor)
     }
 
     fun clearRacePitStopsCache(race: F1Race) {
-        dataCache!!.clearRacePitStops(race)
+        dataCache.clearRacePitStops(race)
     }
 
     fun clearColorsCache() {
-        dataCache!!.clearConstructorColors()
-        dataCache!!.clearDriverColors()
+        dataCache.clearConstructorColors()
+        dataCache.clearDriverColors()
     }
     // ----------------------------------------------------------
 
 
-    override fun loadSeason(year: Int): F1Season? {
-        return dataServiceImpl!!.loadSeason(year)
-    }
+    override fun loadSeason(year: Int): F1Season? = dataServiceImpl.loadSeason(year)
 
     fun getAvailableSeasons(): List<Int> {
         if (availableSeasons == null) {
-            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+            var lastYear = localDBDataService.lastSeason()
+            if (lastYear == null) {
+                lastYear = Calendar.getInstance().get(Calendar.YEAR)
+            }
+            lastYear+=1
 
             availableSeasons = ArrayList()
-            for (i in currentYear downTo 1950) {
+            for (i in lastYear downTo 1950) {
                 availableSeasons!!.add(i)
             }
         }
@@ -154,37 +153,43 @@ open class DataService : IDataService {
     }
 
     @Synchronized override fun loadDrivers(): List<F1Driver> {
-        var drivers = dataCache!!.drivers
+        var drivers = dataCache.drivers
         if (CollectionUtils.isEmpty(drivers)) {
-            drivers = localDBDataService!!.loadDrivers()
-            dataCache!!.drivers = drivers
+            drivers = localDBDataService.loadDrivers()
+            if (CollectionUtils.isEmpty(drivers)) {
+                drivers = onlineDataService.loadDrivers()
+            }
+            dataCache.drivers = drivers
         }
         return drivers
     }
 
     @Synchronized override fun loadConstructors(): List<F1Constructor> {
-        var constructors = dataCache!!.constructors
+        var constructors = dataCache.constructors
         if (CollectionUtils.isEmpty(constructors)) {
-            constructors = localDBDataService!!.loadConstructors()
-            dataCache!!.constructors = constructors
+            constructors = localDBDataService.loadConstructors()
+            if (CollectionUtils.isEmpty(constructors)) {
+                constructors = onlineDataService.loadConstructors()
+            }
+            dataCache.constructors = constructors
         }
         return constructors
     }
 
     @Synchronized override fun loadDriverRacesResult(driver: F1Driver): List<F1Result> {
-        var results = dataCache!!.getDriverRaceResults(driver)
+        var results = dataCache.getDriverRaceResults(driver)
         if (CollectionUtils.isEmpty(results)) {
             results = dataServiceImpl!!.loadDriverRacesResult(driver)
-            dataCache!!.setDriverRaceResults(driver, results)
+            dataCache.setDriverRaceResults(driver, results)
         }
         return results
     }
 
     @Synchronized override fun loadConstructorRacesResult(constructor: F1Constructor): List<F1Result> {
-        var results = dataCache!!.getConstructorRaceResults(constructor)
+        var results = dataCache.getConstructorRaceResults(constructor)
         if (CollectionUtils.isEmpty(results)) {
             results = dataServiceImpl!!.loadConstructorRacesResult(constructor)
-            dataCache!!.setConstructorRaceResults(constructor, results)
+            dataCache.setConstructorRaceResults(constructor, results)
         }
         return results
     }
@@ -204,9 +209,9 @@ open class DataService : IDataService {
 
         for (race in CollectionUtils.emptyIfNull(races)) {
             val scheudleDateUTC = race.date + "T" + race.time
-            val scheduleDateLocal = utils!!.convertUTCDateToLocal(scheudleDateUTC, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss")
+            val scheduleDateLocal = utils.convertUTCDateToLocal(scheudleDateUTC, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss")
 
-            if (scheduleDateLocal.compareTo(currentDate) >= 0) {
+            if (scheduleDateLocal >= currentDate) {
                 return race
             }
         }
@@ -215,10 +220,10 @@ open class DataService : IDataService {
     }
 
     @Synchronized override fun loadDriverStandings(): List<F1DriverStandings> {
-        var driverStandings = dataCache!!.driverStandings
+        var driverStandings = dataCache.driverStandings
         if (CollectionUtils.isEmpty(driverStandings)) {
             driverStandings = dataServiceImpl!!.loadDriverStandings()
-            dataCache!!.driverStandings = driverStandings
+            dataCache.driverStandings = driverStandings
         }
         return driverStandings
     }
@@ -236,92 +241,95 @@ open class DataService : IDataService {
     }
 
     @Synchronized override fun loadConstructorStandings(): List<F1ConstructorStandings> {
-        var constructorStandings = dataCache!!.constructorStandings
+        var constructorStandings = dataCache.constructorStandings
         if (CollectionUtils.isEmpty(constructorStandings)) {
             constructorStandings = dataServiceImpl!!.loadConstructorStandings()
-            dataCache!!.constructorStandings = constructorStandings
+            dataCache.constructorStandings = constructorStandings
         }
         return constructorStandings
     }
 
     @Synchronized override fun loadRaces(): List<F1Race> {
-        var races = dataCache!!.races
+        var races = dataCache.races
         if (CollectionUtils.isEmpty(races)) {
-            races = localDBDataService!!.loadRaces()
-            dataCache!!.races = races
+            races = localDBDataService.loadRaces()
+            if (CollectionUtils.isEmpty(races)) {
+                races = onlineDataService.loadRaces()
+            }
+            dataCache.races = races
         }
         return races
     }
 
     @Synchronized override fun loadRaceResult(race: F1Race): List<F1Result> {
-        var results = dataCache!!.getRaceResultsCache(race)
+        var results = dataCache.getRaceResultsCache(race)
         if (CollectionUtils.isEmpty(results)) {
-            results = localDBDataService!!.loadRaceResult(race)
+            results = localDBDataService.loadRaceResult(race)
             if (CollectionUtils.isEmpty(results)) {
-                results = onlineDataService!!.loadRaceResult(race)
+                results = onlineDataService.loadRaceResult(race)
             }
-            dataCache!!.setRaceResults(race, results)
+            dataCache.setRaceResults(race, results)
         }
         return results
     }
 
     @Synchronized override fun loadQualification(race: F1Race): List<F1Qualification> {
-        var qualifications = dataCache!!.getRaceQualificationsCache(race)
+        var qualifications = dataCache.getRaceQualificationsCache(race)
         if (CollectionUtils.isEmpty(qualifications)) {
-            qualifications = localDBDataService!!.loadQualification(race)
+            qualifications = localDBDataService.loadQualification(race)
             if (CollectionUtils.isEmpty(qualifications)) {
-                qualifications = onlineDataService!!.loadQualification(race)
+                qualifications = onlineDataService.loadQualification(race)
             }
-            dataCache!!.setRaceQualifications(race, qualifications)
+            dataCache.setRaceQualifications(race, qualifications)
         }
         return qualifications
     }
 
     override fun loadPitStops(race: F1Race): List<F1PitStop> {
-        var pitStops = dataCache!!.getRacePitStops(race)
+        var pitStops = dataCache.getRacePitStops(race)
         if (CollectionUtils.isEmpty(pitStops)) {
-            pitStops = localDBDataService!!.loadPitStops(race)
+            pitStops = localDBDataService.loadPitStops(race)
             if (CollectionUtils.isEmpty(pitStops)) {
-                pitStops = onlineDataService!!.loadPitStops(race)
+                pitStops = onlineDataService.loadPitStops(race)
             }
-            dataCache!!.setRacePitStops(race, pitStops)
+            dataCache.setRacePitStops(race, pitStops)
         }
         return pitStops
     }
 
     override fun loadLaps(race: F1Race, driver: F1Driver): List<F1LapTime> {
-        var lapTimes = dataCache!!.getRaceLapTimes(race, driver)
+        var lapTimes = dataCache.getRaceLapTimes(race, driver)
         if (CollectionUtils.isEmpty(lapTimes)) {
-            if (!hasLocalLapsData(race)) {
-                lapTimes = onlineDataService!!.loadLaps(race, driver)
+            lapTimes = if (!hasLocalLapsData(race)) {
+                onlineDataService.loadLaps(race, driver)
             } else {
-                lapTimes = localDBDataService!!.loadLaps(race, driver)
+                localDBDataService.loadLaps(race, driver)
             }
             if (CollectionUtils.isNotEmpty(lapTimes)) {
-                dataCache!!.setRaceLapTimes(race, driver, lapTimes)
+                dataCache.setRaceLapTimes(race, driver, lapTimes)
             }
         }
         return lapTimes
     }
 
     fun loadContructorColor(constructor: F1Constructor?): Int {
-        var color = dataCache!!.getConstructorColor(constructor!!)
+        var color = dataCache.getConstructorColor(constructor!!)
         if (constructor != null && color == null) {
             // try from db
-            color = localDBDataService!!.loadContructorColor(constructor)
+            color = localDBDataService.loadContructorColor(constructor)
             if (color == null) {
                 // try from standard
-                try {
-                    val colorId = context!!.resources.getIdentifier(constructor.constructorRef, "color", context!!.packageName)
-                    color = Color.parseColor("#" + Integer.toHexString(context!!.resources.getColor(colorId)))
+                color = try {
+                    val colorId = context.resources.getIdentifier(constructor.constructorRef, "color", context.packageName)
+                    Color.parseColor("#" + Integer.toHexString(context.resources.getColor(colorId)))
                 } catch (e: Exception) {
-                    color = null
+                    null
                 }
 
             }
 
             if (color != null) {
-                dataCache!!.setConstructorColor(constructor, color)
+                dataCache.setConstructorColor(constructor, color)
             }
         }
 
@@ -329,31 +337,29 @@ open class DataService : IDataService {
     }
 
     fun loadDriverColor(driver: F1Driver?): Int {
-        var color = dataCache!!.getDriverColor(driver!!)
+        var color = dataCache.getDriverColor(driver!!)
         if (driver != null && color == null) {
             // try from db
-            color = localDBDataService!!.loadDriverColor(driver)
+            color = localDBDataService.loadDriverColor(driver)
             if (color == null) {
                 // try from standard
-                try {
-                    val constructor = localDBDataService!!.loadConstructor(driver)
-                    val colorId = context!!.resources.getIdentifier(constructor!!.constructorRef, "color", context!!.packageName)
-                    color = Color.parseColor("#" + Integer.toHexString(context!!.resources.getColor(colorId)))
+                color = try {
+                    val constructor = localDBDataService.loadConstructor(driver)
+                    val colorId = context.resources.getIdentifier(constructor!!.constructorRef, "color", context.packageName)
+                    Color.parseColor("#" + Integer.toHexString(context.resources.getColor(colorId)))
                 } catch (e: Exception) {
-                    color = null
+                    null
                 }
 
             }
 
             if (color != null) {
-                dataCache!!.setDriverColor(driver, color)
+                dataCache.setDriverColor(driver, color)
             }
         }
 
-        return ObjectUtils.defaultIfNull<Int>(color, ContextCompat.getColor(context!!, R.color.background_color_dark))
+        return ObjectUtils.defaultIfNull<Int>(color, ContextCompat.getColor(context, R.color.background_color_dark))
     }
 
-    fun hasLocalLapsData(race: F1Race): Boolean {
-        return localDBDataService!!.hasLocalLapsData(race)
-    }
+    fun hasLocalLapsData(race: F1Race): Boolean = localDBDataService.hasLocalLapsData(race)
 }

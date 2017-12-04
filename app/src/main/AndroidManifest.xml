@@ -46,8 +46,14 @@
                            com.gmail.fattazzo.formula1world.ergast.imagedb.objects.ConstructorColors,
                            com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverConstructor" />
 
+        <provider
+            android:name="com.activeandroid.content.ContentProvider"
+            android:authorities="${applicationId}"
+            android:exported="false" />
+
         <activity
             android:name="com.gmail.fattazzo.formula1world.activity.home.HomeActivity_"
+            android:configChanges="orientation"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,6 +64,10 @@
         <activity android:name="com.gmail.fattazzo.formula1world.activity.fullscreen.FullScreenImageActivity_" />
         <activity android:name="com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_" />
         <activity android:name=".activity.about.AboutActivity_" />
+        <activity
+            android:name=".activity.dbupdate.DBUpdateActivity_"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize">
+        </activity>
     </application>
 
 </manifest>

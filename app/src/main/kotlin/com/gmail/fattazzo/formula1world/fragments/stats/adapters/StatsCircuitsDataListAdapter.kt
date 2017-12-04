@@ -11,7 +11,6 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.activeandroid.Model
-
 import com.activeandroid.query.Select
 import com.gmail.fattazzo.formula1world.R
 import com.gmail.fattazzo.formula1world.domain.F1Constructor
@@ -20,7 +19,6 @@ import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Constructor
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver
 import com.gmail.fattazzo.formula1world.ergast.imagedb.service.stats.StatsCircuitsData
 import com.gmail.fattazzo.formula1world.service.DataService
-import com.gmail.fattazzo.formula1world.utils.CountryNationality
 import com.gmail.fattazzo.formula1world.utils.ImageUtils
 import com.gmail.fattazzo.formula1world.utils.LocaleUtils
 import com.gmail.fattazzo.formula1world.utils.Utils
@@ -76,15 +74,15 @@ class StatsCircuitsDataListAdapter(private val context: Context, private val dat
             when (data.type) {
                 StatsCircuitsData.Type.CONSTRUCTORS_WINNER, StatsCircuitsData.Type.DRIVERS_WINNER -> {
                     convertView = mInflater.inflate(R.layout.stats_circuits_winner_row, null)
-                    holder.winnerTV = convertView!!.findViewById(R.id.winnerTV) as TextView
+                    holder.winnerTV = convertView!!.findViewById<TextView>(R.id.winnerTV)
                 }
                 StatsCircuitsData.Type.COUNT -> {
                     convertView = mInflater.inflate(R.layout.stats_circuits_count_row, null)
-                    holder.countTV = convertView!!.findViewById(R.id.countTV) as TextView
+                    holder.countTV = convertView!!.findViewById<TextView>(R.id.countTV)
                 }
             }
-            holder.nameTV = convertView!!.findViewById(R.id.nameTV) as TextView
-            holder.teamIconImage = convertView.findViewById(R.id.teamIconImage) as ImageView
+            holder.nameTV = convertView!!.findViewById<TextView>(R.id.nameTV)
+            holder.teamIconImage = convertView.findViewById<ImageView>(R.id.teamIconImage)
             convertView.tag = holder
         } else {
             holder = convertView.tag as ViewHolderItem
@@ -113,20 +111,20 @@ class StatsCircuitsDataListAdapter(private val context: Context, private val dat
             convertView = mInflater.inflate(R.layout.stats_circuits_detail, null)
 
             holder = ViewHolderChildItem()
-            holder.circuitNameTV = convertView!!.findViewById(R.id.circuitNameTV) as TextView
-            holder.circuitCountryTv = convertView.findViewById(R.id.circuitCountryTv) as TextView
-            holder.circuitLocationTV = convertView.findViewById(R.id.circuitLocationTV) as TextView
-            holder.circuitFlagImage = convertView.findViewById(R.id.circuitFlagImage) as ImageView
+            holder.circuitNameTV = convertView!!.findViewById<TextView>(R.id.circuitNameTV)
+            holder.circuitCountryTv = convertView.findViewById<TextView>(R.id.circuitCountryTv)
+            holder.circuitLocationTV = convertView.findViewById<TextView>(R.id.circuitLocationTV)
+            holder.circuitFlagImage = convertView.findViewById<ImageView>(R.id.circuitFlagImage)
 
-            holder.driverLayout = convertView.findViewById(R.id.driverLayout) as ConstraintLayout
-            holder.driverSurnameTV = convertView.findViewById(R.id.driverSurnameTV) as TextView
-            holder.driverFornameTV = convertView.findViewById(R.id.driverFornameTV) as TextView
-            holder.driverDobTV = convertView.findViewById(R.id.driverDobTV) as TextView
-            holder.driverFlagImage = convertView.findViewById(R.id.driverFlagImage) as ImageView
+            holder.driverLayout = convertView.findViewById<ConstraintLayout>(R.id.driverLayout)
+            holder.driverSurnameTV = convertView.findViewById<TextView>(R.id.driverSurnameTV)
+            holder.driverFornameTV = convertView.findViewById<TextView>(R.id.driverFornameTV)
+            holder.driverDobTV = convertView.findViewById<TextView>(R.id.driverDobTV)
+            holder.driverFlagImage = convertView.findViewById<ImageView>(R.id.driverFlagImage)
 
-            holder.constructorLayout = convertView.findViewById(R.id.constructorLayout) as ConstraintLayout
-            holder.constructorNameTV = convertView.findViewById(R.id.constructorNameTV) as TextView
-            holder.constructorFlagImage = convertView.findViewById(R.id.constructorFlagImage) as ImageView
+            holder.constructorLayout = convertView.findViewById<ConstraintLayout>(R.id.constructorLayout)
+            holder.constructorNameTV = convertView.findViewById<TextView>(R.id.constructorNameTV)
+            holder.constructorFlagImage = convertView.findViewById<ImageView>(R.id.constructorFlagImage)
             convertView.tag = holder
         } else {
             holder = convertView.tag as ViewHolderChildItem

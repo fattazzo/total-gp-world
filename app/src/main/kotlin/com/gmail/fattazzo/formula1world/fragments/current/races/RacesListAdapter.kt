@@ -30,11 +30,10 @@ internal open class RacesListAdapter : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
-        val raceItemView: RaceItemView
-        if (convertView == null) {
-            raceItemView = RaceItemView_.build(context)
+        val raceItemView: RaceItemView = if (convertView == null) {
+            RaceItemView_.build(context)
         } else {
-            raceItemView = convertView as RaceItemView
+            convertView as RaceItemView
         }
 
         raceItemView.bind(getItem(position))

@@ -99,10 +99,10 @@ abstract class AbstractRaceLapTimeFragment : Fragment() {
 
         configureChart(chart)
 
-        (listHeader!!.findViewById(R.id.driverName) as TextView).text = getString(R.string.drivers)
-        (listHeader!!.findViewById(R.id.lap) as TextView).text = getString(R.string.lap)
-        (listHeader!!.findViewById(R.id.position) as TextView).text = getString(R.string.stats_pos)
-        (listHeader!!.findViewById(R.id.time) as TextView).text = getString(R.string.time2)
+        (listHeader!!.findViewById<TextView>(R.id.driverName)).text = getString(R.string.drivers)
+        (listHeader!!.findViewById<TextView>(R.id.lap)).text = getString(R.string.lap)
+        (listHeader!!.findViewById<TextView>(R.id.position)).text = getString(R.string.stats_pos)
+        (listHeader!!.findViewById<TextView>(R.id.time)).text = getString(R.string.time2)
     }
 
     @CheckedChange

@@ -39,7 +39,7 @@ open class RaceItemView(context: Context) : LinearLayout(context) {
     lateinit internal var flagImageView: ImageView
 
     fun bind(f1Race: F1Race) {
-        nameView!!.text = f1Race.name
+        nameView.text = f1Race.name
 
         val currentDateEnd = Calendar.getInstance()
         currentDateEnd.add(Calendar.HOUR_OF_DAY, 2)
@@ -48,23 +48,23 @@ open class RaceItemView(context: Context) : LinearLayout(context) {
         var localeDateString: String? = null
         try {
             if(f1Race.date != null) {
-                localeDateString = utils!!.convertUTCDateToLocal(f1Race.date!!, "yyyy-MM-dd", "dd/MM/yyyy")
+                localeDateString = utils.convertUTCDateToLocal(f1Race.date!!, "yyyy-MM-dd", "dd/MM/yyyy")
             }
         } catch (e: Exception) {
             localeDateString = ""
         }
 
-        infoView!!.text = localeDateString.orEmpty()
+        infoView.text = localeDateString.orEmpty()
 
-        val countryCode = localeUtils!!.getCountryCode(f1Race.circuit.location!!.country!!)
-        flagImageView!!.setImageBitmap(imageUtils!!.getFlagForCountryCode(countryCode))
+        val countryCode = localeUtils.getCountryCode(f1Race.circuit.location!!.country!!)
+        flagImageView.setImageBitmap(imageUtils.getFlagForCountryCode(countryCode))
 
         val matrix = ColorMatrix()
         matrix.setSaturation(1f)
-        if (f1Race.date != null && f1Race.date!!.startsWith(Calendar.getInstance().get(Calendar.YEAR).toString()) && currentDate.compareTo(f1Race.date!!) > 0) {
+        if (f1Race.date != null && currentDate < f1Race.date!!) {
             matrix.setSaturation(0f)
         }
         val filter = ColorMatrixColorFilter(matrix)
-        flagImageView!!.colorFilter = filter
+        flagImageView.colorFilter = filter
     }
 }

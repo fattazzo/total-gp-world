@@ -2,10 +2,8 @@ package com.gmail.fattazzo.formula1world.ergast
 
 import com.gmail.fattazzo.formula1world.ergast.json.exceptions.QueryLimitException
 import com.gmail.fattazzo.formula1world.ergast.json.exceptions.QueryOffsetException
-
 import org.androidannotations.annotations.EBean
-
-import java.util.Calendar
+import java.util.*
 
 
 @EBean(scope = EBean.Scope.Singleton)

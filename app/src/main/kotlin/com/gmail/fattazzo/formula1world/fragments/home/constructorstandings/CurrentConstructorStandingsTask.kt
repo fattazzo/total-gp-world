@@ -43,12 +43,12 @@ open class CurrentConstructorStandingsTask : View.OnTouchListener {
     @ViewById(R.id.home_constructor_standings_layout)
     internal fun setOneView(layout: ViewFlipper) {
         this.viewFlipper = layout
-        val listViewBack = viewFlipper!!.findViewById(R.id.standing_listview_back) as ListView
-        val listViewFront = viewFlipper!!.findViewById(R.id.standing_listview_front) as ListView
+        val listViewBack = viewFlipper!!.findViewById<ListView>(R.id.standing_listview_back)
+        val listViewFront = viewFlipper!!.findViewById<ListView>(R.id.standing_listview_front)
 
-        val titleViewFront = viewFlipper!!.findViewById(R.id.standing_title_front) as TextView
+        val titleViewFront = viewFlipper!!.findViewById<TextView>(R.id.standing_title_front)
         titleViewFront.text = activity!!.getString(R.string.constructorStandings)
-        val titleViewBack = viewFlipper!!.findViewById(R.id.standing_title_back) as TextView
+        val titleViewBack = viewFlipper!!.findViewById<TextView>(R.id.standing_title_back)
         titleViewBack.text = activity!!.getString(R.string.constructorStandings)
 
         listViewFront.adapter = adapterFront

@@ -1,18 +1,20 @@
 package com.gmail.fattazzo.formula1world;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.filters.Suppress;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.Suppress;
 import android.view.View;
 import android.widget.NumberPicker;
 
 import com.gmail.fattazzo.formula1world.activity.home.HomeActivity_;
+import com.gmail.fattazzo.formula1world.config.Config;
 import com.gmail.fattazzo.formula1world.service.DataService;
 import com.gmail.fattazzo.formula1world.service.DataService_;
 
@@ -26,14 +28,17 @@ import java.util.List;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
-import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.gmail.fattazzo.formula1world.actions.WaitAction.waitFor;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -45,10 +50,20 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class BaseTest {
 
+    static {
+        Config.Companion.setAnimationEnabled(false);
+    }
+
     @Rule
     public ActivityTestRule<HomeActivity_> mActivityRule = new ActivityTestRule<>(HomeActivity_.class);
     private String[] menuEntry;
     private Context context;
+
+    @Suppress
+    @Test
+    public void testInit() {
+        assertTrue(!Config.Companion.getAnimationEnabled());
+    }
 
     public Context getContext() {
         if (context == null) {
@@ -57,35 +72,6 @@ public class BaseTest {
         assertNotNull("Context nullo", context);
 
         return context;
-    }
-
-    public String[] getMenuEntry() {
-        if (menuEntry == null) {
-            //menuEntry = getContext().getResources().getStringArray(R.array.menu_title);
-        }
-        assertTrue("Menu entry non valide", menuEntry != null && menuEntry.length > 0);
-
-        return menuEntry;
-    }
-
-    @Suppress
-    @Test
-    public void verificaMenuEntry() {
-
-        assertTrue("Numero menu non esatto", getMenuEntry().length == AppMenu.values().length);
-    }
-
-    protected void selectMenu(AppMenu menu, AppMenuSwipeAction swipeAction) {
-
-        onView(withId(R.id.drawer_layout)).perform(swipeRight());
-        swipeAction.getAction().run();
-
-        onView(withText(getMenuEntry()[menu.ordinal()])).check(matches(isDisplayed()));
-        onView(withText(getMenuEntry()[menu.ordinal()])).perform(click());
-    }
-
-    protected void selectMenu(AppMenu menu) {
-        selectMenu(menu, AppMenuSwipeAction.NONE);
     }
 
     public void selectSeason(int season) {
@@ -121,10 +107,49 @@ public class BaseTest {
     protected int getLastAvailableSeason() {
         DataService dataService = DataService_.getInstance_(getContext());
         List<Integer> seasons = dataService.getAvailableSeasons();
-        return seasons.get(0);
+        return TestConfig.getEndYear() == -1 ? seasons.get(0) : TestConfig.getEndYear();
     }
 
-    public enum AppMenu {HOME, BOLL_PROB, BOLL_LOCALE, BOLL_SINTETICO, STAZIONI, NEVE_VALANGHE, RADAR, WEBCAM, IMPOSTAZIONI, GUIDA, ABOUT}
+    protected void viewNotDisplayed(ViewInteraction view) {
+        try {
+            view.check(matches(not(isDisplayed())));
+        } catch (Exception e) {
+            view.check(doesNotExist());
+        }
+    }
+
+    public void rotatePortrait() {
+        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //onView(isRoot()).perform(orientationPortrait());
+    }
+
+    public void rotateLandscape() {
+        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        //onView(isRoot()).perform(orientationLandscape());
+    }
+
+    protected void swipeViewPager(int viewPagerResId, int[] sectionTextResId) {
+        onView(isRoot()).perform(waitFor(100));
+
+        for (int sectionId : sectionTextResId) {
+            boolean ok = false;
+            int count = 0;
+
+            while (!ok && count <= 30) {
+                try {
+                    onView(allOf(withText(sectionId), isDisplayed())).perform(click());
+                    onView(withId(viewPagerResId)).check(matches(hasDescendant(withText(sectionId))));
+                    ok = true;
+                } catch (Exception e) {
+                    ok = false;
+                }
+                count++;
+            }
+
+            ////onView(allOf(withText(sectionId), isDescendantOfA(withId(viewPagerResId)))).perform(click());
+        }
+
+    }
 
     public enum AppMenuSwipeAction {
 
@@ -155,14 +180,6 @@ public class BaseTest {
          */
         public Runnable getAction() {
             return action;
-        }
-    }
-
-    protected void viewNotDisplayed(ViewInteraction view) {
-        try {
-            view.check(matches(not(isDisplayed())));
-        } catch (Exception e) {
-            view.check(doesNotExist());
         }
     }
 }

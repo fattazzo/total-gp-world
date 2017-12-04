@@ -16,7 +16,7 @@ class F1MarkerYValueView(context: Context) : MarkerView(context, R.layout.chart_
 
     init {
 
-        tvContent = findViewById(R.id.tvContent) as TextView
+        tvContent = findViewById<TextView>(R.id.tvContent)
     }
 
     override fun refreshContent(e: Entry?, highlight: Highlight?) {

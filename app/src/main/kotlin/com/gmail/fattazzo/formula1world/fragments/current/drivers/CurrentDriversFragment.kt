@@ -35,7 +35,7 @@ open class CurrentDriversFragment : BaseFragment(), SwipeRefreshLayout.OnRefresh
     lateinit internal var listView: ListView
 
     @ViewById(R.id.swipe_refresh_layout)
-    lateinit internal var swipeRefreshLayout: SwipeRefreshLayout
+    @JvmField internal var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     @ViewById(R.id.details_fragment_container)
     @JvmField internal var detailsDriverFragmentContainer: RelativeLayout? = null
@@ -44,9 +44,9 @@ open class CurrentDriversFragment : BaseFragment(), SwipeRefreshLayout.OnRefresh
     internal fun init() {
         retainInstance = true
 
-        listView!!.adapter = driversListAdapter
+        listView.adapter = driversListAdapter
         swipeRefreshLayout!!.setOnRefreshListener(this)
-        if (driversListAdapter!!.isEmpty) {
+        if (driversListAdapter.isEmpty) {
             loadDrivers()
         }
     }
@@ -56,7 +56,7 @@ open class CurrentDriversFragment : BaseFragment(), SwipeRefreshLayout.OnRefresh
         var result: List<F1Driver>? = null
         try {
             startLoad()
-            result = dataService!!.loadDrivers()
+            result = dataService.loadDrivers()
         } finally {
             updateUI(result)
         }
@@ -72,9 +72,9 @@ open class CurrentDriversFragment : BaseFragment(), SwipeRefreshLayout.OnRefresh
     @UiThread
     internal open fun updateUI(result: List<F1Driver>?) {
         try {
-            driversListAdapter!!.clearItems()
-            driversListAdapter!!.setDrivers(result!!)
-            driversListAdapter!!.notifyDataSetChanged()
+            driversListAdapter.clearItems()
+            driversListAdapter.setDrivers(result!!)
+            driversListAdapter.notifyDataSetChanged()
         } finally {
             if (swipeRefreshLayout != null) {
                 swipeRefreshLayout!!.isRefreshing = false
@@ -84,13 +84,12 @@ open class CurrentDriversFragment : BaseFragment(), SwipeRefreshLayout.OnRefresh
 
     @ItemClick(R.id.list_view)
     fun itemClicked(position: Int) {
-        val driver = driversListAdapter!!.getItem(position)
+        val driver = driversListAdapter.getItem(position)
 
-        val container: Int
-        if (detailsDriverFragmentContainer == null) {
-            container = R.id.container
+        val container: Int = if (detailsDriverFragmentContainer == null) {
+            R.id.container
         } else {
-            container = R.id.details_fragment_container
+            R.id.details_fragment_container
         }
         FragmentUtils.replace(activity, DetailDriverFragment_.builder().driver(driver).build(), container)
     }
@@ -118,15 +117,15 @@ open class CurrentDriversFragment : BaseFragment(), SwipeRefreshLayout.OnRefresh
     }
 
     private fun sortDrivers(sortType: DriversListAdapter.SortType) {
-        driversListAdapter!!.setSortType(sortType)
-        driversListAdapter!!.sortDrivers()
-        driversListAdapter!!.notifyDataSetChanged()
+        driversListAdapter.setSortType(sortType)
+        driversListAdapter.sortDrivers()
+        driversListAdapter.notifyDataSetChanged()
     }
 
     // ------------------------------------------------------------------------
 
     override fun onRefresh() {
-        dataService!!.clearDriversCache()
+        dataService.clearDriversCache()
         loadDrivers()
     }
 

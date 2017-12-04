@@ -31,12 +31,12 @@ class StatsDataPodiumsListAdapter(context: Context, private val data: List<Stats
             convertView = mInflater.inflate(R.layout.stats_four_values_row, null)
 
             holder = ViewHolderItem()
-            holder.textLeft = convertView!!.findViewById(R.id.textLeft) as TextView
-            holder.textLabel = convertView.findViewById(R.id.textLabel) as TextView
-            holder.textValueOne = convertView.findViewById(R.id.textValueOne) as TextView
-            holder.textValueTwo = convertView.findViewById(R.id.textValueTwo) as TextView
-            holder.textValueThree = convertView.findViewById(R.id.textValueThree) as TextView
-            holder.textValueFour = convertView.findViewById(R.id.textValueFour) as TextView
+            holder.textLeft = convertView!!.findViewById<TextView>(R.id.textLeft)
+            holder.textLabel = convertView.findViewById<TextView>(R.id.textLabel)
+            holder.textValueOne = convertView.findViewById<TextView>(R.id.textValueOne)
+            holder.textValueTwo = convertView.findViewById<TextView>(R.id.textValueTwo)
+            holder.textValueThree = convertView.findViewById<TextView>(R.id.textValueThree)
+            holder.textValueFour = convertView.findViewById<TextView>(R.id.textValueFour)
 
             convertView.tag = holder
         } else {

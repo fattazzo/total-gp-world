@@ -5,7 +5,14 @@ package com.gmail.fattazzo.formula1world
  *         <p/>
  *         date: 24/10/17
  */
-object TestConfig {
+class TestConfig {
 
-    val startYear = 2010
+    companion object {
+
+        @JvmStatic
+        val startYear = 2013
+
+        @JvmStatic
+        val endYear = 2013
+    }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dbupdate_message_text"><![CDATA[
+    <b>AGGIORNAMENTO DATABASE</b><br><br>
+    L\'applicazione <b>Total GP world</b> è in grado di funzionare anche senza la presenza del database tuttavia scaricandolo si avranno dei vantaggi come:<br>
+    <b>■</b> Velocità di carimento dei dati<br>
+    <b>■</b> Riduzione quasi totale dei dati scaricati<br>
+    <b>■</b> Utilizzo della sezione delle statistiche piloti, costruttori e circuiti<br><br>
+    Nelle preferenze dell\'app è possibile configurare il download automatico o disabilitarlo.
+    ]]></string>
+
+    <string name="dbupdate_versionecode_text"><![CDATA[
+    <b>ATTENZIONE</b><br><br>
+    Esiste una versione del database più recente ma è necessario aggiornare l\'app per poterla utilizzare<br>
+    Versione app: <b>{0}</b><br>
+    Versione minima richiesta: <b>{1}</b><br>
+    ]]></string>
+</resources>

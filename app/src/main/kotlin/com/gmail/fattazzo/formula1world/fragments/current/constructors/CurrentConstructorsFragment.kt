@@ -34,16 +34,16 @@ open class CurrentConstructorsFragment : BaseFragment(), SwipeRefreshLayout.OnRe
     lateinit internal var listView: ListView
 
     @ViewById(R.id.swipe_refresh_layout)
-    lateinit internal var swipeRefreshLayout: SwipeRefreshLayout
+    @JvmField internal var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     @ViewById(R.id.details_fragment_container)
     @JvmField internal var detailsConstructorFragmentContainer: RelativeLayout? = null
 
     @AfterViews
     internal fun init() {
-        listView!!.adapter = constructorsListAdapter
+        listView.adapter = constructorsListAdapter
         swipeRefreshLayout!!.setOnRefreshListener(this)
-        if (constructorsListAdapter!!.isEmpty) {
+        if (constructorsListAdapter.isEmpty) {
             loadConstructors()
         }
     }
@@ -53,7 +53,7 @@ open class CurrentConstructorsFragment : BaseFragment(), SwipeRefreshLayout.OnRe
         var result: List<F1Constructor>? = null
         try {
             startLoad()
-            result = dataService!!.loadConstructors()
+            result = dataService.loadConstructors()
         } finally {
             updateUI(result)
         }
@@ -69,9 +69,9 @@ open class CurrentConstructorsFragment : BaseFragment(), SwipeRefreshLayout.OnRe
     @UiThread
     internal open fun updateUI(result: List<F1Constructor>?) {
         try {
-            constructorsListAdapter!!.clearItems()
-            constructorsListAdapter!!.setConstructors(result!!)
-            constructorsListAdapter!!.notifyDataSetChanged()
+            constructorsListAdapter.clearItems()
+            constructorsListAdapter.setConstructors(result!!)
+            constructorsListAdapter.notifyDataSetChanged()
         } finally {
             if (swipeRefreshLayout != null) {
                 swipeRefreshLayout!!.isRefreshing = false
@@ -81,20 +81,19 @@ open class CurrentConstructorsFragment : BaseFragment(), SwipeRefreshLayout.OnRe
 
     @ItemClick(R.id.list_view)
     fun itemClicked(position: Int) {
-        val constructor = constructorsListAdapter!!.getItem(position)
+        val constructor = constructorsListAdapter.getItem(position)
 
-        val container: Int
-        if (detailsConstructorFragmentContainer == null) {
-            container = R.id.container
+        val container: Int = if (detailsConstructorFragmentContainer == null) {
+            R.id.container
         } else {
-            container = R.id.details_fragment_container
+            R.id.details_fragment_container
         }
 
         FragmentUtils.replace(activity, DetailConstructorFragment_.builder().constructor(constructor).build(), container)
     }
 
     override fun onRefresh() {
-        dataService!!.clearConstructorsCache()
+        dataService.clearConstructorsCache()
         loadConstructors()
     }
 

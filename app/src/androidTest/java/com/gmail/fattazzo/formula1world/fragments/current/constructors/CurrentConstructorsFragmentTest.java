@@ -43,7 +43,7 @@ public class CurrentConstructorsFragmentTest extends BaseTest {
 
     @Test
     public void testConstructors() {
-        for (int i = TestConfig.INSTANCE.getStartYear(); i <= getLastAvailableSeason(); i++) {
+        for (int i = TestConfig.getStartYear(); i <= getLastAvailableSeason(); i++) {
             testSeason(i);
         }
     }

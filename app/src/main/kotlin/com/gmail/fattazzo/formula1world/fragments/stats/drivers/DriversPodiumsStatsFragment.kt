@@ -37,12 +37,12 @@ open class DriversPodiumsStatsFragment : AbstractStatsChartFragment() {
     override fun getHeaderListView(): View? {
         val inflater = activity.layoutInflater
         val header = inflater.inflate(R.layout.stats_four_values_row, null, false) as ViewGroup
-        (header.findViewById(R.id.textLeft) as TextView).text = getString(R.string.stats_pos)
-        (header.findViewById(R.id.textLabel) as TextView).text = getString(R.string.drivers)
-        (header.findViewById(R.id.textValueOne) as TextView).text = getString(R.string.stats_total)
-        (header.findViewById(R.id.textValueTwo) as TextView).text = getString(R.string.stats_first)
-        (header.findViewById(R.id.textValueThree) as TextView).text = getString(R.string.stats_second)
-        (header.findViewById(R.id.textValueFour) as TextView).text = getString(R.string.stats_third)
+        (header.findViewById<TextView>(R.id.textLeft)).text = getString(R.string.stats_pos)
+        (header.findViewById<TextView>(R.id.textLabel)).text = getString(R.string.drivers)
+        (header.findViewById<TextView>(R.id.textValueOne)).text = getString(R.string.stats_total)
+        (header.findViewById<TextView>(R.id.textValueTwo)).text = getString(R.string.stats_first)
+        (header.findViewById<TextView>(R.id.textValueThree)).text = getString(R.string.stats_second)
+        (header.findViewById<TextView>(R.id.textValueFour)).text = getString(R.string.stats_third)
         return header
     }
 }

@@ -51,13 +51,13 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
     lateinit protected var themeUtils: ThemeUtils
 
     @ViewById
-    lateinit protected var chart: PieChart
+    @JvmField internal var chart: PieChart? = null
 
     @ViewById
     lateinit protected var chartLayout: RelativeLayout
 
     @ViewById
-    lateinit protected var percentageSwitch: Switch
+    @JvmField internal var percentageSwitch: Switch? = null
 
     @ViewById
     lateinit protected var dataListView: ListView
@@ -78,14 +78,14 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
             percentageSwitch!!.setOnCheckedChangeListener(this)
         }
 
-        dataListView!!.adapter = createListAdapter(ArrayList(), listValueFormat)
+        dataListView.adapter = createListAdapter(ArrayList(), listValueFormat)
 
-        headerListView!!.removeAllViews()
+        headerListView.removeAllViews()
         val headerView = getHeaderListView()
         if (headerView != null) {
-            headerListView!!.addView(headerView, RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT))
-            headerListView!!.invalidate()
-            headerListView!!.forceLayout()
+            headerListView.addView(headerView, RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT))
+            headerListView.invalidate()
+            headerListView.forceLayout()
         }
 
         bindData()
@@ -93,7 +93,7 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
 
     @AfterInject
     protected fun afterInjenct() {
-        lastData = statisticsService!!.lastRaceData
+        lastData = statisticsService.lastRaceData
     }
 
     private fun configureChart() {
@@ -101,8 +101,8 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
             chart!!.description.isEnabled = false
 
             chart!!.centerText = createChartCenterText()
-            chart!!.setCenterTextColor(themeUtils!!.getThemeTextColor(context))
-            chart!!.setCenterTextSize(themeUtils!!.getThemeTextSize(context, R.dimen.font_size_medium))
+            chart!!.setCenterTextColor(themeUtils.getThemeTextColor(context))
+            chart!!.setCenterTextSize(themeUtils.getThemeTextSize(context, R.dimen.font_size_medium))
 
             chart!!.isDrawHoleEnabled = true
             chart!!.setHoleColor(Color.TRANSPARENT)
@@ -119,7 +119,7 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
             chart!!.rotationAngle = 180f
             chart!!.setCenterTextOffset(0f, -45f)
 
-            chart!!.setEntryLabelColor(themeUtils!!.getThemeTextColor(context))
+            chart!!.setEntryLabelColor(themeUtils.getThemeTextColor(context))
             chart!!.setDrawEntryLabels(false)
 
             val l = chart!!.legend
@@ -130,8 +130,8 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
             l.xEntrySpace = 7f
             l.yEntrySpace = 0f
             l.yOffset = 0f
-            l.textColor = themeUtils!!.getThemeTextColor(context)
-            l.textSize = themeUtils!!.getThemeTextSize(context, R.dimen.font_size_small)
+            l.textColor = themeUtils.getThemeTextColor(context)
+            l.textSize = themeUtils.getThemeTextSize(context, R.dimen.font_size_small)
             l.isEnabled = true
 
             chart!!.clear()
@@ -140,11 +140,10 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
 
     private fun createChartCenterText(): SpannableString {
         val outFormat = android.text.format.DateFormat.getDateFormat(context)
-        val seasonsTxt: String
-        if (seasonStart == seasonEnd) {
-            seasonsTxt = getString(R.string.season) + "\n" + seasonStart
+        val seasonsTxt: String = if (seasonStart == seasonEnd) {
+            getString(R.string.season) + "\n" + seasonStart
         } else {
-            seasonsTxt = getString(R.string.seasons) + "\n" + seasonStart + " - " + seasonEnd
+            getString(R.string.seasons) + "\n" + seasonStart + " - " + seasonEnd
         }
         var text = SpannableString(seasonsTxt)
 
@@ -174,11 +173,11 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
         val dataSet = PieDataSet(values, "")
         dataSet.sliceSpace = 3f
         dataSet.selectionShift = 5f
-        dataSet.setColors(*preferenceManager!!.statisticsChartColorTheme.colors)
+        dataSet.setColors(*preferenceManager.statisticsChartColorTheme.colors)
 
         val data = PieData(dataSet)
-        data.setValueTextSize(themeUtils!!.getThemeTextSize(context, R.dimen.font_size_small))
-        data.setValueTextColor(themeUtils!!.getThemeTextColor(context))
+        data.setValueTextSize(themeUtils.getThemeTextSize(context, R.dimen.font_size_small))
+        data.setValueTextColor(themeUtils.getThemeTextColor(context))
         chart!!.data = data
         applyChartValueFormatter()
 
@@ -189,11 +188,11 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
     private fun setListData(data: List<StatsData>) {
         val valueFormat = listValueFormat
         val adapter = createListAdapter(data, valueFormat)
-        dataListView!!.adapter = adapter
+        dataListView.adapter = adapter
         adapter.notifyDataSetChanged()
     }
 
-    internal fun bindData() {
+    private fun bindData() {
         val data = loadData()
 
         if (chart != null) {

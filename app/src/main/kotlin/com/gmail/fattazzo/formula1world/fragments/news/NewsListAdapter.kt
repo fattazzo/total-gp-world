@@ -51,8 +51,8 @@ class NewsListAdapter(context: Context, private val newsList: List<News>) : Base
         if (convertView == null) {
             view = inflater.inflate(R.layout.news_item_list, parent, false)
             holder = ViewHolder()
-            holder.title = view!!.findViewById(R.id.news_title) as TextView
-            holder.image = view.findViewById(R.id.news_image) as ImageView
+            holder.title = view!!.findViewById<TextView>(R.id.news_title)
+            holder.image = view.findViewById<ImageView>(R.id.news_image)
             view.tag = holder
         } else {
             holder = view!!.tag as ViewHolder

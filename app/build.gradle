@@ -1,17 +1,19 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.shazam.fork'
+//apply plugin: 'spoon'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.gmail.fattazzo.formula1world"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 26
         versionName "2.6"
-        setProperty("archivesBaseName", "Total-GP-world-$versionName")
+        setProperty("archivesBaseName", "Total-GP-world")
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -20,19 +22,31 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
+    testOptions {
+        animationsDisabled = true
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def newName = output.outputFile.name
-                    newName = newName.replace("-release", "")
-                    //noinspection GroovyAssignabilityCheck
-                    output.outputFile = new File(output.outputFile.parent, newName)
-                }
-            }
         }
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def fileName = outputFile.name
+                        .replace("app","${defaultConfig.getProperties()["archivesBaseName"]}")
+                        .replace("-release","-${defaultConfig.versionName}")
+                outputFileName = fileName
+
+            }
+
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -61,60 +75,56 @@ preBuild.mustRunAfter copyAssetsTestFiles
 
 clean.dependsOn copyAssetsTestFiles
 clean.mustRunAfter copyAssetsTestFiles
-// -----------------------------------------------------------------------
+// ----------------------------------------------------------------------
 
 kapt {
     correctErrorTypes = true
 }
 
+//spoon {
+//    debug = false
+//    baseOutputDir = new File("app/build/spoon/" + new Date().format("yyyyMMdd-HH:mm", TimeZone.getTimeZone("UTC")))
+//}
+
+fork {
+    testPackage = "com.gmail.fattazzo.formula1world.fragments.current.drivers.detail"
+    title = "Total-GP-world tests"
+    baseOutputDir = new File("app/build/reports/fork/" + new Date().format("yyyyMMdd-HH:mm", TimeZone.getTimeZone("UTC")))
+    testOutputTimeout = 1000000
+}
+
 def AAVersion = "4.3.1"
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
     kapt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
-
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
-
-    compile 'com.google.code.gson:gson:2.7'
-
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
-    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
-
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'org.apache.commons:commons-collections4:4.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
-
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-
+    compile "com.android.support:appcompat-v7:${android.buildToolsVersion}"
+    compile "com.android.support:support-v4:${android.buildToolsVersion}"
+    compile "com.android.support:design:${android.buildToolsVersion}"
+    compile "com.android.support:cardview-v7:${android.buildToolsVersion}"
+    compile "com.android.support:recyclerview-v7:${android.buildToolsVersion}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
-
     compile 'org.jsoup:jsoup:1.10.3'
-
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-
     compile 'com.yarolegovich:lovely-dialog:1.0.7'
-
     compile 'com.appyvet:materialrangebar:1.3'
-
     //------------------ TEST --------------------------------
     testCompile 'junit:junit:4.12'
-    testCompile "org.robolectric:robolectric:3.5"
-    testCompile("com.android.support.test:runner:0.5") {
+    testCompile 'org.robolectric:robolectric:3.5'
+    testCompile('com.android.support.test:runner:0.5') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     // Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
         exclude module: 'support-annotations'
@@ -123,17 +133,17 @@ dependencies {
         exclude module: 'recyclerview-v7'
         exclude module: 'design'
     }
-
     androidTestCompile('com.android.support.test.espresso:espresso-web:2.2.2') {
         exclude module: 'support-annotations'
     }
-
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.7.1'
 }
 repositories {
     mavenCentral()
 
     // ActiveAndroid
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    google()
 }

@@ -4,28 +4,22 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import android.widget.Toast
-
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
-
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 import org.androidannotations.annotations.RootContext
 import org.apache.commons.lang3.StringUtils
-
 import java.io.IOException
-import java.io.InputStream
 import java.io.InputStreamReader
-import java.lang.reflect.Type
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.HashMap
-import java.util.Locale
-import java.util.TimeZone
+import java.util.*
 
 /**
  * @author fattazzo
@@ -147,5 +141,17 @@ open class Utils {
 
         }
         return countriesNationalitiesMap.orEmpty()
+    }
+
+    companion object {
+
+        open fun getHtmlText(html: String): Spanned {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                @Suppress("DEPRECATION")
+                Html.fromHtml(html)
+            }
+        }
     }
 }

@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
@@ -12,16 +11,13 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.NumberPicker
-import android.widget.TextView
 import com.gmail.fattazzo.formula1world.R
 import com.gmail.fattazzo.formula1world.activity.about.AboutActivity_
 import com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity
 import com.gmail.fattazzo.formula1world.ergast.Ergast
-import com.gmail.fattazzo.formula1world.ergast.imagedb.service.LocalDBDataService
 import com.gmail.fattazzo.formula1world.fragments.BaseFragment
 import com.gmail.fattazzo.formula1world.fragments.collaborate.CollaborateFragment_
 import com.gmail.fattazzo.formula1world.fragments.current.constructors.CurrentConstructorsFragment_
@@ -37,8 +33,6 @@ import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager
 import com.gmail.fattazzo.formula1world.utils.DBUtils
 import com.gmail.fattazzo.formula1world.utils.FragmentUtils
 import org.androidannotations.annotations.*
-import org.apache.commons.collections4.CollectionUtils
-import org.apache.commons.lang3.ObjectUtils
 
 @EActivity(R.layout.activity_home)
 open class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -60,9 +54,6 @@ open class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     @Bean
     lateinit internal var dataService: DataService
-
-    @Bean
-    lateinit internal var localDBDataService: LocalDBDataService
 
     @Bean
     lateinit internal var dbutils: DBUtils
@@ -155,13 +146,7 @@ open class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         b2.setOnClickListener {
             d.dismiss() // dismiss the dialog
         }
-        val textView: TextView = d.findViewById(android.R.id.title)
-        if (textView != null) {
-            textView.textAlignment = View.TEXT_ALIGNMENT_CENTER
-        }
         d.show()
-
-
     }
 
     override fun onBackPressed() {

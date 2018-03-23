@@ -75,6 +75,6 @@ open class RaceResultsItemView(context: Context, private val result: F1Result, p
             pointsView!!.text = points.toInt().toString()
         }
 
-        setBackgroundColor(if (rowNumber % 2 == 0) themeEvenRowColor else themeOddRowColor)
+        setBackgroundColor(if (rowNumber % 2 == 0) themeOddRowColor else themeEvenRowColor)
     }
 }

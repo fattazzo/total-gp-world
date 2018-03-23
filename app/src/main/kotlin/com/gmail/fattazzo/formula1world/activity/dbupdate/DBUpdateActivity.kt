@@ -3,7 +3,6 @@ package com.gmail.fattazzo.formula1world.activity.dbupdate
 import android.app.Activity
 import android.content.Context
 import android.os.AsyncTask
-import android.text.Html
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -14,6 +13,7 @@ import com.activeandroid.util.ReflectionUtils
 import com.gmail.fattazzo.formula1world.R
 import com.gmail.fattazzo.formula1world.service.DataService
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager
+import com.gmail.fattazzo.formula1world.utils.Utils
 import org.androidannotations.annotations.*
 import java.io.*
 import java.net.HttpURLConnection
@@ -33,31 +33,31 @@ open class DBUpdateActivity : Activity() {
     var versionToUpdate: Int = 0
 
     @Extra
-    lateinit internal var currentVersione: String
+    internal lateinit var currentVersione: String
 
     @Extra
-    lateinit internal var onlineMinAppVersion: String
+    internal lateinit var onlineMinAppVersion: String
 
     @Bean
-    lateinit internal var preferenceManager: ApplicationPreferenceManager
+    internal lateinit var preferenceManager: ApplicationPreferenceManager
 
     @Bean
-    lateinit internal var dataService: DataService
+    internal lateinit var dataService: DataService
 
     @ViewById
-    lateinit internal var downloadProgressBar: ProgressBar
+    internal lateinit var downloadProgressBar: ProgressBar
 
     @ViewById
-    lateinit internal var downloadProgressTV: TextView
+    internal lateinit var downloadProgressTV: TextView
 
     @ViewById
-    lateinit internal var dbUpdateDescriptionTV: TextView
+    internal lateinit var dbUpdateDescriptionTV: TextView
 
     @ViewById
-    lateinit internal var minVersionTV: TextView
+    internal lateinit var minVersionTV: TextView
 
     @ViewById
-    lateinit internal var cancelButton: Button
+    internal lateinit var cancelButton: Button
 
     private var downloadTask: DownloadTask? = null
 
@@ -65,12 +65,12 @@ open class DBUpdateActivity : Activity() {
 
     @AfterViews
     fun initViews() {
-        dbUpdateDescriptionTV.text = Html.fromHtml(getString(R.string.dbupdate_message_text))
+        dbUpdateDescriptionTV.text = Utils.getHtmlText(getString(R.string.dbupdate_message_text))
 
         minVersionTV.visibility = if (convertVersionToInt(currentVersione) < convertVersionToInt(onlineMinAppVersion)) View.VISIBLE else View.GONE
         var text = getString(R.string.dbupdate_versionecode_text)
         text = text.toString().replace("{0}", currentVersione).replace("{1}", onlineMinAppVersion)
-        minVersionTV.text = Html.fromHtml(text)
+        minVersionTV.text = Utils.getHtmlText(text)
 
         updateDBButtonClicked()
     }
@@ -206,9 +206,9 @@ open class DBUpdateActivity : Activity() {
     }
 
     companion object {
-        val DB_URL = " https://raw.githubusercontent.com/fattazzo/total-gp-world/master/db/f1db"
+        const val DB_URL = " https://raw.githubusercontent.com/fattazzo/total-gp-world/master/db/f1db"
 
-        val DOWNLOAD_FILE_NAME = "f1dbnew"
+        const val DOWNLOAD_FILE_NAME = "f1dbnew"
         val DOWNLOAD_PATH = ActiveAndroid.getDatabase().path.removeSuffix("f1db")
     }
 }

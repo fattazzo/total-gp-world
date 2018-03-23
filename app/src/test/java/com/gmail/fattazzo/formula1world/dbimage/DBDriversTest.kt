@@ -1,20 +1,14 @@
 package com.gmail.fattazzo.formula1world.dbimage
 
 import android.util.SparseIntArray
-
 import com.activeandroid.query.Select
 import com.gmail.fattazzo.formula1world.CustomRobolectricRunner
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.Driver
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverConstructor
 import com.gmail.fattazzo.formula1world.ergast.imagedb.objects.DriverStandings
-
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
 
 /**
  * @author fattazzo
@@ -47,7 +41,7 @@ class DBDriversTest : BaseDBTest() {
     @Test
     fun testDriverConstructors() {
         val totalDrivers = Select().from(DriverConstructor::class.java).where("year <= ?", 2017).count()
-        assertEquals("DriverConstructor count not match", 3396, totalDrivers.toLong())
+        assertEquals("DriverConstructor count not match", 3398, totalDrivers.toLong())
         println(totalDrivers.toString() + " DriverConstructor found")
 
         val driversNr = SparseIntArray()
@@ -68,7 +62,7 @@ class DBDriversTest : BaseDBTest() {
         driversNr.put(2014, 24)
         driversNr.put(2015, 22)
         driversNr.put(2016, 26)
-        driversNr.put(2017, 24)
+        driversNr.put(2017, 26)
         for (i in 2000..2017) {
             val yearDrivers = Select().from(DriverConstructor::class.java).where("year = ?", i).count()
             assertEquals("DriverConstructor count not match for year " + i.toString(), driversNr.get(i).toLong(), yearDrivers.toLong())

@@ -18,9 +18,7 @@
  */
 package com.gmail.fattazzo.formula1world
 
-import com.activeandroid.ActiveAndroid
 import com.activeandroid.app.Application
-import com.activeandroid.util.ReflectionUtils
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
@@ -31,13 +29,13 @@ class F1WorldApplication : Application() {
         super.onCreate()
 
         // ACtive android --------------------------------------
-        ActiveAndroid.dispose()
+        //ActiveAndroid.dispose()
 
-        val aaName = ReflectionUtils.getMetaData<String>(applicationContext, "AA_DB_NAME")
+        //val aaName = ReflectionUtils.getMetaData<String>(applicationContext, "AA_DB_NAME")
 
-        deleteDatabase(aaName)
+        //deleteDatabase(aaName)
 
-        ActiveAndroid.initialize(this)
+        //ActiveAndroid.initialize(this)
 
         // Image -----------------------------------------------
         val defaultOptions = DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build()

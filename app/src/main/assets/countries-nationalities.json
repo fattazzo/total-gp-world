@@ -1741,5 +1741,12 @@
     "alpha_3_code": "ZWE",
     "en_short_name": "Zimbabwe",
     "nationality": "Zimbabwean"
+  },
+  {
+    "num_code": "492",
+    "alpha_2_code": "MC",
+    "alpha_3_code": "MCO",
+    "en_short_name": "Monaco",
+    "nationality": "Monegasque"
   }
 ]

@@ -34,15 +34,15 @@ open class DriversNationalityWinsStatsFragment : AbstractStatsChartFragment() {
     lateinit protected var utils: Utils
 
     public override fun loadData(): List<StatsData> {
-        return statisticsService.loadDriversWinsNationality(this!!.seasonStart!!, this!!.seasonEnd!!)
+        return statisticsService.loadDriversWinsNationality(this.seasonStart!!, this.seasonEnd!!)
     }
 
     override fun createListAdapter(data: List<StatsData>, valueFormat: DecimalFormat): BaseAdapter {
-        return object : StatsDataImageLabelListAdapter(activity, data, valueFormat) {
+        return object : StatsDataImageLabelListAdapter(activity!!, data, valueFormat) {
             override fun getImage(data: StatsData): Bitmap? {
-                val country = utils!!.getCountryNationality(data.label)
+                val country = utils.getCountryNationality(data.label)
                 return if (country != null) {
-                    imageUtils!!.getFlagForCountryCode(country.alpha2Code!!)
+                    imageUtils.getFlagForCountryCode(country.alpha2Code!!)
                 } else null
             }
         }

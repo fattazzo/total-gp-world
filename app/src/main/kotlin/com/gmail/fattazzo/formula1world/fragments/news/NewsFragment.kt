@@ -1,6 +1,5 @@
 package com.gmail.fattazzo.formula1world.fragments.news
 
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -105,7 +104,7 @@ open class NewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
                 recycler_view!!.layoutManager = layoutManager
                 recycler_view!!.adapter = NewsExpandableRecyclerAdapter(result!!)
             } else if (list_view != null) {
-                list_view!!.adapter = NewsListAdapter(activity, result!!)
+                list_view!!.adapter = NewsListAdapter(activity!!, result!!)
             }
         } finally {
             if (swipe_refresh_layout != null) {
@@ -128,7 +127,7 @@ open class NewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
         var localeDateString: String
         try {
-            localeDateString = android.text.format.DateUtils.formatDateTime(activity.applicationContext,
+            localeDateString = android.text.format.DateUtils.formatDateTime(activity!!.applicationContext,
                     news.date!!.time,
                     DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_YEAR)
         } catch (e: Exception) {
@@ -157,7 +156,7 @@ open class NewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
                 .setMessage(Html.fromHtml(getString(R.string.news_language_info_message, Locale.getDefault().language.toUpperCase(), Locale.getDefault().displayLanguage)))
                 .setPositiveButton(android.R.string.ok) {
                     val issueTitle = getString(R.string.news_report_title, Locale.getDefault().language.toUpperCase(), Locale.getDefault().displayLanguage)
-                    IssueReporter.openReportIssue(activity, issueTitle, "", false)
+                    IssueReporter.openReportIssue(activity!!, issueTitle, "", false)
                 }
                 .setNegativeButton(android.R.string.no, null)
                 .show()

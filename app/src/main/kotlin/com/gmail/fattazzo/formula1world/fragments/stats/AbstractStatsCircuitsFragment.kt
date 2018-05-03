@@ -76,7 +76,7 @@ abstract class AbstractStatsCircuitsFragment : BaseFragment() {
     }
 
     protected fun createListAdapter(data: List<StatsCircuitsData>): BaseExpandableListAdapter {
-        return StatsCircuitsDataListAdapter(activity, data, dataService!!, localeUtils!!, imageUtils!!, utils!!)
+        return StatsCircuitsDataListAdapter(activity!!, data, dataService!!, localeUtils!!, imageUtils!!, utils!!)
     }
 
     internal fun bindData() {

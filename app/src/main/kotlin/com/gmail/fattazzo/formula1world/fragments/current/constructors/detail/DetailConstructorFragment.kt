@@ -41,7 +41,7 @@ open class DetailConstructorFragment : BaseFragment() {
     internal fun init() {
         constructorNameView!!.text = constructor!!.name
 
-        adapterViewPager = DetailConstructorPagerAdapter(childFragmentManager, activity, constructor!!)
+        adapterViewPager = DetailConstructorPagerAdapter(childFragmentManager, activity!!, constructor!!)
         vpPager!!.adapter = adapterViewPager
         if (Config.animationEnabled) {
             vpPager!!.setPageTransformer(true, preferenceManager!!.pagerTansactionAnimation)
@@ -56,7 +56,7 @@ open class DetailConstructorFragment : BaseFragment() {
     }
 
     override fun backPressed() {
-        val fragmentManager = activity.supportFragmentManager
+        val fragmentManager = activity!!.supportFragmentManager
 
         if (fragmentManager.findFragmentByTag(CurrentConstructorsFragment.TAG) != null) {
             FragmentUtils.replace(activity, HomeFragment_())

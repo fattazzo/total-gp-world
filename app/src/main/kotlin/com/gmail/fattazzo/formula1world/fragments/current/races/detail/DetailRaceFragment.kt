@@ -74,13 +74,13 @@ open class DetailRaceFragment : BaseFragment() {
 
     @UiThread
     internal open fun initPagerAdapter() {
-        adapterViewPager = DetailRacePagerAdapter(this.childFragmentManager, activity, race, hasResults, hasQualifications)
+        adapterViewPager = DetailRacePagerAdapter(this.childFragmentManager, activity!!, race, hasResults, hasQualifications)
         vpPager!!.adapter = adapterViewPager
         vpPager!!.forceLayout()
     }
 
     override fun backPressed() {
-        val fragmentManager = activity.supportFragmentManager
+        val fragmentManager = activity!!.supportFragmentManager
 
         if (fragmentManager.findFragmentByTag(CurrentRacesFragment.TAG) != null) {
             FragmentUtils.replace(activity, HomeFragment_())

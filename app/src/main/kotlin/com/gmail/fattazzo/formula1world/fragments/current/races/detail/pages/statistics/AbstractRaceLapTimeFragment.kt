@@ -70,8 +70,8 @@ abstract class AbstractRaceLapTimeFragment : Fragment() {
 
     @AfterInject
     protected fun init() {
-        textColor = themeUtils!!.getThemeTextColor(context)
-        textSize = themeUtils!!.getThemeTextSize(context, R.dimen.font_size_small)
+        textColor = themeUtils!!.getThemeTextColor(context!!)
+        textSize = themeUtils!!.getThemeTextSize(context!!, R.dimen.font_size_small)
 
         val f1Driver = F1Driver()
         f1Driver.driverRef = "___"
@@ -169,7 +169,7 @@ abstract class AbstractRaceLapTimeFragment : Fragment() {
 
             Handler().postDelayed({
                 if (chart != null) {
-                    chart!!.marker = F1MarkerLapTimeView(context)
+                    chart!!.marker = F1MarkerLapTimeView(context!!)
                 }
             }, 2000)
         }

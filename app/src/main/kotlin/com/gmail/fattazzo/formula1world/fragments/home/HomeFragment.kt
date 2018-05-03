@@ -65,7 +65,7 @@ open class HomeFragment : BaseFragment() {
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setTitle(R.string.app_name)
                 .setMessage(R.string.app_exit_comfirmation)
-                .setPositiveButton(android.R.string.ok) { activity.finish() }
+                .setPositiveButton(android.R.string.ok) { activity?.finish() }
                 .setNegativeButton(android.R.string.no, null)
                 .show()
     }
@@ -79,7 +79,7 @@ open class HomeFragment : BaseFragment() {
                 return true
             }
             R.id.action_report_bug -> {
-                IssueReporter.openReportIssue(activity, null, null, true)
+                IssueReporter.openReportIssue(activity!!, null, null, true)
                 return true
             }
         }

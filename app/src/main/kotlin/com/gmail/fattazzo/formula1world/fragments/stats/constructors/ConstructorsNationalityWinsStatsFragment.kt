@@ -38,7 +38,7 @@ open class ConstructorsNationalityWinsStatsFragment : AbstractStatsChartFragment
     }
 
     override fun createListAdapter(data: List<StatsData>, valueFormat: DecimalFormat): BaseAdapter {
-        return object : StatsDataImageLabelListAdapter(activity, data, valueFormat) {
+        return object : StatsDataImageLabelListAdapter(activity!!, data, valueFormat) {
             override fun getImage(data: StatsData): Bitmap? {
                 val country = utils!!.getCountryNationality(data.label)
                 return if (country != null) {

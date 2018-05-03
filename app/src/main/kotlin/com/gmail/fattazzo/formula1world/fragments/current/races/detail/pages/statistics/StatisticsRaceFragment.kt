@@ -39,9 +39,9 @@ open class StatisticsRaceFragment : Fragment(), ITitledFragment {
     fun statistics_spinner(selected: Boolean, position: Int) {
         val fm = fragmentManager
         when (position) {
-            1 -> fm.beginTransaction().replace(R.id.race_statistics_container, RaceStatPitStopFragment_.builder().race(race).build()).commit()
-            2 -> fm.beginTransaction().replace(R.id.race_statistics_container, RaceStatPositionsFragment_.builder().race(race).build()).commit()
-            3 -> fm.beginTransaction().replace(R.id.race_statistics_container, RaceStatLapsTimeFragment_.builder().race(race).build()).commit()
+            1 -> fm!!.beginTransaction().replace(R.id.race_statistics_container, RaceStatPitStopFragment_.builder().race(race).build()).commit()
+            2 -> fm!!.beginTransaction().replace(R.id.race_statistics_container, RaceStatPositionsFragment_.builder().race(race).build()).commit()
+            3 -> fm!!.beginTransaction().replace(R.id.race_statistics_container, RaceStatLapsTimeFragment_.builder().race(race).build()).commit()
             else -> race_statistics_container!!.removeAllViews()
         }
     }

@@ -27,16 +27,16 @@ open class DriversPodiumsStatsFragment : AbstractStatsChartFragment() {
         get() = DecimalFormat("0")
 
     public override fun loadData(): List<StatsData> {
-        return statisticsService.loadDriversPodiums(this!!.seasonStart!!, this!!.seasonEnd!!)
+        return statisticsService.loadDriversPodiums(this.seasonStart!!, this.seasonEnd!!)
     }
 
     override fun createListAdapter(data: List<StatsData>, valueFormat: DecimalFormat): BaseAdapter {
-        return StatsDataPodiumsListAdapter(activity, data, valueFormat)
+        return StatsDataPodiumsListAdapter(activity!!, data, valueFormat)
     }
 
     override fun getHeaderListView(): View? {
-        val inflater = activity.layoutInflater
-        val header = inflater.inflate(R.layout.stats_four_values_row, null, false) as ViewGroup
+        val inflater = activity?.layoutInflater
+        val header = inflater?.inflate(R.layout.stats_four_values_row, null, false) as ViewGroup
         (header.findViewById<TextView>(R.id.textLeft)).text = getString(R.string.stats_pos)
         (header.findViewById<TextView>(R.id.textLabel)).text = getString(R.string.drivers)
         (header.findViewById<TextView>(R.id.textValueOne)).text = getString(R.string.stats_total)

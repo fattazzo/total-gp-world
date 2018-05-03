@@ -41,7 +41,7 @@ open class DetailDriverFragment : BaseFragment() {
     internal fun init() {
         driverNameView!!.text = driver!!.fullName
 
-        adapterViewPager = DetailDriverPagerAdapter(childFragmentManager, activity, driver!!)
+        adapterViewPager = DetailDriverPagerAdapter(childFragmentManager, activity!!, driver!!)
         vpPager!!.adapter = adapterViewPager
         if (Config.animationEnabled) {
             vpPager!!.setPageTransformer(true, preferenceManager!!.pagerTansactionAnimation)
@@ -56,7 +56,7 @@ open class DetailDriverFragment : BaseFragment() {
     }
 
     override fun backPressed() {
-        val fragmentManager = activity.supportFragmentManager
+        val fragmentManager = activity!!.supportFragmentManager
 
         if (fragmentManager.findFragmentByTag(CurrentDriversFragment.TAG) != null) {
             FragmentUtils.replace(activity, HomeFragment_())

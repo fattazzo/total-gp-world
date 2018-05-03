@@ -9,12 +9,8 @@ import com.gmail.fattazzo.formula1world.domain.F1Driver
 import com.gmail.fattazzo.formula1world.domain.F1LapTime
 import com.gmail.fattazzo.formula1world.fragments.current.races.detail.pages.statistics.AbstractRaceLapTimeFragment
 import com.gmail.fattazzo.formula1world.view.chart.marker.F1MarkerEntryDataView
-
 import org.androidannotations.annotations.EFragment
-
-import java.util.ArrayList
-import java.util.Collections
-import java.util.Comparator
+import java.util.*
 
 /**
  * @author fattazzo
@@ -42,7 +38,7 @@ open class RaceStatPositionsFragment : AbstractRaceLapTimeFragment() {
         dataSet.setDrawCircles(false)
         dataSet.setDrawValues(false)
 
-        if (color == themeUtils.getThemeBGColor(context)) {
+        if (color == themeUtils.getThemeBGColor(context!!)) {
             dataSet.enableDashedLine(10f, 5f, 0f)
             dataSet.color = textColor
         }
@@ -78,7 +74,7 @@ open class RaceStatPositionsFragment : AbstractRaceLapTimeFragment() {
 
         chart.axisRight.isEnabled = false
 
-        val marker = F1MarkerEntryDataView(context, null, resources.getString(R.string.detail_driver_position))
+        val marker = F1MarkerEntryDataView(context!!, null, resources.getString(R.string.detail_driver_position))
         chart.marker = marker
     }
 

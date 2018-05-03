@@ -108,22 +108,22 @@ abstract class AbstractStatsBarChartFragment : BaseFragment() {
             xl.setDrawAxisLine(true)
             xl.setDrawGridLines(false)
             xl.granularity = 0f
-            xl.textColor = themeUtils!!.getThemeTextColor(context)
-            xl.textSize = themeUtils!!.getThemeTextSize(context, R.dimen.font_size_small)
+            xl.textColor = themeUtils!!.getThemeTextColor(context!!)
+            xl.textSize = themeUtils!!.getThemeTextSize(context!!, R.dimen.font_size_small)
 
             val yl = chart!!.axisLeft
             yl.setDrawAxisLine(true)
             yl.setDrawGridLines(true)
             yl.axisMinimum = 0f
-            yl.textColor = themeUtils!!.getThemeTextColor(context)
-            yl.textSize = themeUtils!!.getThemeTextSize(context, R.dimen.font_size_small)
+            yl.textColor = themeUtils!!.getThemeTextColor(context!!)
+            yl.textSize = themeUtils!!.getThemeTextSize(context!!, R.dimen.font_size_small)
 
             val yr = chart!!.axisRight
             yr.setDrawAxisLine(true)
             yr.setDrawGridLines(false)
             yr.axisMinimum = 1f
-            yr.textColor = themeUtils!!.getThemeTextColor(context)
-            yr.textSize = themeUtils!!.getThemeTextSize(context, R.dimen.font_size_small)
+            yr.textColor = themeUtils!!.getThemeTextColor(context!!)
+            yr.textSize = themeUtils!!.getThemeTextSize(context!!, R.dimen.font_size_small)
 
             chart!!.legend.isEnabled = false
 
@@ -142,15 +142,15 @@ abstract class AbstractStatsBarChartFragment : BaseFragment() {
         val set1 = BarDataSet(values, "DataSet")
 
         set1.setColors(*preferenceManager!!.statisticsChartColorTheme.colors)
-        set1.valueTextSize = themeUtils!!.getThemeTextSize(context, R.dimen.font_size_small)
-        set1.valueTextColor = themeUtils!!.getThemeTextColor(context)
+        set1.valueTextSize = themeUtils!!.getThemeTextSize(context!!, R.dimen.font_size_small)
+        set1.valueTextColor = themeUtils!!.getThemeTextColor(context!!)
 
         val dataSets = ArrayList<IBarDataSet>()
         dataSets.add(set1)
 
         val data = BarData(dataSets)
-        data.setValueTextSize(themeUtils!!.getThemeTextSize(context, R.dimen.font_size_small))
-        data.setValueTextColor(themeUtils!!.getThemeTextColor(context))
+        data.setValueTextSize(themeUtils!!.getThemeTextSize(context!!, R.dimen.font_size_small))
+        data.setValueTextColor(themeUtils!!.getThemeTextColor(context!!))
         chart!!.data = data
 
         chart!!.invalidate()

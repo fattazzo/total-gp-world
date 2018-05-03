@@ -101,8 +101,8 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
             chart!!.description.isEnabled = false
 
             chart!!.centerText = createChartCenterText()
-            chart!!.setCenterTextColor(themeUtils.getThemeTextColor(context))
-            chart!!.setCenterTextSize(themeUtils.getThemeTextSize(context, R.dimen.font_size_medium))
+            chart!!.setCenterTextColor(themeUtils.getThemeTextColor(context!!))
+            chart!!.setCenterTextSize(themeUtils.getThemeTextSize(context!!, R.dimen.font_size_medium))
 
             chart!!.isDrawHoleEnabled = true
             chart!!.setHoleColor(Color.TRANSPARENT)
@@ -119,7 +119,7 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
             chart!!.rotationAngle = 180f
             chart!!.setCenterTextOffset(0f, -45f)
 
-            chart!!.setEntryLabelColor(themeUtils.getThemeTextColor(context))
+            chart!!.setEntryLabelColor(themeUtils.getThemeTextColor(context!!))
             chart!!.setDrawEntryLabels(false)
 
             val l = chart!!.legend
@@ -130,8 +130,8 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
             l.xEntrySpace = 7f
             l.yEntrySpace = 0f
             l.yOffset = 0f
-            l.textColor = themeUtils.getThemeTextColor(context)
-            l.textSize = themeUtils.getThemeTextSize(context, R.dimen.font_size_small)
+            l.textColor = themeUtils.getThemeTextColor(context!!)
+            l.textSize = themeUtils.getThemeTextSize(context!!, R.dimen.font_size_small)
             l.isEnabled = true
 
             chart!!.clear()
@@ -176,8 +176,8 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
         dataSet.setColors(*preferenceManager.statisticsChartColorTheme.colors)
 
         val data = PieData(dataSet)
-        data.setValueTextSize(themeUtils.getThemeTextSize(context, R.dimen.font_size_small))
-        data.setValueTextColor(themeUtils.getThemeTextColor(context))
+        data.setValueTextSize(themeUtils.getThemeTextSize(context!!, R.dimen.font_size_small))
+        data.setValueTextColor(themeUtils.getThemeTextColor(context!!))
         chart!!.data = data
         applyChartValueFormatter()
 
@@ -215,7 +215,7 @@ abstract class AbstractStatsChartFragment : BaseFragment(), CompoundButton.OnChe
     }
 
     protected open fun createListAdapter(data: List<StatsData>, valueFormat: DecimalFormat): BaseAdapter {
-        return StatsDataListAdapter(activity, data, valueFormat)
+        return StatsDataListAdapter(activity!!, data, valueFormat)
     }
 
     protected open fun getHeaderListView(): View? {

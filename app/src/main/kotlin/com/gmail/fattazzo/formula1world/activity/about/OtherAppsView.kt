@@ -1,6 +1,6 @@
 /*
  * Project: total-gp-world
- * File: Config.kt
+ * File: OtherAppsView.kt
  *
  * Created by fattazzo
  * Copyright © 2018 Gianluca Fattarsi. All rights reserved.
@@ -25,21 +25,38 @@
  * SOFTWARE.
  */
 
-package com.gmail.fattazzo.formula1world.config
+package com.gmail.fattazzo.formula1world.activity.about
+
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.LinearLayout
+import com.gmail.fattazzo.formula1world.R
+import com.gmail.fattazzo.formula1world.domain.json.App
+import org.androidannotations.annotations.EViewGroup
+import org.androidannotations.annotations.ViewById
+import java.util.*
 
 /**
  * @author fattazzo
- *
- *
- * date: 13/04/17
+ *         <p/>
+ *         date: 09/05/18
  */
-object Config {
+@EViewGroup(R.layout.view_other_apps)
+open class OtherAppsView @JvmOverloads constructor(
+        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
 
-        const val PATH_FLAGS = "flags"
+    @ViewById
+    internal lateinit var otherAppsLayout: LinearLayout
 
-        const val PATH_CIRCUITS = "circuits"
+    fun bind(apps: List<App>) {
+        otherAppsLayout.removeAllViews()
 
-        var animationEnabled = true
+        apps.forEach {
+            val otherAppView = OtherAppView_.build(context)
+            otherAppView.bind(it, Locale.getDefault().language)
 
-        const val PROJECTS_INFO_URL = "https://gist.githubusercontent.com/fattazzo/d6aa41128c39b4882c0b6bd232984cfb/raw"
+            otherAppsLayout.addView(otherAppView)
+        }
+    }
 }

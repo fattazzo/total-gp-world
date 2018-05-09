@@ -1,6 +1,6 @@
 /*
  * Project: total-gp-world
- * File: Config.kt
+ * File: AttributionView.kt
  *
  * Created by fattazzo
  * Copyright © 2018 Gianluca Fattarsi. All rights reserved.
@@ -25,21 +25,44 @@
  * SOFTWARE.
  */
 
-package com.gmail.fattazzo.formula1world.config
+package com.gmail.fattazzo.formula1world.activity.about
+
+import android.content.Context
+import android.util.AttributeSet
+import android.view.View
+import android.widget.LinearLayout
+import com.gmail.fattazzo.formula1world.R
+import com.gmail.fattazzo.formula1world.utils.Utils
+import org.androidannotations.annotations.*
 
 /**
  * @author fattazzo
- *
- *
- * date: 13/04/17
+ *         <p/>
+ *         date: 09/05/18
  */
-object Config {
+@EViewGroup(R.layout.view_attribution)
+open class AttributionView @JvmOverloads constructor(
+        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
 
-        const val PATH_FLAGS = "flags"
+    @Bean
+    lateinit var utils: Utils
 
-        const val PATH_CIRCUITS = "circuits"
+    @ViewById
+    internal lateinit var attributionContainer: LinearLayout
 
-        var animationEnabled = true
+    @AfterViews
+    fun initViews() {
+        //attribution_container!!.visibility = if (expand_space_indicator != null) View.VISIBLE else View.GONE
+    }
 
-        const val PROJECTS_INFO_URL = "https://gist.githubusercontent.com/fattazzo/d6aa41128c39b4882c0b6bd232984cfb/raw"
+    @Click(R.id.ergast_button)
+    fun openErgastWebPage() {
+        utils.openLink("http://ergast.com/mrd/")
+    }
+
+    @Click(R.id.attribution_title)
+    fun toggleAttributionPanel() {
+        attributionContainer.visibility = if (attributionContainer.visibility == View.GONE) View.VISIBLE else View.GONE
+    }
 }

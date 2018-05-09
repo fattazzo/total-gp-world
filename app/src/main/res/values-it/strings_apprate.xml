@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apprate_no_thanks">No, grazie</string>
+    <string name="apprate_remind_me_later">Ricordamelo più avanti</string>
+    <string name="apprate_rate">Valuta %s</string>
+    <string name="apprate_rate_now">Valuta ora!</string>
+    <string name="apprate_rate_text">Se trovi interessante %s, prenditi un momento per valutarla. Grazie per il tuo sostegno!</string>
+</resources>

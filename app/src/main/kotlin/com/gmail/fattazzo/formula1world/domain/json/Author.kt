@@ -1,6 +1,6 @@
 /*
  * Project: total-gp-world
- * File: Config.kt
+ * File: Author.kt
  *
  * Created by fattazzo
  * Copyright © 2018 Gianluca Fattarsi. All rights reserved.
@@ -25,21 +25,30 @@
  * SOFTWARE.
  */
 
-package com.gmail.fattazzo.formula1world.config
+package com.gmail.fattazzo.formula1world.domain.json
+
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
  * @author fattazzo
  *
  *
- * date: 13/04/17
+ * date: 09/05/18
  */
-object Config {
+class Author : Serializable {
 
-        const val PATH_FLAGS = "flags"
+    @SerializedName("name")
+    @Expose
+    lateinit var name: String
 
-        const val PATH_CIRCUITS = "circuits"
+    @SerializedName("email")
+    @Expose
+    lateinit var email: String
 
-        var animationEnabled = true
+    @SerializedName("githubUrl")
+    @Expose
+    lateinit var githubUrl: String
 
-        const val PROJECTS_INFO_URL = "https://gist.githubusercontent.com/fattazzo/d6aa41128c39b4882c0b6bd232984cfb/raw"
 }

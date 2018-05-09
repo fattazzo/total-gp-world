@@ -67,4 +67,6 @@
     <string name="winningDriverPoints">Winning driver points</string>
     <string name="pointsAssigned">Points assigned</string>
     <string name="racesCompleted">Races Completed</string>
+
+    <string name="play_store">Play store</string>
 </resources>

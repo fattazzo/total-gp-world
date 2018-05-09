@@ -53,11 +53,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <include layout="@layout/about_project_layout" />
+            <com.gmail.fattazzo.formula1world.activity.about.AppView_
+                android:id="@+id/appView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <include layout="@layout/about_attribution_layout" />
+            <com.gmail.fattazzo.formula1world.activity.about.AuthorView_
+                android:id="@+id/authorView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <include layout="@layout/about_terms_conditions_layout" />
+            <com.gmail.fattazzo.formula1world.activity.about.FaqView_
+                android:id="@+id/faqView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.gmail.fattazzo.formula1world.activity.about.AttributionView_
+                android:id="@+id/attributionView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -66,7 +81,11 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <include layout="@layout/about_faq_layout" />
+            <com.gmail.fattazzo.formula1world.activity.about.OtherAppsView_
+                android:id="@+id/otherAppsView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
     </LinearLayout>

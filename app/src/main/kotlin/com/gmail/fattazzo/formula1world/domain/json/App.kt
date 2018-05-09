@@ -1,6 +1,6 @@
 /*
  * Project: total-gp-world
- * File: Config.kt
+ * File: App.kt
  *
  * Created by fattazzo
  * Copyright © 2018 Gianluca Fattarsi. All rights reserved.
@@ -25,21 +25,51 @@
  * SOFTWARE.
  */
 
-package com.gmail.fattazzo.formula1world.config
+package com.gmail.fattazzo.formula1world.domain.json
+
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
  * @author fattazzo
  *
  *
- * date: 13/04/17
+ * date: 09/05/18
  */
-object Config {
+class App : Serializable {
 
-        const val PATH_FLAGS = "flags"
+    @SerializedName("id")
+    @Expose
+    lateinit var id: String
 
-        const val PATH_CIRCUITS = "circuits"
+    @SerializedName("icon")
+    @Expose
+    lateinit var icon: String
 
-        var animationEnabled = true
+    @SerializedName("storeUrl")
+    @Expose
+    var storeUrl: String? = null
 
-        const val PROJECTS_INFO_URL = "https://gist.githubusercontent.com/fattazzo/d6aa41128c39b4882c0b6bd232984cfb/raw"
+    @SerializedName("projectUrl")
+    @Expose
+    lateinit var projectUrl: String
+
+    @SerializedName("wiki")
+    @Expose
+    var wiki: String? = null
+
+    @SerializedName("i18n")
+    @Expose
+    lateinit var i18n: List<I18n>
+
+    fun getI18n(lang: String = I18n.DEFAULT): I18n? {
+        i18n.forEach {
+            if (it.lang == lang) {
+                return it
+            }
+        }
+        return null
+    }
+
 }

@@ -63,7 +63,7 @@
         </activity>
         <activity android:name="com.gmail.fattazzo.formula1world.activity.fullscreen.FullScreenImageActivity_" />
         <activity android:name="com.gmail.fattazzo.formula1world.activity.settings.SettingsActivity_" />
-        <activity android:name=".activity.about.AboutActivity_" />
+        <activity android:name=".activity.about.AboutActivity_"/>
         <activity
             android:name=".activity.dbupdate.DBUpdateActivity_"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize">

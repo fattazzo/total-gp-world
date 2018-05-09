@@ -3,6 +3,9 @@
     <string name="about_thanks_title">Thanks to</string>
     <string name="about_ergast_title">Ergast Developer API</string>
 
+    <string name="about_text">With Total GP world you will have all the informations about formula 1 you need: results, rankings, updated timetables and comparisons from the season 1950 to the present.
+The app is still in the beginning, so updates will follow, and will add more and more content from time to time.</string>
+
     <string name="about_terms_conditions_title">Terms &amp; Conditions</string>
     <string name="about_terms_of_use_text"><![CDATA[<b>Terms Of Use</b><br>You may use this app for personal, non-commercial applications and services including educational and research purposes.]]></string>
     <string name="about_disclaimer_text"><![CDATA[<b>Disclaimer</b><br>The author disclaims all responsibility for any loss or damage arising from the use of this app. Data availability and accuracy can not be guaranteed.]]></string>
@@ -16,4 +19,10 @@
     <string name="about_project_author_email">fattazzo82@gmail.com</string>
     <string name="about_project_source">Source</string>
     <string name="about_project_wiki">Wiki</string>
+
+    <string name="about_author">Author</string>
+
+    <string name="about_loading">Loading…</string>
+
+    <string name="other_apps">Other apps</string>
 </resources>

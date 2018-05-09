@@ -68,4 +68,6 @@
     <string name="winningDriverPoints">Punti pilota vincente</string>
     <string name="pointsAssigned">Punti assegnati</string>
     <string name="racesCompleted">Gare completate</string>
+
+    <string name="play_store">Play store</string>
 </resources>

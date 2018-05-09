@@ -14,4 +14,5 @@
     <dimen name="design_navigation_icon_padding" tools:override="true" >10dp</dimen>
     <dimen name="design_navigation_items_height">32dp</dimen>
 
+    <dimen name="app_info_size">48dp</dimen>
 </resources>

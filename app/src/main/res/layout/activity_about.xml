@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~
   ~ Project: total-gp-world
   ~ File: activity_about.xml
@@ -31,23 +30,38 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/about_project_layout" />
+        <com.gmail.fattazzo.formula1world.activity.about.AppView_
+            android:id="@+id/appView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <include layout="@layout/about_attribution_layout" />
+        <com.gmail.fattazzo.formula1world.activity.about.AuthorView_
+            android:id="@+id/authorView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <include layout="@layout/about_terms_conditions_layout" />
+        <com.gmail.fattazzo.formula1world.activity.about.FaqView_
+            android:id="@+id/faqView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <include layout="@layout/about_faq_layout" />
+        <com.gmail.fattazzo.formula1world.activity.about.OtherAppsView_
+            android:id="@+id/otherAppsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.gmail.fattazzo.formula1world.activity.about.AttributionView_
+            android:id="@+id/attributionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </ScrollView>

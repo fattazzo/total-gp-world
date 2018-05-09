@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~
   ~ Project: total-gp-world
-  ~ File: about_attribution_layout.xml
+  ~ File: view_other_apps.xml
   ~
   ~ Created by fattazzo
   ~ Copyright © 2018 Gianluca Fattarsi. All rights reserved.
@@ -30,46 +29,42 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:animateLayoutChanges="true"
+    android:layout_height="match_parent"
+    android:background="@null"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/appsCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:layout_margin="4dp">
 
-        <TextView
-            android:id="@+id/attribution_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:width="0dp"
-            android:gravity="start"
-            android:text="@string/about_thanks_title"
-            android:textAppearance="@style/TextAppearance.Large" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/other_apps"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/attribution_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical"
-        android:visibility="gone">
+            <LinearLayout
+                android:id="@+id/otherAppsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical" />
 
-        <Button
-            android:id="@+id/ergast_button"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/ergast"
-            android:scaleType="fitXY"
-            android:text="@string/about_ergast_title"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Small"/>
-    </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

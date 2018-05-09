@@ -57,6 +57,7 @@ import com.gmail.fattazzo.formula1world.fragments.stats.drivers.StatisticsDriver
 import com.gmail.fattazzo.formula1world.fragments.stats.season.StatisticsSeasonFragment_
 import com.gmail.fattazzo.formula1world.service.DataService
 import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager
+import com.gmail.fattazzo.formula1world.utils.AppRater
 import com.gmail.fattazzo.formula1world.utils.DBUtils
 import com.gmail.fattazzo.formula1world.utils.FragmentUtils
 import org.androidannotations.annotations.*
@@ -98,6 +99,8 @@ open class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             // Instanzio il fragment se savedInstanceState == null altrimenti (ad es. girando il dispositivo)
             // viene rimesso anche se quello attivo è un altro
             FragmentUtils.replace(this, HomeFragment_.builder().build())
+
+            AppRater.rate(this)
         }
 
         val metrics = resources.displayMetrics

@@ -34,10 +34,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.gmail.fattazzo.formula1world.R
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EViewGroup
-import org.androidannotations.annotations.ViewById
 
 /**
  * @author fattazzo
@@ -49,16 +46,16 @@ open class FaqView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    @ViewById
+    //@ViewById
     internal lateinit var faqContainer: LinearLayout
 
-    @ViewById
+    //@ViewById
     internal lateinit var faq1Text: TextView
 
-    @ViewById
+    //@ViewById
     internal lateinit var faq2Text: TextView
 
-    @AfterViews
+    //@AfterViews
     fun initViews() {
 
         faq1Text.text = Html.fromHtml(resources.getString(R.string.about_faq1_text))
@@ -67,7 +64,7 @@ open class FaqView @JvmOverloads constructor(
         //faqContainer!!.visibility = if (expand_space_indicator != null) View.VISIBLE else View.GONE
     }
 
-    @Click(R.id.faq_title)
+    //@Click(R.id.faq_title)
     fun toggleFaqPanel() {
         faqContainer.visibility = if (faqContainer.visibility == View.GONE) View.VISIBLE else View.GONE
     }

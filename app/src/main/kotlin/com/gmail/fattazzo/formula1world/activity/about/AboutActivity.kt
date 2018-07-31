@@ -28,14 +28,15 @@
 package com.gmail.fattazzo.formula1world.activity.about
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
-import android.view.View
+import com.gmail.fattazzo.aboutlibrary.builder.AboutButtonBuilder
+import com.gmail.fattazzo.aboutlibrary.builder.AboutViewBuilder
+import com.gmail.fattazzo.aboutlibrary.builder.Action
 import com.gmail.fattazzo.formula1world.R
-import com.gmail.fattazzo.formula1world.domain.json.Info
-import com.gmail.fattazzo.formula1world.service.ProjectsInfoService
-import com.gmail.fattazzo.formula1world.settings.ApplicationPreferenceManager
-import com.gmail.fattazzo.formula1world.utils.Utils
-import org.androidannotations.annotations.*
+import com.gmail.fattazzo.formula1world.config.Config
+import com.gmail.fattazzo.formula1world.utils.IssueReporter
+import org.androidannotations.annotations.EActivity
 import java.util.*
 
 /**
@@ -44,71 +45,31 @@ import java.util.*
  *
  * date: 26/06/17
  */
-@EActivity(R.layout.activity_about)
+@EActivity
 open class AboutActivity : Activity() {
 
-    @Bean
-    lateinit var projectsInfoService: ProjectsInfoService
-
-    @Bean
-    lateinit var preferenceManager: ApplicationPreferenceManager
-
-    @Bean
-    lateinit var utils: Utils
-
-    @ViewById
-    internal lateinit var appView: AppView
-
-    @ViewById
-    internal lateinit var authorView: AuthorView
-
-    @ViewById
-    internal lateinit var faqView: FaqView
-
-    @ViewById
-    internal lateinit var otherAppsView: OtherAppsView
-
-    @ViewById
-    internal lateinit var attributionView: AttributionView
-
-    var expand_space_indicator: View? = null
-
-    @JvmField
-    @InstanceState
-    var info: Info? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(preferenceManager.appTheme)
         super.onCreate(savedInstanceState)
+
+        val reportIssueButton = AboutButtonBuilder()
+                .withText(R.string.report_error)
+                .withDrawable(R.drawable.bug)
+                .withFlatStyle(true)
+                .withAction(object : Action {
+                    override fun run(context: Context) {
+                        IssueReporter.openReportIssue(context, null, null, true)
+                    }
+                })
+                .withTextColor(android.R.color.holo_red_dark)
+
+        val aboutViewBuilder = AboutViewBuilder()
+                .withInfoUrl(Config.PROJECTS_INFO_URL)
+                .withAppId(this@AboutActivity.applicationContext.packageName)
+                .withFlatStyleButtons(true)
+                .withLang(Locale.getDefault().language)
+                .withAdditionalAppButtons(listOf(reportIssueButton))
+                .withExcludeThisAppFromProjects(true)
+
+        setContentView(aboutViewBuilder.build(this))
     }
-
-    @AfterViews
-    internal fun init() {
-        expand_space_indicator = findViewById(R.id.expand_space_indicator)
-
-        if (info == null) {
-            loadProjectsInfo()
-        } else {
-            bindInfo()
-        }
-    }
-
-    @Background
-    open fun loadProjectsInfo() {
-        info = projectsInfoService.loadInfo()
-        bindInfo()
-    }
-
-    @UiThread
-    open fun bindInfo() {
-        appView.bind(info?.getAppById(this@AboutActivity.applicationContext.packageName), Locale.getDefault().language)
-        authorView.bind(info?.author)
-        otherAppsView.bind(info?.apps.orEmpty())
-
-        if (expand_space_indicator != null) {
-            faqView.toggleFaqPanel()
-            attributionView.toggleAttributionPanel()
-        }
-    }
-
 }

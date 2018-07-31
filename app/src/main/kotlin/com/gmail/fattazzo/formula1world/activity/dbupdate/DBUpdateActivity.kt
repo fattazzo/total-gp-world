@@ -45,6 +45,7 @@ import org.androidannotations.annotations.*
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.zip.ZipInputStream
 
 
 /**
@@ -149,7 +150,12 @@ open class DBUpdateActivity : Activity() {
 
                 input = connection.inputStream
 
-                output = FileOutputStream(DOWNLOAD_PATH + DOWNLOAD_FILE_NAME)
+                val fileToDownload = File(DOWNLOAD_PATH + "f1db.zip")
+                if(fileToDownload.exists()) {
+                    fileToDownload.delete()
+                }
+
+                output = FileOutputStream(fileToDownload)
 
                 val data = ByteArray(4096)
                 var total: Long = 0
@@ -170,6 +176,8 @@ open class DBUpdateActivity : Activity() {
                         publishProgress((total * 100 / fileLength).toInt())
                     output.write(data, 0, count)
                 }
+
+                unzipDb(fileToDownload, DOWNLOAD_PATH)
 
                 ActiveAndroid.dispose()
 
@@ -195,6 +203,24 @@ open class DBUpdateActivity : Activity() {
                 ActiveAndroid.initialize(this@DBUpdateActivity)
             }
             return null
+        }
+
+        @Throws(IOException::class)
+        private fun unzipDb(zipFilePath: File, destDirectory: String) {
+            val zipIn = ZipInputStream(FileInputStream(zipFilePath))
+            val entry = zipIn.nextEntry
+            if (entry != null) {
+                val filePath = destDirectory + File.separator + DOWNLOAD_FILE_NAME
+                val bos = BufferedOutputStream(FileOutputStream(filePath))
+                val bytesIn = ByteArray(4000)
+                var read = 0
+                while ({ read = zipIn.read(bytesIn); read }() != -1) {
+                    bos.write(bytesIn, 0, read)
+                }
+                bos.close()
+                zipIn.closeEntry()
+            }
+            zipIn.close()
         }
 
         override fun onPreExecute() {
@@ -224,16 +250,17 @@ open class DBUpdateActivity : Activity() {
             cancelButton.isEnabled = false
             if (result != null)
                 Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show()
-            else
+            else {
                 Toast.makeText(context, "DB aggiornato alla versione " + versionToUpdate, Toast.LENGTH_SHORT).show()
-            preferenceManager.prefs.sharedPreferences.edit().putInt("lastVersionDBFilesImported", versionToUpdate).apply()
+                preferenceManager.prefs!!.sharedPreferences.edit().putInt("lastVersionDBFilesImported", versionToUpdate).apply()
+            }
 
             this@DBUpdateActivity.finish()
         }
     }
 
     companion object {
-        const val DB_URL = " https://raw.githubusercontent.com/fattazzo/total-gp-world/master/db/f1db"
+        const val DB_URL = " https://raw.githubusercontent.com/fattazzo/total-gp-world/master/db/f1db.zip"
 
         const val DOWNLOAD_FILE_NAME = "f1dbnew"
         val DOWNLOAD_PATH = ActiveAndroid.getDatabase().path.removeSuffix("f1db")
